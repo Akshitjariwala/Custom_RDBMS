@@ -23,7 +23,9 @@ build:
     paths:
       - build
       - .gradle
-
+  tags:
+    - ugrad
+    
 test:
   stage: test
   script: gradle check
@@ -33,3 +35,5 @@ test:
     paths:
       - build
       - .gradle
+  tags:
+    - ugrad
