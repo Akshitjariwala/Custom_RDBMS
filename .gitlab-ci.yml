@@ -2,13 +2,19 @@ build-job:
   stage: build
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
+  tags:
+    - ugrad
 
 test-job:
   stage: test
   script:
     - echo "This job tests something"
-
+  tags:
+    - ugrad
+    
 deploy-prod:
   stage: deploy
   script:
     - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+  tags:
+    - ugrad
