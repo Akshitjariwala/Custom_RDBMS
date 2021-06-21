@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Created login module">
-      <change afterPath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" afterDir="false" />
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Created QueryProcessor module">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +92,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1624118805715</updated>
-      <workItem from="1624118813633" duration="3361000" />
+      <workItem from="1624118813633" duration="4993000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -108,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624121511505</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Created QueryProcessor module">
+      <created>1624122298786</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1624122298787</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,6 +135,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added hello world" />
     <MESSAGE value="Created login module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created login module" />
+    <MESSAGE value="Created QueryProcessor module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created QueryProcessor module" />
   </component>
 </project>

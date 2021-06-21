@@ -3,19 +3,24 @@ package queryProcessor;
 public class QueryProcessor {
     public String processQuery(String query) {
         String queryType = null;
-        if (true) {
+        boolean queryIsSelect = false;
+        boolean queryIsUpdate = false;
+        boolean queryIsInsert = false;
+        boolean queryIsTableUpdate = false;
+        boolean queryIsDatabaseCreate = false;
+        if (queryIsSelect) {
             queryType = "SELECT";
         }
-        if (true) {
+        if (queryIsUpdate) {
             queryType = "UPDATE";
         }
-        if (true) {
+        if (queryIsInsert) {
             queryType = "INSERT";
         }
-        if (true) {
+        if (queryIsTableUpdate) {
             queryType = "TABLE CREATE";
         }
-        if (true) {
+        if (queryIsDatabaseCreate) {
             queryType = "DATABASE CREATE";
         }
         return queryType;
