@@ -32,6 +32,20 @@ public class Login {
         }
     }
 
+    public void createUser(String username, String password, String question, String answer) {
+        user.put("username", EncryptionDecryptionUtil.encrypt(secret, username));
+        user.put("password", EncryptionDecryptionUtil.encrypt(secret, password));
+        user.put("question", question);
+        user.put("answer", answer);
+;       try {
+            FileOutputStream fr = new FileOutputStream("src/main/resources/" + username +".properties");
+            user.store(fr, "Properties");
+            fr.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create a user", e);
+        }
+    }
+
     public boolean authenticateUser(String username, String password) {
         String correctUsername = EncryptionDecryptionUtil.decrypt(secret, user.getProperty("username"));
         String correctPassword = EncryptionDecryptionUtil.decrypt(secret, user.getProperty("password"));
