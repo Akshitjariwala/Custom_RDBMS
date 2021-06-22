@@ -22,31 +22,24 @@ public class Login {
     public Login() {
         this.username = "default";
         this.secret = "default";
-        String testString = this.username;
-        // Encryption Test
-        System.out.println(testString);
-        String testEncryptedString = EncryptionDecryptionUtil.encrypt(secret, testString);
-        System.out.println("Encrypted: " + testEncryptedString);
-        String testDecryptedString = EncryptionDecryptionUtil.decrypt(secret, testEncryptedString);
-        System.out.println("Decrypted: " + testDecryptedString);
     }
 
     public void loadUser() {
         try {
             user.load(new FileInputStream(("src/main/resources/" + username +".properties")));
         } catch (IOException e) {
-            System.out.println("User not found!");
-            e.printStackTrace();
+            throw new RuntimeException("User not found", e);
         }
     }
 
     public boolean authenticateUser(String username, String password) {
-        String correctUsername = user.getProperty("username");
-        String correctPassword = user.getProperty("password");
+        String correctUsername = EncryptionDecryptionUtil.decrypt(secret, user.getProperty("username"));
+        String correctPassword = EncryptionDecryptionUtil.decrypt(secret, user.getProperty("password"));
         return (username.equals(correctUsername) && password.equals(correctPassword));
     }
 
     public boolean validateSecurityQuestion(String answer) {
+
         return false;
     }
 
