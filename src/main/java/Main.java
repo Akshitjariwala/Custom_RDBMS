@@ -1,3 +1,6 @@
+import queryProcessor.QueryProcessor;
+import queryValidator.QueryValidator;
+
 import java.util.Scanner;
 
 public class Main {
@@ -9,5 +12,8 @@ public class Main {
         // Accept a query
         userInput = input.nextLine();
         System.out.println(userInput);
+        // Create instances for each module
+        QueryValidator validator = new QueryValidator();
+        QueryProcessor processor = new QueryProcessor();
     }
 }

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Created QueryProcessor module">
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Updated QueryProcessor module">
+      <change afterPath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,8 +76,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Gradle.Default" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.Default" />
     </list>
     <recent_temporary>
       <list>
@@ -92,7 +93,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1624118805715</updated>
-      <workItem from="1624118813633" duration="4993000" />
+      <workItem from="1624118813633" duration="7782000" />
+      <workItem from="1624372195552" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -115,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624122298787</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Updated QueryProcessor module">
+      <created>1624276571888</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1624276571888</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,11 +140,13 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added hello world" />
     <MESSAGE value="Created login module" />
     <MESSAGE value="Created QueryProcessor module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created QueryProcessor module" />
+    <MESSAGE value="Updated QueryProcessor module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated QueryProcessor module" />
   </component>
 </project>
