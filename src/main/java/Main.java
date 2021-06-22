@@ -8,7 +8,9 @@ public class Main {
         String userInput;
         String username;
         String password;
+        String answer;
         Scanner input = new Scanner(System.in);
+        // Get user authentication input
         System.out.println("Enter your username: ");
         username = input.nextLine();
         System.out.println("Enter your password: ");
@@ -16,9 +18,13 @@ public class Main {
         // Authenticate user
         Login login = new Login();
         login.loadUser();
-        login.createUser("u1", "u1", "u1", "u1");
+        // login.createUser("u1", "u1", "u1", "u1");
         if (login.authenticateUser(username, password)) {
-            System.out.println("Login successful");
+            System.out.println(login.getSecurityQuestion());
+            answer = input.nextLine();
+            if (login.validateSecurityQuestion(answer)) {
+                System.out.println("Login successful");
+            }
         } else {
             System.out.println("Login unsuccessful");
             return;

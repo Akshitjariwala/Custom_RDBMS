@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="login.LoginTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-22T17:43:23" hostname="Phis-MacBook-Pro.local" time="0.324">
+  <properties/>
+  <testcase name="authenticateUser()" classname="login.LoginTest" time="0.324"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

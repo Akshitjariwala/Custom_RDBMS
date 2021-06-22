@@ -37,12 +37,12 @@ public class Login {
         user.put("password", EncryptionDecryptionUtil.encrypt(secret, password));
         user.put("question", question);
         user.put("answer", answer);
-;       try {
+        try {
             FileOutputStream fr = new FileOutputStream("src/main/resources/" + username +".properties");
-            user.store(fr, "Properties");
+            user.store(fr, "UserAccount");
             fr.close();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to create a user", e);
+            throw new RuntimeException("Failed to create user", e);
         }
     }
 
@@ -52,9 +52,13 @@ public class Login {
         return (username.equals(correctUsername) && password.equals(correctPassword));
     }
 
-    public boolean validateSecurityQuestion(String answer) {
+    public String getSecurityQuestion() {
+        return user.getProperty("question");
+    }
 
-        return false;
+    public boolean validateSecurityQuestion(String answer) {
+        String correctAnswer = user.getProperty("answer");
+        return answer.equals(correctAnswer);
     }
 
     // Adapted from https://stackoverflow.com/questions/10494764/input-length-must-be-multiple-of-16-when-decrypting-with-padded-cipher
