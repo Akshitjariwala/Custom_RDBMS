@@ -1,4 +1,4 @@
-import login.Login;
+import userAuthentication.Login;
 import queryProcessor.QueryProcessor;
 import queryValidator.QueryValidator;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class Main {
         // Authenticate user
         Login login = new Login();
         login.loadUser();
-        // login.createUser("u1", "u1", "u1", "u1");
+        login.createUser("u1", "u1", "u1", "u1");
         if (login.authenticateUser(username, password)) {
             System.out.println(login.getSecurityQuestion());
             answer = input.nextLine();

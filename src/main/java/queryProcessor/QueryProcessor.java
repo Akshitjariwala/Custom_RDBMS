@@ -25,4 +25,13 @@ public class QueryProcessor {
         }
         return queryType;
     }
+
+    public void createDatabase() {
+        // Create a new directory in appdata/database/
+        // Create a new file to store db info
+    }
+
+    public void createTable() {
+        // Check that database exists
+    }
 }

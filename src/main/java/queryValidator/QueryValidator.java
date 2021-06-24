@@ -16,4 +16,9 @@ public class QueryValidator {
         }
         return found;
     }
+
+    public boolean validate() {
+        boolean queryIsValid = false;
+        return queryIsValid;
+    }
 }

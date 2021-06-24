@@ -4,6 +4,7 @@ queryProcessor/QueryProcessor.java
  queryProcessor.QueryProcessor
 Main.java
  Main
-login/Login.java
- login.Login
- login.Login$EncryptionDecryptionUtil
+userAuthentication/Login.java
+ userAuthentication.Login
+userAuthentication/EncryptionDecryptionUtil.java
+ userAuthentication.EncryptionDecryptionUtil
