@@ -4,32 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Updated QueryProcessor module">
-      <change afterPath="$PROJECT_DIR$/appdata/users/default.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/userAuthentication/EncryptionDecryptionUtil.java" afterDir="false" />
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Created ERD module">
+      <change afterPath="$PROJECT_DIR$/appdata/database/table" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/logger/Logger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/login/Login.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/classes/login.LoginTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/classes/login.LoginTest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/tests/test/packages/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/tests/test/packages/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/test-results/test/TEST-login.LoginTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/TEST-login.LoginTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/login/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/userAuthentication/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryProcessor/QueryProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/login/LoginTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/userAuthentication/LoginTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +36,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1uAqaJ8sN2Rtmo8JD463x4MzrP1" />
@@ -184,7 +175,10 @@
       <workItem from="1624459203337" duration="718000" />
       <workItem from="1624484291863" duration="24000" />
       <workItem from="1624558172117" duration="39000" />
-      <workItem from="1624558232185" duration="3383000" />
+      <workItem from="1624558232185" duration="4080000" />
+      <workItem from="1624810117037" duration="75000" />
+      <workItem from="1625590840014" duration="1768000" />
+      <workItem from="1625618562158" duration="1388000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -214,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624276571888</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Created ERD module">
+      <created>1624563097197</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1624563097197</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +238,7 @@
     <MESSAGE value="Created login module" />
     <MESSAGE value="Created QueryProcessor module" />
     <MESSAGE value="Updated QueryProcessor module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated QueryProcessor module" />
+    <MESSAGE value="Created ERD module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created ERD module" />
   </component>
 </project>
