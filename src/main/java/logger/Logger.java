@@ -19,7 +19,8 @@ public class Logger {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.println(event);
+            String date = java.time.LocalDateTime.now().toString();
+            out.println(date + " " + event);
         } catch (IOException ignored) {
         }
     }
