@@ -4,9 +4,11 @@ userAuthentication/Login.java
  userAuthentication.Login
 queryValidator/QueryValidator.java
  queryValidator.QueryValidator
-Main.java
- Main
+logger/Logger.java
+ logger.Logger
 erdGenerator/ERDGenerator.java
  erdGenerator.ERDGenerator
 queryProcessor/QueryProcessor.java
  queryProcessor.QueryProcessor
+Main.java
+ Main
