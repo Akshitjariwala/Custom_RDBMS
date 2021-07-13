@@ -49,7 +49,7 @@ public class QueryValidator {
 
                 switch(queryToken){
                     case "SELECT" : queryIsValid = validateSelect(queryTokens,sqlString);break;
-                    case "INSERT" : queryIsValid = validateInsert(queryTokens);break;
+                    case "INSERT" : queryIsValid = validateInsert(queryTokens,sqlString);break;
                     case "DELETE" : queryIsValid = validateDelete(queryTokens);break;
                     case "UPDATE" : queryIsValid = validateUpdate(queryTokens);break;
                     case "ALTER"  : queryIsValid = validateAlter(queryTokens);break;
@@ -158,7 +158,7 @@ public class QueryValidator {
     }
 
     public static boolean validateWhereClause(String subquery){
-        String regExPattern = "[a-zA-Z0-9]*\\s+=\\s+[a-zA-Z0-9]*";
+        String regExPattern = "[a-zA-Z0-9]+\\s+=\\s+[a-zA-Z0-9]+";
         boolean result = false;
         if(Pattern.matches(regExPattern,subquery)){
             result = true;
@@ -166,21 +166,42 @@ public class QueryValidator {
         return result;
     }
 
-    public static boolean validateInsert(String[] queryTokens){
+    public static boolean validateInsert(String[] queryTokens, String query){
         boolean isValid=false;
-        String mustClause = "FROM";
-        // Validate must clauses.
-        for(int i = 0; i < queryTokens.length; i++){
-            if(mustClause == queryTokens[i].toUpperCase()){
-                System.out.println("Valid query");
-                isValid = true;
-                break;
-            } else {
-                System.out.println("Error in SQL syntax. Please enter query again.");
-            }
+        String tableName = queryTokens[1];
+        int indexOfColumns = query.toUpperCase().indexOf("(");
+        int indexOfColumnsEnd =  query.toUpperCase().indexOf(")");
+        int lengthOfValues = 7;
+        String columnSubString = "";
+        String valuesSubString = "";
+        int indexOfValues = query.toUpperCase().indexOf("VALUES");
+        int indexOfValuesEnd = query.toUpperCase().indexOf(")",indexOfValues);
+        String[] tempArray = new String[queryTokens.length];
+        String insertInto = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9]+\\([A-Za-z0-9,]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,]+\\)";
+
+        // To upper case
+        for(int j=0;j<queryTokens.length;j++){
+            tempArray[j] =  queryTokens[j].toUpperCase();
         }
 
-
+        if(query.matches(insertInto)){
+            columnSubString = query.substring(indexOfColumns+1,indexOfColumnsEnd);
+            String[] columnsArray = columnSubString.split(",");
+            valuesSubString = query.substring(indexOfValues+lengthOfValues,indexOfValuesEnd);
+            String[] valuesArray = valuesSubString.split(",");
+            if(columnsArray.length == valuesArray.length){
+                if(true) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName.
+                    isValid = true;
+                } else {
+                    System.out.println("Error in SQL syntax. Columns does not match with Table "+tableName);
+                }
+            } else {
+                System.out.println("Error in SQL syntax. Columns does not match.");
+            }
+        }
+        else {
+           System.out.println("InValid query");
+        }
         return isValid;
     }
 
