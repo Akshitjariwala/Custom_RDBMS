@@ -52,10 +52,10 @@ public class QueryValidator {
                     case "SELECT" : queryIsValid = validateSelect(queryTokens,sqlString);break;
                     case "INSERT" : queryIsValid = validateInsert(queryTokens,sqlString);break;
                     case "DELETE" : queryIsValid = validateDelete(queryTokens,sqlString);break;
-                    case "UPDATE" : queryIsValid = validateUpdate(queryTokens);break;
-                    case "ALTER"  : queryIsValid = validateAlter(queryTokens);break;
-                    case "DROP"   : queryIsValid = validateDrop(queryTokens);break;
-                    case "CREATE" : queryIsValid = validateCreate(queryTokens);break;
+                    case "UPDATE" : queryIsValid = validateUpdate(queryTokens,sqlString);break;
+                    case "ALTER"  : queryIsValid = validateAlter(queryTokens,sqlString);break;
+                    case "DROP"   : queryIsValid = validateDrop(queryTokens,sqlString);break;
+                    case "CREATE" : queryIsValid = validateCreate(queryTokens,sqlString);break;
                 }
             }
             else {
@@ -180,7 +180,7 @@ public class QueryValidator {
     }
 
     public static boolean validateWhereClause(String subQuery){
-        String regExPattern = "[a-zA-Z0-9]+\\s*=\\s*[a-zA-Z0-9]+";
+        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_]+";
         boolean result = false;
         if(Pattern.matches(regExPattern,subQuery)){
             result = true;
@@ -253,7 +253,7 @@ public class QueryValidator {
         int indexWhere = query.toUpperCase().indexOf("WHERE");
 
         // check if contains where clause and table name.
-        if(!(indexWhere == -1)) {
+        if(containsWhere(queryTokens)) {
             if(!queryTokens[2].toUpperCase().equals("WHERE")){
                 deleteSubString = query.substring(0,indexWhere+whereLength);
                 if(deleteSubString.matches(deletePattern)) {
@@ -306,25 +306,130 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateUpdate(String[] queryTokens){
+    public static boolean validateUpdate(String[] queryTokens,String query){
         boolean isValid=false;
-  /*      String updatePattern = ""*/
+        String updatePattern = "[U-u][P-p][D-d][A-a][T-t][E-e]\\s+[A-Za-z0-9]+\\s+[S-s][E-e][T-t]";
+        int indexOfWhere = query.toUpperCase().indexOf("WHERE");
+        int indexOfSet = query.toUpperCase().indexOf("SET")+3;
+        int whereEndIndex = indexOfWhere + 5;
+        String whereSubString = "";
+        String setEndSubString = query.substring(0,indexOfSet);
+        String tableName = queryTokens[1];
+        boolean setClause = false;
+
+        if(setEndSubString.matches(updatePattern)){
+            if(containsWhere(queryTokens)){
+                whereSubString = query.substring(whereEndIndex,query.length()).trim().replaceAll("\\s*","");
+                String[] wherelist = whereSubString.split("\\s*[A-a][N-n][D-d]\\s*");
+                for(int k=0;k<wherelist.length;k++){
+                    if(validateWhereClause(wherelist[k])){
+                        if(!(wherelist[k].equals("")) && (Character.compare(whereSubString.charAt(whereSubString.length()-1),',') != 0)){
+                            String[] whereColumnList = wherelist[k].split("=");
+                            for(int m=0;m<whereColumnList.length;m=m+2){
+                                if(true){ // Check semantics for table and columnlist. Pass #tableName and column list.
+                                    isValid = true;
+                                    setClause = true;
+                                } else {
+                                    System.out.println("Invalid Column Names.");
+                                    break;
+                                }
+                            }
+                        } else {
+                            isValid = false;
+                            setClause = false;
+                            System.out.println("Incorrect syntax in Where clause. 3");
+                            break;
+                        }
+                    } else {
+                        isValid = false;
+                        setClause = false;
+                        System.out.println("Incorrect syntax in Set clause. 4");
+                        break;
+                    }
+                }
+            } else {
+                indexOfWhere = query.length();
+                String noWhereSubString = query.substring(indexOfSet+3,query.length()).trim().replaceAll("\\s*","");
+                String[] noWhereSubStringArray = noWhereSubString.split(",");
+                for(int i =0;i<noWhereSubStringArray.length;i++){
+                    if(!(noWhereSubStringArray[i].equals("")) && (Character.compare(noWhereSubString.charAt(noWhereSubString.length()-1),',') != 0)){
+                        setClause = true;
+                    } else {
+                        setClause = false;
+                    }
+                }
+            }
+        } else {
+            System.out.println("Incorrect SQL syntax. Please enter Valid query.");
+        }
+
+
+        if(setClause){
+            String setString = query.substring(indexOfSet,indexOfWhere).trim().replaceAll("\\s*","");
+            String[] setArray = setString.split("\\s*,\\s*");
+            for(int j=0;j<setArray.length;j++){
+                if(validateWhereClause(setArray[j])){
+                    if(!(setArray[j].equals("")) && (Character.compare(setString.charAt(setString.length()-1),',') != 0)){
+                        String[] columnList = setArray[j].split("=");
+                        for(int m=0;m<columnList.length;m=m+2){
+                            if(true){ // Check semantics for table and columnlist. Pass #tableName and column list.
+                                setClause = true;
+                                isValid = true;
+                            } else {
+                                System.out.println("Invalid Column Names.");
+                                break;
+                            }
+                        }
+                    } else {
+                        setClause = false;
+                        isValid = false;
+                        System.out.println("Incorrect syntax in Set clause.");
+                        break;
+                    }
+                } else {
+                    isValid = false;
+                    setClause = false;
+                    System.out.println("Incorrect syntax in Set clause.");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Incorrect SQL syntax. PLease enter query again.");
+        }
+        // Check WHERE clause
+        if(isValid){
+            System.out.println("Entered UPDATE query is valid.");
+        }
+
         return isValid;
     }
 
-    public static boolean validateAlter(String[] queryTokens){
+    public static boolean containsWhere(String[] queryToken){
+        boolean bool = false;
+
+        for(int i = 0;i<queryToken.length;i++){
+            queryToken[i] = queryToken[i].toUpperCase();
+        }
+
+        if(Arrays.asList(queryToken).contains("WHERE")){
+            bool = true;
+        }
+        return bool;
+    }
+
+    public static boolean validateAlter(String[] queryTokens,String sqlString){
         boolean isValid=false;
 
         return isValid;
     }
 
-    public static boolean validateDrop(String[] queryTokens){
+    public static boolean validateDrop(String[] queryTokens,String sqlString){
         boolean isValid=false;
 
         return isValid;
     }
 
-    public static boolean validateCreate(String[] queryTokens){
+    public static boolean validateCreate(String[] queryTokens,String sqlString){
         boolean isValid=false;
 
         return isValid;
