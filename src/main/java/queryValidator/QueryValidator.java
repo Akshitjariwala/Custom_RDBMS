@@ -208,14 +208,25 @@ public class QueryValidator {
 
         if(query.matches(insertPattern)){
             columnSubString = query.substring(indexOfColumns+1,indexOfColumnsEnd);
-            String[] columnsArray = columnSubString.split(",");
+            columnSubString = columnSubString.trim();
+            String[] columnsArray = columnSubString.split("\\s*,\\s*");
             valuesSubString = query.substring(indexOfValues+lengthOfValues,indexOfValuesEnd);
-            String[] valuesArray = valuesSubString.split(",");
+            valuesSubString = valuesSubString.trim();
+            String[] valuesArray = valuesSubString.split("\\s*,\\s*");
             if(columnsArray.length == valuesArray.length){
-                if(true) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
-                    isValid = true;
-                } else {
-                    System.out.println("Error in SQL syntax. Columns does not match with Table "+tableName);
+                for(int i=0;i<columnsArray.length;i++){
+                    if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9]+")){
+                        if(true) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
+                            isValid = true;
+                        } else {
+                            isValid = false;
+                            System.out.println("Error in SQL syntax. Columns does not match with Table "+tableName);
+                        }
+                    } else {
+                        isValid = false;
+                        System.out.println("Error in SQL syntax. Columns in query does not match.");
+                        break;
+                    }
                 }
             } else {
                 System.out.println("Error in SQL syntax. Columns in query does not match.");
@@ -234,44 +245,57 @@ public class QueryValidator {
 
     public static boolean validateDelete(String[] queryTokens,String query){
         boolean isValid=false;
-        String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9]+\\s+[W-w][H-h][E-e][R-r][E-r]";
+        String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9]+\\s*";
         String whereSubString = "";
         String deleteSubString = "";
         int whereLength = 5;
         String tableName = queryTokens[2];
         int indexWhere = query.toUpperCase().indexOf("WHERE");
 
-        // check if contains where clause
+        // check if contains where clause and table name.
         if(!(indexWhere == -1)) {
-            deleteSubString = query.substring(0,indexWhere+whereLength);
-            if(deleteSubString.matches(deletePattern)) {
-                whereSubString = query.substring(indexWhere+whereLength+1);
-                String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
-                for(int i=0;i<whereArray.length;i++){
-                    if(validateWhereClause(whereArray[i])){
-                        if(true){ // Perform semantic analysis on tableName.
-                            // Convert where clauses into array of columns
-                            String[] columnsArray = whereArray[i].split("\\s*=\\s*");
-                            for(int j=0;j<columnsArray.length;j++){
-                                if(true){ // Perform semantic analysis on columns. Pass #columnsArray.
-                                    isValid = true;
-                                } else {
-                                    System.out.println("Column "+columnsArray[i]+" is not present in table "+tableName);
+            if(!queryTokens[2].toUpperCase().equals("WHERE")){
+                deleteSubString = query.substring(0,indexWhere+whereLength);
+                if(deleteSubString.matches(deletePattern)) {
+                    whereSubString = query.substring(indexWhere+whereLength+1);
+                    String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
+                    for(int i=0;i<whereArray.length;i++){
+                        if(validateWhereClause(whereArray[i])){
+                            if(true){ // Perform semantic analysis on tableName.
+                                // Convert where clauses into array of columns
+                                String[] columnsArray = whereArray[i].split("\\s*=\\s*");
+                                for(int j=0;j<columnsArray.length;j++){
+                                    if(true){ // Perform semantic analysis on columns. Pass #columnsArray.
+                                        isValid = true;
+                                    } else {
+                                        System.out.println("Column "+columnsArray[i]+" is not present in table "+tableName);
+                                    }
+                                    j++;
                                 }
-                                j++;
+                                isValid = true;
+                            } else {
+                                System.out.println("Table Does not exits in the database. Enter Valid Table name.");
                             }
-                            isValid = true;
                         } else {
-                            System.out.println("Table Does not exits in the database. Enter Valid Table name.");
+                            System.out.println("Error in Where Clause");
+                            isValid = false;
+                            break;
                         }
-                    } else {
-                        System.out.println("Error in Where Clause");
-                        isValid = false;
-                        break;
                     }
+                } else {
+                    System.out.println("Invalid query");
                 }
             } else {
-                System.out.println("Invalid query");
+                System.out.println("No Table name provided. Please provide Table name in the query.");
+                isValid = false;
+            }
+
+        } else {
+            if(queryTokens.length == 3){
+                isValid = true;
+            } else {
+                isValid = false;
+                System.out.println("Incorrect syntax in Where clause.");
             }
         }
 
@@ -284,7 +308,7 @@ public class QueryValidator {
 
     public static boolean validateUpdate(String[] queryTokens){
         boolean isValid=false;
-
+  /*      String updatePattern = ""*/
         return isValid;
     }
 
