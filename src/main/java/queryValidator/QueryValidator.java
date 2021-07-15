@@ -41,7 +41,7 @@ public class QueryValidator {
         String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE"};
         boolean queryIsValid = false;
         String queryToken = null;
-        sqlString = sqlString.replaceAll("\\s{2,}"," ");
+        sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
         String[] queryTokens = sqlString.split(" ");
 
             // Validate valid query type.
@@ -330,7 +330,7 @@ public class QueryValidator {
                                     isValid = true;
                                     setClause = true;
                                 } else {
-                                    System.out.println("Invalid Column Names.");
+                                    System.out.println("Invalid Table or Column Names.");
                                     break;
                                 }
                             }
@@ -417,8 +417,117 @@ public class QueryValidator {
         return bool;
     }
 
-    public static boolean validateAlter(String[] queryTokens,String sqlString){
+    public static boolean validateAlter(String[] queryTokens,String query){
         boolean isValid=false;
+        String alterPattern = "[A-a][L-l][T-t][E-e][R-r]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
+        String[] alterClauses = {"ADD","MODIFY","DROP","CHANGE","RENAME_TO"};
+        String alterSyntax = "[A-Za-z0-9_]+\\s+[A-Za-z0-9]+";
+        String alterClause="";
+        String alterQuery = "";
+        String[] tyepArray = {"INT","FLOAT","VARCHAR"};
+        String tableName =  queryTokens[2];
+        boolean syntaxFlag = false;
+        boolean alterFlag = false;
+        boolean table = false;
+        int alterLength=0;
+        int querylength = 4;
+        String columnName ="";
+        String columnDatatype = "";
+        String newColumnName = "";
+
+        if(Arrays.asList(alterClauses).contains(queryTokens[3].toUpperCase())){
+            alterClause = queryTokens[3].toUpperCase();
+            alterLength = alterClause.length();
+            if(!(queryTokens.length == 4)) {
+                if(!Arrays.asList(alterClauses).contains(queryTokens[4].toUpperCase())){
+                    alterQuery = query.substring(0,query.toUpperCase().indexOf(alterClause)).trim();
+                    if(alterQuery.matches(alterPattern)){
+                        alterFlag = true;
+                    } else {
+                        System.out.println("Incorrect SQL syntax. Please enter query again.");
+                    }
+                } else {
+                    System.out.println("Invalid column name. Please provide proper column name.");
+                }
+            } else {
+                System.out.println("Incorrect syntax in "+alterClause+" clause.");
+            }
+        } else {
+            System.out.println("Incorrect ALTER syntax. Please enter query again.");
+        }
+
+
+
+        if(alterFlag){
+            alterQuery = query.substring(query.toUpperCase().indexOf(alterClause)+alterLength,query.length()).trim();
+            if(alterClause.equals("DROP") || alterClause.equals("RENAME_TO")) {
+
+                if(queryTokens.length == querylength+1){
+                    if(alterClause.equals("RENAME_TO")) {
+                        String newTableName = queryTokens[querylength];
+                        if(newTableName.matches("[A-Za-z0-9_]+")){
+                            table = true;
+                        } else {
+                            System.out.println("Invalid table name. Table Name can only contain alpha numeric values and '_' ");
+                        }
+                    } else {
+                        table = true;
+                        columnName = queryTokens[querylength];
+                    }
+                } else {
+                    System.out.println("Incorrect SQL syntax in "+alterClause+" .Please enter query again.");
+                }
+            }
+
+            if(alterClause.equals("ADD") || alterClause.equals("MODIFY")) {
+                if(alterQuery.matches(alterSyntax)){
+                    switch(alterClause) {
+                        case "ADD"    : columnName = queryTokens[querylength]; columnDatatype = queryTokens[querylength+1];
+                                        if(Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase()))
+                                        { table = true; } else {
+                                            System.out.println("Invalid datatype.");
+                                        } break;
+                        case "MODIFY" : columnName = queryTokens[querylength]; columnDatatype = queryTokens[querylength+1];
+                                        if(Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase()))
+                                        { table = true; } else {
+                                            System.out.println("Invalid datatype.");
+                                        } break;
+                    }
+                } else {
+                    System.out.println("InCorrect syntax in "+alterClause+" ");
+                }
+            }
+
+            if(alterClause.equals("CHANGE")) {
+                    if(querylength+3 == queryTokens.length) {
+                        columnName = queryTokens[querylength]; newColumnName = queryTokens[querylength+1]; columnDatatype = queryTokens[querylength+2];
+                        if (Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase())) {
+                            if(newColumnName.matches("[A-Za-z0-9_]+")) {
+                                table = true;
+                            } else {
+                                System.out.println("Invalid New Column Name.");
+                            }
+                        } else {
+                            System.out.println("Invalid Data type. Supported datatypes are (INT,VARCHAR,FLOAT)");
+                        }
+                    } else {
+                        System.out.println("Incorrect syntax in "+alterClause+" clause.");
+                    }
+            }
+        }
+
+        // Perform semantic analysis. Pass #TableName.
+        if(table) {
+            if(true) {
+                isValid = true;
+            } else {
+                System.out.println("Table or column does not exists in the database. PLease enter valid Table Name and Columns.");
+            }
+        }
+
+        if(isValid) {
+            System.out.println("Entered ALTER query is valid.");
+        }
 
         return isValid;
     }
