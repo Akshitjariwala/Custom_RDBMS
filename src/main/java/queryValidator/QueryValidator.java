@@ -526,7 +526,7 @@ public class QueryValidator {
         }
 
         if(isValid) {
-            System.out.println("Entered ALTER query is valid.");
+            System.out.println("SUCCESS: Entered ALTER query is valid.");
         }
 
         return isValid;
@@ -534,6 +534,23 @@ public class QueryValidator {
 
     public static boolean validateDrop(String[] queryTokens,String sqlString){
         boolean isValid=false;
+        String dropPattern = "[D-d][R-r][O-o][P-p]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
+
+
+        if(sqlString.matches(dropPattern)) {
+            String tableName = queryTokens[2];
+            if(true) { // Perform semantic analysis. Pass #TableName.
+                isValid = true;
+            } else {
+                System.out.println("ERROR: TABLE does not exist in the database.");
+            }
+        } else {
+            System.out.println("ERROR: Incorrect DROP syntax.");
+        }
+
+        if(isValid) {
+            System.out.println("SUCCESS: Entered DROP query is valid.");
+        }
 
         return isValid;
     }

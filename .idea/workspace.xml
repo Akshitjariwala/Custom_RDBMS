@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module.&#10;Completed update query validation.">
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module.&#10;Completed ALTER query validation.">
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" afterDir="false" />
@@ -248,7 +248,7 @@
       <workItem from="1626273038875" duration="443000" />
       <workItem from="1626275292351" duration="17470000" />
       <workItem from="1626349291794" duration="7709000" />
-      <workItem from="1626364632745" duration="6268000" />
+      <workItem from="1626364632745" duration="7438000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -334,7 +334,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626297716536</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Query Validation module.&#10;Completed ALTER query validation.">
+      <created>1626372426395</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1626372426395</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +372,8 @@
     <MESSAGE value="Query Validation module.&#10;Refactoring in Select validation query. Completed Delete query validation." />
     <MESSAGE value="Query Validation module.&#10;Refactoring in Insert and Delete validation query." />
     <MESSAGE value="Query Validation module.&#10;Completed update query validation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module.&#10;Completed update query validation." />
+    <MESSAGE value="Query Validation module.&#10;Completed ALTER query validation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module.&#10;Completed ALTER query validation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -383,11 +391,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java</url>
           <line>437</line>
           <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java</url>
-          <line>500</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
