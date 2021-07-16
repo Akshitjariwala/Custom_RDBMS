@@ -1,20 +1,20 @@
 package queryValidator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QueryValidator {
 
-    // Query Logs and check input for numbers and string. Check for single query and transaction.
+    // Query Logs and check input for numbers and string. Check for single query and transaction. Check for Semantic analysis.
 
     public static String[] tyepArray = {"INT","FLOAT","VARCHAR"};
     public static String tableNamePattern = "[A-Za-z0-9_]+";
+    public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public static Date date = new Date();
+    public static String databaseName;
 
     private static BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
@@ -26,14 +26,118 @@ public class QueryValidator {
     public static boolean QueryValidator() throws IOException {
         String regex = "";
         String SQL = "";
+        String tempSQL="";
         boolean found = false;
         boolean valid = false;
+        boolean dbExists = false;
+        boolean dbNotExists = false;
+        boolean validInput = false;
+        boolean mainMenu = false;
+        boolean repeat = false;
+        char input;
+        Scanner userChoice = new Scanner( System.in );
+        Scanner userInput = new Scanner( System.in );
         Pattern pattern = Pattern.compile(regex);
         do{
-            System.out.print("Enter query : ");
-            SQL = inputReader.readLine();
-            valid = validate(SQL);
-        }while(!valid);
+            System.out.println("\n\n----------------------------------------------------------------------------");
+            System.out.println("\t\t\t\t\t\t\tDatabase Server\t\t\t\t\t");
+            System.out.println("----------------------------------------------------------------------------");
+            System.out.println("1. Create Database.");
+            System.out.println("2. Use Database.");
+            System.out.println("\n Select 1 to Create Database and 2 to Use Database.\n");
+            do {
+                System.out.print("Enter Selection : ");
+                int choice = userChoice.nextInt();
+                if(choice >=1 && choice <=2){
+                    validInput = true;
+                    switch (choice) {
+                        case 1:
+                            do {
+                                System.out.print("=> Enter query : ");
+                                SQL = inputReader.readLine();
+                                tempSQL = SQL.trim().replaceAll("\\s+", " ");
+                                String[] queryTokens = tempSQL.split(" ");
+                                valid = validateCreateDatabase(tempSQL);
+                                if (valid) {
+                                    databaseName = queryTokens[2];
+                                    if (!databaseExists(databaseName)) {
+                                        dbNotExists = true;
+                                        // *********** pass valid to execution.**********************************///
+                                        mainMenu = true;
+                                    } else {
+                                        dbNotExists = false;
+                                        System.out.println("ERROR: DATABASE Already Exists In The System. Choose a Different Database Name");
+                                    }
+                                }
+                            } while (!dbNotExists);
+                            break;
+                        case 2:
+                            do {
+                                System.out.print("Enter Database Name : ");
+                                databaseName = inputReader.readLine();
+                                if (databaseExists(databaseName)) {
+                                    dbExists = true;
+                                    System.out.println("SUCCESS: CONNECTED TO DATABASE");
+                                } else {
+                                    dbExists = false;
+                                    System.out.println("ERROR: DATABASE Does Not Exist In The System. Enter Valid Database Name");
+                                }
+                            } while (!dbExists);
+                            do {
+                                do {
+                                    System.out.print("=> Enter query : ");
+                                    SQL = inputReader.readLine();
+                                    tempSQL = SQL.trim().replaceAll("\\s+", " ");
+                                    String[] queryTokens = tempSQL.split(" ");
+                                    if (queryTokens[0].toUpperCase().equals("CREATE") && queryTokens.length >= 2) {
+                                        if (queryTokens[1].toUpperCase().equals("DATABASE")) {
+                                            valid = false;
+                                            System.out.println("ERROR: Cannot Create Database Inside A Database.");
+                                        } else {
+                                            valid = validate(SQL);
+                                            // if valid pass to execution module.
+                                            if (valid) {
+                                                //*********** if valid true. pass to execution module.**********************************//
+                                                System.out.print("Do you want to continue (Y/N) : ");
+                                                input = userInput.next().charAt(0);
+                                                if(Character.compare(input,'Y') == 0 || Character.compare(input,'y') == 0) {
+                                                    repeat = true;
+                                                    mainMenu = true;
+                                                } else if(Character.compare(input,'N') == 0 || Character.compare(input,'n') == 0){
+                                                    repeat = false;
+                                                } else {
+                                                    System.out.println("ERROR: Invalid Input.");
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        valid = validate(SQL);
+
+                                        if (valid) {
+                                            //*********** if valid true. pass to execution module.**********************************//
+                                            System.out.print("Do you want to continue (Y/N) : ");
+                                            input = userInput.next().charAt(0);
+                                            if(Character.compare(input,'Y') == 0 || Character.compare(input,'y') == 0) {
+                                                repeat = true;
+                                                mainMenu = true;
+                                            } else if(Character.compare(input,'N') == 0 || Character.compare(input,'n') == 0){
+                                                repeat = false;
+                                            } else {
+                                                System.out.println("ERROR: Invalid Input.");
+                                            }
+                                        }
+                                    }
+                                } while (!valid);
+                            }while(repeat);
+                            break;
+                        }
+                } else {
+                    validInput = false;
+                    System.out.println("ERROR: Please Enter Valid Input.");
+                }
+
+            }while(!validInput);
+        }while(mainMenu);
         Matcher matcher = pattern.matcher(SQL);
         while (matcher.find()) {
             found = true;
@@ -41,7 +145,31 @@ public class QueryValidator {
         return found;
     }
 
-    public static boolean validate(String sqlString) {
+    public static boolean validateCreateDatabase(String sqlString) {
+        String queryToken = null;
+        int queryTypeIndex = 1;
+        sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
+        String[] queryTokens = sqlString.split(" ");
+        boolean isValid = false;
+
+        if (queryTokens.length == 3) {
+            if (true) { // Check if database exists.
+                isValid = true;
+            } else {
+                System.out.println("ERROR: Database Already Exists.");
+            }
+        } else {
+            System.out.println("ERROR: Invalid CREATE Statement.");
+        }
+
+        if(isValid) {
+            System.out.println("SUCCESS: Entered CREATE Query Is Valid.");
+        }
+
+        return isValid;
+    }
+
+    public static boolean validate(String sqlString) throws IOException {
         String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE"};
         boolean queryIsValid = false;
         String queryToken = null;
@@ -53,13 +181,41 @@ public class QueryValidator {
                 queryToken = queryTokens[0].toUpperCase();
 
                 switch(queryToken){
-                    case "SELECT" : queryIsValid = validateSelect(queryTokens,sqlString);break;
-                    case "INSERT" : queryIsValid = validateInsert(queryTokens,sqlString);break;
-                    case "DELETE" : queryIsValid = validateDelete(queryTokens,sqlString);break;
-                    case "UPDATE" : queryIsValid = validateUpdate(queryTokens,sqlString);break;
-                    case "ALTER"  : queryIsValid = validateAlter(queryTokens,sqlString);break;
-                    case "DROP"   : queryIsValid = validateDrop(queryTokens,sqlString);break;
-                    case "CREATE" : queryIsValid = validateCreate(queryTokens,sqlString);break;
+                    case "SELECT" : queryIsValid = validateSelect(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "INSERT" : queryIsValid = validateInsert(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "DELETE" : queryIsValid = validateDelete(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "UPDATE" : queryIsValid = validateUpdate(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "ALTER"  : queryIsValid = validateAlter(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "DROP"   : queryIsValid = validateDrop(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
+                    case "CREATE" : queryIsValid = validateCreate(queryTokens,sqlString);
+                                    if(queryIsValid) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    break;
                 }
             }
             else {
@@ -249,7 +405,7 @@ public class QueryValidator {
 
     public static boolean validateDelete(String[] queryTokens,String query){
         boolean isValid=false;
-        String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9]+\\s*";
+        String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9_]+\\s*";
         String whereSubString = "";
         String deleteSubString = "";
         int whereLength = 5;
@@ -259,7 +415,7 @@ public class QueryValidator {
         // check if contains where clause and table name.
         if(containsWhere(queryTokens)) {
             if(!queryTokens[2].toUpperCase().equals("WHERE")){
-                deleteSubString = query.substring(0,indexWhere+whereLength);
+                deleteSubString = query.substring(0,indexWhere);
                 if(deleteSubString.matches(deletePattern)) {
                     whereSubString = query.substring(indexWhere+whereLength+1);
                     String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
@@ -493,7 +649,7 @@ public class QueryValidator {
                         case "MODIFY" : columnName = queryTokens[querylength]; columnDatatype = queryTokens[querylength+1];
                                         if(Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase()))
                                         { table = true; } else {
-                                            System.out.println("Invalid datatype.");
+                                            System.out.println("ERROR: Invalid Data Type. Supported datatypes are (INT,VARCHAR,FLOAT)");
                                         } break;
                     }
                 } else {
@@ -571,18 +727,8 @@ public class QueryValidator {
         boolean validLength = false;
         String columnsSubString = "";
 
-            if (queryTokens[queryTypeIndex].toUpperCase().equals("DATABASE")) {
-                if(queryTokens.length == 3) {
-                    if(true) { // Check if database exists.
-                        isValid = true;
-                    } else {
-                        System.out.println("ERROR: Database Already Exists.");
-                    }
-                } else {
-                    System.out.println("ERROR: Invalid CREATE Statement.");
-                }
-            } else if(queryTokens[queryTypeIndex].toUpperCase().equals("TABLE")) {
-                if(true) { //Perform semantic analysis. Pass #TableName.
+        if(queryTokens[queryTypeIndex].toUpperCase().equals("TABLE")) {
+            if(true) { //Perform semantic analysis. Pass #TableName.
                     String craeteSubQuery = query.substring(0,columnIndex).trim();
                     if(craeteSubQuery.matches(tablePattern) && Character.compare(query.charAt(query.length()-1),')') == 0)  {
                         createValid = true;
@@ -685,7 +831,37 @@ public class QueryValidator {
         return bool;
     }
 
-    // remove last ) and put , at begging and end.
+    public static void generateQueryLog(String query) throws IOException {
+        //formatter.format(date)
+        String fileName = "QueryLogs.txt";
+        boolean fileExists = false;
+        File queryLogFile = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+fileName);
+        fileExists = queryLogFile.exists();
+        FileWriter fileWriter = new FileWriter(queryLogFile, true);
+
+        if(fileExists) {
+            fileWriter.write(query+"\t|\t"+formatter.format(date));
+            fileWriter.write(System.lineSeparator());
+        } else {
+            fileWriter.write("QUERY\t|\tTIME_STAMP");
+            fileWriter.write(System.lineSeparator());
+            fileWriter.write(query+"\t|\t"+formatter.format(date));
+            fileWriter.write(System.lineSeparator());
+        }
+        fileWriter.close();
+    }
+
+    public static boolean databaseExists(String databaseName){
+        boolean ifExists = false;
+        String databasePath = "D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName;
+        File database = new File(databasePath);
+
+        if(database.exists()) {
+            ifExists = true;
+        }
+
+        return ifExists;
+    }
 }
 
 
