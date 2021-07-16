@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module.&#10;Completed ALTER query validation.">
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module.&#10;Completed DROP query validation.">
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" afterDir="false" />
@@ -40,6 +40,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" root0="SKIP_INSPECTION" />
@@ -248,7 +256,8 @@
       <workItem from="1626273038875" duration="443000" />
       <workItem from="1626275292351" duration="17470000" />
       <workItem from="1626349291794" duration="7709000" />
-      <workItem from="1626364632745" duration="7438000" />
+      <workItem from="1626364632745" duration="18157000" />
+      <workItem from="1626423497413" duration="1765000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -341,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626372426395</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Query Validation module.&#10;Completed DROP query validation.">
+      <created>1626373406883</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1626373406883</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,7 +389,8 @@
     <MESSAGE value="Query Validation module.&#10;Refactoring in Insert and Delete validation query." />
     <MESSAGE value="Query Validation module.&#10;Completed update query validation." />
     <MESSAGE value="Query Validation module.&#10;Completed ALTER query validation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module.&#10;Completed ALTER query validation." />
+    <MESSAGE value="Query Validation module.&#10;Completed DROP query validation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module.&#10;Completed DROP query validation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -382,21 +399,12 @@
           <properties class="java.lang.StringIndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="10" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java</url>
-          <line>460</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java</url>
-          <line>437</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
         <watch expression="queryTokens[6]" />
+        <watch expression="coumnDef" />
       </configuration>
     </watches-manager>
   </component>
