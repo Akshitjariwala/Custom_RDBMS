@@ -14,13 +14,21 @@ public class QueryValidator {
     public static String tableNamePattern = "[A-Za-z0-9_]+";
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
-    public static String databaseName;
+    public static String databaseName = "database1";
+    public static ArrayList<String> columnList = new ArrayList<>();
 
     private static BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         QueryValidator();
+/*
+        */
+/*getDataDictionary();*//*
+
+        checkTableAndColumn("table_a",columnList);
+*/
+
     }
 
     public static boolean QueryValidator() throws IOException {
@@ -224,7 +232,7 @@ public class QueryValidator {
         return queryIsValid;
     }
 
-    public static boolean validateSelect(String[] queryTokens, String query){
+    public static boolean validateSelect(String[] queryTokens, String query) throws IOException {
         boolean isValid=false;
         boolean mustClauseFlag = false;
         boolean tableColumnFlag = false;
@@ -249,7 +257,7 @@ public class QueryValidator {
             if(index < queryTokens.length-1) {
                 if(!(optionalClause.equals(queryTokens[index+1].toUpperCase()))) {
                     tableName = queryTokens[index+1];
-                    if(true) {   // Perform semantic analysis on Table Name. Check if table exists in the system.
+                    if(checkTable(tableName)) {   // Perform semantic analysis on Table Name. Check if table exists in the system.
                         if(queryTokens[1].equals("*")){
                             tableColumnFlag = true;
                         } else {
@@ -260,10 +268,10 @@ public class QueryValidator {
                                 String[] colString = colSubString.split("\\s*,\\s*");
                                 for(int i=0;i<colString.length;i++){
                                     if(!(colString[i].equals("")) && colString[i].matches("[A-Za-z0-9]+")){
-                                        if(true){ //semantic analysis for columns
+                                        if(checkTableAndColumn(tableName,colString)){ //semantic analysis for columns
                                             tableColumnFlag = true;
                                         } else {
-                                            System.out.println("ERROR: No such table named "+tableName+" present in the database.");
+                                            System.out.println("ERROR: Invalid Column Names. Table '"+tableName+"' Does Not Contain Mentioned Columns.");
                                             tableColumnFlag = false;
                                             break;
                                         }
@@ -348,9 +356,8 @@ public class QueryValidator {
         return result;
     }
 
-    public static boolean validateInsert(String[] queryTokens, String query){
+    public static boolean validateInsert(String[] queryTokens, String query) throws IOException {
         boolean isValid=false;
-        String tableName = queryTokens[1];
         int indexOfColumns = query.toUpperCase().indexOf("(");
         int indexOfColumnsEnd = query.toUpperCase().indexOf(")");
         int lengthOfValues = 7;
@@ -359,8 +366,9 @@ public class QueryValidator {
         int indexOfValues = query.toUpperCase().indexOf("VALUES");
         int indexOfValuesEnd = query.toUpperCase().indexOf(")",indexOfValues);
         String[] tempArray = new String[queryTokens.length];
-        String insertPattern = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9]+\\([A-Za-z0-9,]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,]+\\)";
-
+        String insertPattern = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9,_]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,_]+\\)";
+        int indexOfInto = query.toUpperCase().indexOf("INTO");
+        String tableName = query.substring(indexOfInto+4,query.indexOf("(")).trim();
         // To upper case
         for(int j=0;j<queryTokens.length;j++){
             tempArray[j] =  queryTokens[j].toUpperCase();
@@ -376,11 +384,12 @@ public class QueryValidator {
             if(columnsArray.length == valuesArray.length){
                 for(int i=0;i<columnsArray.length;i++){
                     if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9]+")){
-                        if(true) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
+                        if(checkTableAndColumn(tableName,columnsArray)) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
                             isValid = true;
                         } else {
                             isValid = false;
                             System.out.println("ERROR: Error in SQL syntax. Columns does not match with Table "+tableName);
+                            break;
                         }
                     } else {
                         isValid = false;
@@ -403,7 +412,7 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateDelete(String[] queryTokens,String query){
+    public static boolean validateDelete(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9_]+\\s*";
         String whereSubString = "";
@@ -421,20 +430,24 @@ public class QueryValidator {
                     String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
                     for(int i=0;i<whereArray.length;i++){
                         if(validateWhereClause(whereArray[i])){
-                            if(true){ // Perform semantic analysis on tableName.
+                            if(checkTable(tableName)){ // Perform semantic analysis on tableName.
                                 // Convert where clauses into array of columns
                                 String[] columnsArray = whereArray[i].split("\\s*=\\s*");
                                 for(int j=0;j<columnsArray.length;j++){
-                                    if(true){ // Perform semantic analysis on columns. Pass #columnsArray.
+                                    String[] list = {columnsArray[0]};
+                                    if(checkTableAndColumn(tableName,list)){ // Perform semantic analysis on columns. Pass #columnsArray.
                                         isValid = true;
                                     } else {
-                                        System.out.println("ERROR: Column "+columnsArray[i]+" is not present in table "+tableName);
+                                        isValid = false;
+                                        System.out.println("ERROR: Column "+columnsArray[j]+" is not present in table "+tableName);
+                                        break;
                                     }
                                     j++;
                                 }
-                                isValid = true;
                             } else {
-                                System.out.println("ERROR: Table Does not exits in the database. Enter Valid Table name.");
+                                isValid = false;
+                                System.out.println("ERROR: Table Does Not Exists In The Database.");
+                                break;
                             }
                         } else {
                             System.out.println("ERROR: Error in Where Clause");
@@ -466,9 +479,9 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateUpdate(String[] queryTokens,String query){
+    public static boolean validateUpdate(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
-        String updatePattern = "[U-u][P-p][D-d][A-a][T-t][E-e]\\s+[A-Za-z0-9]+\\s+[S-s][E-e][T-t]";
+        String updatePattern = "[U-u][P-p][D-d][A-a][T-t][E-e]\\s+[A-Za-z0-9_]+\\s+[S-s][E-e][T-t]";
         int indexOfWhere = query.toUpperCase().indexOf("WHERE");
         int indexOfSet = query.toUpperCase().indexOf("SET")+3;
         int whereEndIndex = indexOfWhere + 5;
@@ -486,10 +499,13 @@ public class QueryValidator {
                         if(!(wherelist[k].equals("")) && (Character.compare(whereSubString.charAt(whereSubString.length()-1),',') != 0)){
                             String[] whereColumnList = wherelist[k].split("=");
                             for(int m=0;m<whereColumnList.length;m=m+2){
-                                if(true){ // Check semantics for table and columnlist. Pass #tableName and column list.
+                                String[] list = {whereColumnList[0]};
+                                if(checkTableAndColumn(tableName,list)){ // Check semantics for table and columnlist. Pass #tableName and column list.
                                     isValid = true;
                                     setClause = true;
                                 } else {
+                                    isValid = false;
+                                    setClause = false;
                                     System.out.println("ERROR: Invalid Table or Column Names.");
                                     break;
                                 }
@@ -532,7 +548,7 @@ public class QueryValidator {
                     if(!(setArray[j].equals("")) && (Character.compare(setString.charAt(setString.length()-1),',') != 0)){
                         String[] columnList = setArray[j].split("=");
                         for(int m=0;m<columnList.length;m=m+2){
-                            if(true){ // Check semantics for table and columnlist. Pass #tableName and column list.
+                            if(checkTableAndColumn(tableName,columnList)){ // Check semantics for table and columnlist. Pass #tableName and column list.
                                 setClause = true;
                                 isValid = true;
                             } else {
@@ -577,7 +593,7 @@ public class QueryValidator {
         return bool;
     }
 
-    public static boolean validateAlter(String[] queryTokens,String query){
+    public static boolean validateAlter(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String alterPattern = "[A-a][L-l][T-t][E-e][R-r]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
         String[] alterClauses = {"ADD","MODIFY","DROP","CHANGE","RENAME_TO"};
@@ -620,7 +636,6 @@ public class QueryValidator {
         if(alterFlag){
             alterQuery = query.substring(query.toUpperCase().indexOf(alterClause)+alterLength,query.length()).trim();
             if(alterClause.equals("DROP") || alterClause.equals("RENAME_TO")) {
-
                 if(queryTokens.length == querylength+1){
                     if(alterClause.equals("RENAME_TO")) {
                         String newTableName = queryTokens[querylength];
@@ -675,12 +690,24 @@ public class QueryValidator {
             }
         }
 
+        String[] columnList = new String[1];
+        columnList[0] = columnName;
+
         // Perform semantic analysis. Pass #TableName.
         if(table) {
-            if(true) {
-                isValid = true;
+            if(checkTable(tableName)){
+                if(!(alterClause.toUpperCase().equals("RENAME_TO"))){
+                    if(checkTableAndColumn(tableName,columnList)) {
+                        isValid = true;
+                    } else {
+                        System.out.println("ERROR: Columns Does Not Exists In The Database.");
+                        isValid = false;
+                    }
+                } else {
+                    isValid = true;
+                }
             } else {
-                System.out.println("ERROR: Table or column does not exists in the database. PLease enter valid Table Name and Columns.");
+                System.out.println("ERROR: Table Does Not Exists In The Database.");
             }
         }
 
@@ -691,17 +718,18 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateDrop(String[] queryTokens,String query){
+    public static boolean validateDrop(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String dropPattern = "[D-d][R-r][O-o][P-p]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
 
 
         if(query.matches(dropPattern)) {
             String tableName = queryTokens[2];
-            if(true) { //Perform semantic analysis. Pass #TableName.
+            if(checkTable(tableName)) { //Perform semantic analysis. Pass #TableName.
                 isValid = true;
             } else {
-                System.out.println("ERROR: TABLE does not exist in the database.");
+                System.out.println("ERROR: Table Does Not Exists In The Database.");
+                isValid = false;
             }
         } else {
             System.out.println("ERROR: Incorrect DROP syntax.");
@@ -714,7 +742,7 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateCreate(String[] queryTokens,String query){
+    public static boolean validateCreate(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String tablePattern = "[C-c][R-r][E-e][A-a][T-t][E-e]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+\\s*\\(";
         int createDefaultLength = 3;
@@ -728,7 +756,8 @@ public class QueryValidator {
         String columnsSubString = "";
 
         if(queryTokens[queryTypeIndex].toUpperCase().equals("TABLE")) {
-            if(true) { //Perform semantic analysis. Pass #TableName.
+            tableName = queryTokens[2];
+            if(!checkTable(tableName)) { //Perform semantic analysis. Pass #TableName.
                     String craeteSubQuery = query.substring(0,columnIndex).trim();
                     if(craeteSubQuery.matches(tablePattern) && Character.compare(query.charAt(query.length()-1),')') == 0)  {
                         createValid = true;
@@ -736,7 +765,7 @@ public class QueryValidator {
                         System.out.println("ERROR: Incorrect CREATE Statement.");
                     }
                 } else {
-                    System.out.println("ERROR: TABLE does not exist in the database.");
+                    System.out.println("ERROR: TABLE Already exist in the database.");
                 }
             } else {
                 System.out.println("ERROR: CREATE query type not provided.");
@@ -761,6 +790,7 @@ public class QueryValidator {
                             break;
                         }
                     }
+                    columnList.clear();
                 } else {
                     System.out.println("ERROR: NULL Column definition.");
                 }
@@ -773,25 +803,27 @@ public class QueryValidator {
         return isValid;
     }
 
-    public static boolean validateColumnDefinition(String coumnDef){
+    public static boolean validateColumnDefinition(String coumnDef) throws IOException {
         boolean bool =  false;
-        String tableName;
+        String columnConstraint;
         String columnName;
         String constraintName="";
         String[] arrayCol = coumnDef.split("\\s+");
         String pkPattern = "[P-p][R-r][I-i][M-m][A-a][R-r][Y-y][_][K-k][E-e][Y-y]\\s*\\([A-Za-z0-9_]+\\)[,]*";
         String fkPattern = "[F-f][O-o][R-r][E-e][I-i][G-g][N-n][_][K-k][E-e][Y-y]\\s+\\([A-Za-z0-9_]+\\)\\s+[R-r][E-e][F-f][E-e][R-r][E-e][N-n][C-c][E-e][S-s]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9_]+\\)[,]*";
         String fkPattern2 = "[C-c][O-o][N-n][S-s][T-t][R-r][A-a][I-i][N-n][T-t]\\s+[A-Za-z0-9_]+\\s+[F-f][O-o][R-r][E-e][I-i][G-g][N-n][_][K-k][E-e][Y-y]\\s+\\([A-Za-z0-9_]+\\)\\s+[R-r][E-e][F-f][E-e][R-r][E-e][N-n][C-c][E-e][S-s]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9_]+\\)[,]*";
-        tableName = arrayCol[0];
-        columnName = arrayCol[1];
+        columnName = arrayCol[0];
+        columnConstraint = arrayCol[1];
+
+        columnList.add(columnName);
 
         if (arrayCol.length > 2) {
             constraintName = arrayCol[2];
         }
 
-        if(tableName.matches(tableNamePattern) && !tableName.toUpperCase().equals("PRIMARY_KEY") && !tableName.toUpperCase().equals("FOREIGN_KEY") && !tableName.toUpperCase().equals("CONSTRAINT")) {
-            if(Arrays.asList(tyepArray).contains(columnName.toUpperCase())) {
-                if(arrayCol.length==3 ){
+        if(columnName.matches(tableNamePattern) && !columnName.toUpperCase().equals("PRIMARY_KEY") && !columnName.toUpperCase().equals("FOREIGN_KEY") && !columnName.toUpperCase().equals("CONSTRAINT")) {
+            if(Arrays.asList(tyepArray).contains(columnConstraint.toUpperCase())) {
+                if(arrayCol.length==3){
                     if(constraintName.toUpperCase().equals("NOT_NULL")){
                         bool = true;
                     } else {
@@ -809,24 +841,48 @@ public class QueryValidator {
             }
         }
 
-        if(tableName.toUpperCase().equals("PRIMARY_KEY")){
-            if(coumnDef.matches(pkPattern)) {
-                bool = true;
+        if(columnName.toUpperCase().equals("PRIMARY_KEY")){
+            int tableNameStartIndex = coumnDef.indexOf("("); //+10
+            int tableNameEndIndex = coumnDef.length();
+            String column = coumnDef.substring(tableNameStartIndex+1,tableNameEndIndex-1).trim();
+
+            if(columnList.contains(column)){
+                if(coumnDef.matches(pkPattern)) {
+                    bool = true;
+                } else {
+                    bool = false;
+                    System.out.println("ERROR: Invalid PRIMARY KEY Syntax.");
+                }
             } else {
-                bool = false;
-                System.out.println("ERROR: Invalid PRIMARY KEY Syntax.");
+                System.out.println("ERROR: Column Referenced In Primary Key Does Not Exists In Table Definition.");
             }
+
         }
 
-        if(tableName.toUpperCase().equals("FOREIGN_KEY") || tableName.toUpperCase().equals("CONSTRAINT")) {
-            if (coumnDef.matches(fkPattern)) {
-                bool = true;
-            } else if(coumnDef.matches(fkPattern2)){
-                bool = true;
+        if(columnName.toUpperCase().equals("FOREIGN_KEY") || columnName.toUpperCase().equals("CONSTRAINT")) {
+            int lengthOfReference = 10;
+            int tableNameStartIndex = coumnDef.indexOf("REFERENCES")+lengthOfReference; //+10
+            int tableNameEndIndex = coumnDef.indexOf("(",tableNameStartIndex);
+            String table = coumnDef.substring(tableNameStartIndex,tableNameEndIndex).trim();
+            String column = coumnDef.substring(tableNameEndIndex+1,coumnDef.length()-1).trim();
+
+            String[] columnList = new String[1];
+            columnList[0] = column;
+
+            // Check if referenced table exists in the database.
+            if(checkTableAndColumn(table,columnList)){
+                if (coumnDef.matches(fkPattern)) {
+                    bool = true;
+                } else if(coumnDef.matches(fkPattern2)){
+                    bool = true;
+                } else {
+                    bool = false;
+                    System.out.println("ERROR: Invalid FOREIGN KEY Syntax.");
+                }
             } else {
-                bool = false;
-                System.out.println("ERROR: Invalid FOREIGN KEY Syntax.");
+                System.out.println("ERROR: Referenced Column In FOREIGN KEY Does Not Exists In Database.");
             }
+
         }
         return bool;
     }
@@ -861,6 +917,88 @@ public class QueryValidator {
         }
 
         return ifExists;
+    }
+
+    public static Map<String,List<String>> getDataDictionary() throws IOException {
+        String dataDictionary = "data_dictionary.txt";
+        File dataDictionaryFile = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
+        Map<String,List<String>> tableDictionary = new HashMap<String,List<String>>();
+        FileInputStream inputStream = new FileInputStream("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
+        BufferedReader bufferStream = new BufferedReader(new InputStreamReader(inputStream));
+        String tableLine;
+        String table_name=null;
+        int separetorIndex;
+        String dictionarySubString;
+
+        if(dataDictionaryFile.exists()){
+            while((tableLine = bufferStream.readLine()) != null){
+                List<String> columnDefinitionList = new ArrayList<>();
+                separetorIndex = tableLine.indexOf("||");
+                table_name = tableLine.substring(0,separetorIndex).trim();
+                if(!table_name.equals("TABLE NAME")){ // Removing first row.
+                    dictionarySubString = tableLine.substring(separetorIndex+2,tableLine.length()).trim();
+                    String[] columnDefinitionArray = dictionarySubString.split("\t|\t");
+                    for(int i=0;i<columnDefinitionArray.length;i++){
+                        if(!columnDefinitionArray[i].equals("|")){
+                            columnDefinitionList.add(columnDefinitionArray[i]);
+                        }
+                    }
+                    tableDictionary.put(table_name,columnDefinitionList);
+                }
+            }
+        } else {
+            System.out.println("Data Dictionary Does not exists.");
+        }
+
+        return tableDictionary;
+    }
+
+    public static boolean checkTableAndColumn(String tableName,String[] columnList) throws IOException {
+        boolean valid = false;
+        Map<String,List<String>> tableDictionary = getDataDictionary();
+        List<String> attributeList = new ArrayList<>();
+        List<String> columnNameList = new ArrayList<>();
+        String subString="";
+        String columnName = "";
+
+        if(tableDictionary.containsKey(tableName)) {
+            attributeList = tableDictionary.get(tableName);
+
+            for(int k=0;k<attributeList.size();k++){
+                String[] columnNameListTemp = attributeList.get(k).split("\\s+");
+                for(int i=0;i<columnNameListTemp.length;i++) {
+                    columnName = columnNameListTemp[0];
+                    columnNameList.add(columnName);
+                    break;
+                }
+            }
+
+            for(int j=0;j<columnList.length;j++){
+                if(columnNameList.contains(columnList[j])){
+                  valid = true;
+                  continue;
+                } else {
+                  valid = false;
+                  break;
+                }
+            }
+        } else {
+            System.out.println("ERROR: Table Does Not Exists In The Database.");
+            valid = false;
+        }
+        return valid;
+    }
+
+    public static boolean checkTable(String tableName) throws IOException {
+        boolean valid = false;
+        Map<String,List<String>> tableDictionary = getDataDictionary();
+
+        if(tableDictionary.containsKey(tableName)) {
+            valid = true;
+        } else {
+            valid = false;
+        }
+        return valid;
     }
 }
 
