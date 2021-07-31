@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Create logger tests"/>
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Create logger tests" />
     <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)">
       <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/dataDictionary/DataDictionary.java" afterDir="false" />
@@ -105,18 +105,6 @@
       <recent name="login" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.QueryValidator"/>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -223,6 +211,10 @@
     <list>
       <item itemvalue="Application.QueryValidator" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.Default" />
+      <item itemvalue="Gradle.LoggerTest.log" />
+      <item itemvalue="Gradle.LoggerTest.printLog" />
+      <item itemvalue="Gradle.LoginTest.authenticateUser" />
     </list>
     <recent_temporary>
       <list>

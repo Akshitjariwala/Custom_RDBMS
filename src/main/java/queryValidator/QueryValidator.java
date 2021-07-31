@@ -1,5 +1,7 @@
 package queryValidator;
 
+import dataDictionary.DataDictionary;
+import erdGenerator.ERDGenerator;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,21 +16,17 @@ public class QueryValidator {
     public static String tableNamePattern = "[A-Za-z0-9_]+";
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
-    public static String databaseName = "database1";
+    public static String databaseName;
     public static ArrayList<String> columnList = new ArrayList<>();
-
+    public static DataDictionary dataDictionary = new DataDictionary();
+    public static ERDGenerator erdGenerator = new ERDGenerator();
+    public static String[] tokenArray;
+    
     private static BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         QueryValidator();
-/*
-        */
-/*getDataDictionary();*//*
-
-        checkTableAndColumn("table_a",columnList);
-*/
-
     }
 
     public static boolean QueryValidator() throws IOException {
@@ -52,11 +50,12 @@ public class QueryValidator {
             System.out.println("----------------------------------------------------------------------------");
             System.out.println("1. Create Database.");
             System.out.println("2. Use Database.");
+            System.out.println("3. Create ERD.");
             System.out.println("\n Select 1 to Create Database and 2 to Use Database.\n");
             do {
                 System.out.print("Enter Selection : ");
                 int choice = userChoice.nextInt();
-                if(choice >=1 && choice <=2){
+                if(choice >=1 && choice <=3){
                     validInput = true;
                     switch (choice) {
                         case 1:
@@ -70,7 +69,7 @@ public class QueryValidator {
                                     databaseName = queryTokens[2];
                                     if (!databaseExists(databaseName)) {
                                         dbNotExists = true;
-                                        // *********** pass valid to execution.**********************************///
+                                        // *********** pass valid to execution.**********///
                                         mainMenu = true;
                                     } else {
                                         dbNotExists = false;
@@ -138,12 +137,12 @@ public class QueryValidator {
                                 } while (!valid);
                             }while(repeat);
                             break;
+                        case 3 : createERD(); break;
                         }
                 } else {
                     validInput = false;
                     System.out.println("ERROR: Please Enter Valid Input.");
                 }
-
             }while(!validInput);
         }while(mainMenu);
         Matcher matcher = pattern.matcher(SQL);
@@ -223,6 +222,10 @@ public class QueryValidator {
                                     if(queryIsValid) {
                                         generateQueryLog(sqlString);
                                     }
+                                    // Here will be your class object. For example. Create  create = new Create()
+                                    // create.createMethod(queryTokens)
+                                    // So the above method call will call method from respective operation class e.g. create/select and pass the query tokens.
+                                    // and will perform db operation.
                                     break;
                 }
             }
@@ -918,44 +921,10 @@ public class QueryValidator {
 
         return ifExists;
     }
-
-    public static Map<String,List<String>> getDataDictionary() throws IOException {
-        String dataDictionary = "data_dictionary.txt";
-        File dataDictionaryFile = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
-        Map<String,List<String>> tableDictionary = new HashMap<String,List<String>>();
-        FileInputStream inputStream = new FileInputStream("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
-        BufferedReader bufferStream = new BufferedReader(new InputStreamReader(inputStream));
-        String tableLine;
-        String table_name=null;
-        int separetorIndex;
-        String dictionarySubString;
-
-        if(dataDictionaryFile.exists()){
-            while((tableLine = bufferStream.readLine()) != null){
-                List<String> columnDefinitionList = new ArrayList<>();
-                separetorIndex = tableLine.indexOf("||");
-                table_name = tableLine.substring(0,separetorIndex).trim();
-                if(!table_name.equals("TABLE NAME")){ // Removing first row.
-                    dictionarySubString = tableLine.substring(separetorIndex+2,tableLine.length()).trim();
-                    String[] columnDefinitionArray = dictionarySubString.split("\t|\t");
-                    for(int i=0;i<columnDefinitionArray.length;i++){
-                        if(!columnDefinitionArray[i].equals("|")){
-                            columnDefinitionList.add(columnDefinitionArray[i]);
-                        }
-                    }
-                    tableDictionary.put(table_name,columnDefinitionList);
-                }
-            }
-        } else {
-            System.out.println("Data Dictionary Does not exists.");
-        }
-
-        return tableDictionary;
-    }
-
+    
     public static boolean checkTableAndColumn(String tableName,String[] columnList) throws IOException {
         boolean valid = false;
-        Map<String,List<String>> tableDictionary = getDataDictionary();
+        Map<String,List<String>> tableDictionary = dataDictionary.getDataDictionary(databaseName);
         List<String> attributeList = new ArrayList<>();
         List<String> columnNameList = new ArrayList<>();
         String subString="";
@@ -991,7 +960,7 @@ public class QueryValidator {
 
     public static boolean checkTable(String tableName) throws IOException {
         boolean valid = false;
-        Map<String,List<String>> tableDictionary = getDataDictionary();
+        Map<String,List<String>> tableDictionary = dataDictionary.getDataDictionary(databaseName);
 
         if(tableDictionary.containsKey(tableName)) {
             valid = true;
@@ -999,6 +968,38 @@ public class QueryValidator {
             valid = false;
         }
         return valid;
+    }
+    
+    public static void createERD() throws IOException {
+        String createERDPattern = "[C-c][R-r][E-e][A-a][T-t][E-e]\\s+[E-e][R-r][D-d]\\s+[A-Za-z0-9]+";
+        Boolean flag = false;
+        String databaseName;
+        Boolean bool = false;
+        do{
+            System.out.print("Enter ERD Query : ");
+            Scanner sc = new Scanner(System.in);
+            String query = sc.nextLine();
+            
+            if(query.matches(createERDPattern)){
+                String[] tokens = query.split("\\s+");
+                databaseName = tokens[tokens.length-1];
+                if(databaseExists(databaseName)){
+                    flag = true;
+                    bool = erdGenerator.createERD(databaseName);
+                    if(bool){
+                        System.out.println("SUCCESS: ERD File Generated.");
+                        flag = true;
+                    } else {
+                        System.out.println("ERROR: ERD Generation Failed.");
+                        flag = false;
+                    }
+                } else {
+                    System.out.println("ERROR: Table does not exists in the database.");
+                }
+            } else {
+                System.out.println("ERROR: Invalid Query Syntx. Please Enter Query Again.");
+            }
+        } while(flag == false);
     }
 }
 
