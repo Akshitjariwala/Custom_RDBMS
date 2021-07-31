@@ -4,8 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Create logger tests">
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Create logger tests"/>
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dataDictionary/DataDictionary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/csci-5408-s2021-group-19.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
@@ -45,6 +61,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1uAqaJ8sN2Rtmo8JD463x4MzrP1" />
@@ -88,6 +105,18 @@
       <recent name="login" />
     </key>
   </component>
+  <component name="RunManager" selected="Application.QueryValidator"/>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -105,17 +134,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -263,6 +281,9 @@
       <workItem from="1627555452727" duration="20327000" />
       <workItem from="1627670514114" duration="11000" />
       <workItem from="1627670537304" duration="5051000" />
+      <workItem from="1626502674401" duration="10960000" />
+      <workItem from="1627592090257" duration="14125000" />
+      <workItem from="1627663286586" duration="17222000" />
     </task>
     <task id="LOCAL-00001" summary="Added hello world">
       <created>1624119229981</created>
@@ -376,7 +397,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626446303357</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)">
+      <created>1626513649376</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1626513649376</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,7 +439,8 @@
     <MESSAGE value="Query Validation module.&#10;Completed DROP query validation." />
     <MESSAGE value="Query Validation module.&#10;Completed CREATE query validation." />
     <MESSAGE value="Query Validation module.&#10;Created Application flow for the module. Created query logs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module.&#10;Created Application flow for the module. Created query logs." />
+    <MESSAGE value="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -426,6 +455,7 @@
       <configuration name="GradleRunConfiguration">
         <watch expression="queryTokens[6]" />
         <watch expression="coumnDef" />
+        <watch expression="metaData[1]" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
