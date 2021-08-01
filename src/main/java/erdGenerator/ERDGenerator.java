@@ -8,6 +8,7 @@ import java.util.*;
 
 public class ERDGenerator {
     
+    public String currentDirectory = System.getProperty("user.dir");
     DataDictionary dictionary = new DataDictionary();
     Map<String, List<String>> dictionaryMap = new HashMap<>();
     Scanner userChoice = new Scanner( System.in );
@@ -20,11 +21,11 @@ public class ERDGenerator {
         dateStr = formatter.format(date);
         dateStr = dateStr.replaceAll("\\s+","_").replaceAll("/","_").replaceAll(":","_");
         String fileName = dateStr+"_ERD_"+database;
-        File file = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/ERD/"+fileName);
+        File file = new File(currentDirectory+"/appdata/ERD/"+fileName);
         
         if(file.createNewFile())
         {
-            FileWriter writer = new FileWriter("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/ERD/"+fileName);
+            FileWriter writer = new FileWriter(currentDirectory+"/appdata/ERD/"+fileName);
             writer.write(System.getProperty( "line.separator" ));
             dictionaryMap = dictionary.getDataDictionary(database);
             // last to second column PK and last column FK
