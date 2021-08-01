@@ -10,62 +10,94 @@ import java.util.Map;
 
 public class TransactionHandler {
     
-    public static String fileLockLogsPath = "D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/transactionFiles/fileLockLogs";
+    public String currentDirectory = System.getProperty("user.dir");
+    public String fileLockLogsPath = currentDirectory+"/appdata/transactionFiles/";
+    public String fileName = "fileLockLogs";
     
-    public void lockFile(String tablePath){
+    public void lockTable(String tablePath){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileLockLogsPath, true));
+            String oldFileName = currentDirectory+"/appdata/transactionFiles/"+fileName;
+            BufferedWriter writer = new BufferedWriter(new FileWriter(oldFileName, true));
             writer.write(tablePath+"\t||\tlocked");
+            writer.write('\n');
+            writer.close();
+            System.out.println("table is locked");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public Boolean checkLock() {
-        Boolean locked = false;
-    
-    
-        return locked;
-    }
-    
-    public Boolean unlockFile(String tablePath,String tableName) throws IOException {
+    public Boolean checkLock(String tableName) throws IOException {
         Boolean locked = false;
         String logs = null;
         Map<String,String> fileLogMap = new HashMap<>();
-        BufferedReader reader = new BufferedReader(new FileReader(fileLockLogsPath));
-        Map<String,String> newFileLogMap = new HashMap<>();
+        String oldFileName  = currentDirectory+"/appdata/transactionFiles/"+fileName;
+        BufferedReader reader = new BufferedReader(new FileReader(oldFileName));
         
         while((logs = reader.readLine()) != null){
-            String[] tableMetaData = logs.split("\\t||\\t");
-            fileLogMap.put(tableMetaData[0],tableMetaData[1]);
+            String[] tableMetaData = logs.split("\\|\\|");
+            fileLogMap.put(tableMetaData[0].trim(),tableMetaData[1].trim());
         }
+        
+        System.out.println("Checking Table for locks.");
         
         for(Map.Entry<String,String> entry : fileLogMap.entrySet())
         {
             if(entry.getKey().equals(tableName)){
-                continue;
+                if(entry.getValue().equals("locked"))  {
+                    System.out.println("Table is locked. Wait for other transactions to complete");
+                    locked = true;
+                }
             } else {
-                newFileLogMap.put(entry.getKey(),entry.getValue());
+                continue;
             }
         }
         reader.close();
-    
-        copyFile(newFileLogMap);
-        
         return locked;
     }
     
+    public Boolean unlockTable(String tablePath,String tableName) throws IOException {
+        Boolean locked = false;
+        String oldFileName  = currentDirectory+"/appdata/transactionFiles/"+fileName;
+        Map<String,String> fileLogMap = new HashMap<>();
+        removeLock(tablePath);
+        System.out.println("Table successfully unlocked.");
+        return locked;
+    }
     
-    public void copyFile(Map<String,String> newMap) throws IOException {
+    public void removeLock(String tablePath) throws IOException {
         try {
-            Files.deleteIfExists(Paths.get("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/transactionFiles/fileLockLogs"));
-            FileWriter writer = new FileWriter("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/transactionFiles/fileLockLogs");
-            for(Map.Entry<String,String> entry : newMap.entrySet())
-            {
-                writer.write(entry.getKey()+"\t||\t"+entry.getValue());
+            String  oldFileName  = currentDirectory+"/appdata/transactionFiles/"+fileName;
+            String newFileName = currentDirectory+"/appdata/transactionFiles/"+"tempFile.txt";
+            File oldFile = new File(oldFileName);
+            File newFile = new File(newFileName);
+            FileReader fileReader = new FileReader(oldFileName);
+            BufferedReader reader = new BufferedReader(new FileReader(oldFileName));
+            FileWriter fileWriter = new FileWriter(newFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter);
+            String logs = null;
+            
+            while((logs = reader.readLine()) != null){
+                String[] tableMetaData = logs.split("\\|\\|");
+                if(!tableMetaData[0].trim().equals(tablePath)){
+                    printWriter.println(tableMetaData[0].trim()+"\t||\t"+tableMetaData[1].trim());
+                }
             }
-            writer.close();
+    
+            printWriter.flush();
+            printWriter.close();
+            reader.close();
+            bufferedWriter.close();
+            fileReader.close();
+            fileWriter.close();
+    
+            oldFile.delete();
+            
+            File newName = new File(oldFileName);
+            newFile.renameTo(newName);
+            
         } catch(NoSuchFileException e)
         {
             System.out.println(e);
