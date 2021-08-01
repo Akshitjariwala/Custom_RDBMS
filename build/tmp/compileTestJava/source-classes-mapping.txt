@@ -1,4 +1,0 @@
-userAuthentication/LoginTest.java
- userAuthentication.LoginTest
-logger/LoggerTest.java
- logger.LoggerTest
