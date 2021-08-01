@@ -20,6 +20,7 @@ public class Select {
         // TODO: Get tokens
         // tableName
         // condition(s) - columns/values
+        System.out.println("SELECT " + Arrays.toString(columnsName).replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')'));
         // TODO: Open table file
         List<String> rows = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt"))) {
@@ -35,31 +36,73 @@ public class Select {
         int rowSize = rows.size();
         String[][] tableMatrix = new String[colSize][rowSize];
         for (int i = 0; i < rowSize; i++) {
-            System.out.println(rows.get(i));
+            // System.out.println(rows.get(i));
             String[] columnValues = rows.get(i).split(("\\|\\|"));
             for (int j = 0; j < colSize; j++) {
                 tableMatrix[i][j] = columnValues[j].trim();
             }
         }
         // Match select columns to index number
+        Map<String, Integer> indexOfSelectColumns = new HashMap<>();
         Map<String, Integer> indexOfSearchColumns = new HashMap<>();
         for (String s : columnsName) {
             for (int j = 0; j < rowSize; j++) {
                 if (tableMatrix[0][j].equals(s)) {
-                    System.out.println(tableMatrix[0][j] + " found at " + j);
-                    indexOfSearchColumns.put(tableMatrix[0][j], j);
+                    // System.out.println("Columns \"" + s + "\" found at index " + j);
+                    indexOfSelectColumns.put(s, j);
+                    if (searchTerms.containsKey(s)) {
+                        indexOfSearchColumns.put(searchTerms.get(s), j);
+                        // System.out.println("Search for \"" + searchTerms.get(s) + "\" at index " + j);
+                    }
                 }
             }
         }
 
-        // Print matrix
-        for (int i = 0; i < colSize; i++) {
+        Queue<Integer> columnToReturn = new LinkedList<>();
+        int count = 0;
+        for (String searchTerm : indexOfSearchColumns.keySet()) {
+            int columnIndex = indexOfSearchColumns.get(searchTerm);
+            // System.out.println("Searching for " + searchTerm);
+            for (int i = 0; i < colSize; i++) {
+                String item = tableMatrix[i][columnIndex];
+                if (item.equals(searchTerm)) {
+                    // System.out.println("Found " + item + " at location [" + i + "," + columnIndex + "]");
+                    count++;
+                    if (!columnToReturn.contains(i) && count == columnsName.length) {
+                        count = 0;
+                        columnToReturn.add(i);
+                    }
+                }
+            }
+        }
+
+        // Print results
+        System.out.println("Results: ");
+        for (int j = 0; j < rowSize; j++) {
+            String item = tableMatrix[0][j];
+            // Print only selected columns
+            if (indexOfSelectColumns.containsKey(item)) {
+                System.out.print(item + "\t\t");
+            }
+        }
+        System.out.println();
+        for (Integer i: columnToReturn) {
             for (int j = 0; j < rowSize; j++) {
                 String item = tableMatrix[i][j];
-                System.out.print(item + "\t");
+                if (indexOfSelectColumns.containsValue(j)) {
+                    System.out.print(item + "\t\t");
+                }
             }
-            System.out.print("\n");
+            System.out.println();
         }
-            // TODO: Output results
+
+        // Print matrix
+//        for (int i = 0; i < colSize; i++) {
+//            for (int j = 0; j < rowSize; j++) {
+//                String item = tableMatrix[i][j];
+//                System.out.print(item + "\t");
+//            }
+//            System.out.print("\n");
+//        }
     }
 }
