@@ -17,10 +17,11 @@ public class Select {
         searchTerms.put("user_email", "alex.mark@gmail.com");
         searchTerms.put("user_contact", "5566223311");
         // Sample query: select column1,column2,column3 from table_a where userid = 100 and user = akshit
+        // Sample query: SELECT user_name, user_email, user_contact FROM user_data WHERE user_email=alex.mark@gmail.com, user_name=alex, user_contact=5566223311
         // TODO: Get tokens
         // tableName
         // condition(s) - columns/values
-        System.out.println("SELECT " + Arrays.toString(columnsName).replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')'));
+        System.out.println("SELECT " + Arrays.toString(columnsName).replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
         // TODO: Open table file
         List<String> rows = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt"))) {
