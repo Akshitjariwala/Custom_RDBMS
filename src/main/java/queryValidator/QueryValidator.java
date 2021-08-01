@@ -193,37 +193,44 @@ public class QueryValidator {
                 
                 switch(queryToken){
                     case "SELECT" : validationTokens = validateSelect(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     // take validationTokens from here to get tokens.
                                     break;
                     case "INSERT" : validationTokens = validateInsert(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "DELETE" : validationTokens = validateDelete(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "UPDATE" : validationTokens = validateUpdate(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "ALTER"  : validationTokens = validateAlter(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "DROP"   : validationTokens = validateDrop(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "CREATE" : validationTokens = validateCreate(queryTokens,sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
