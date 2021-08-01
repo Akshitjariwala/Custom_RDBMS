@@ -24,7 +24,7 @@ public class QueryValidator {
     
     private static BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
-
+    
     public static void main(String[] args) throws IOException {
         QueryValidator();
     }
@@ -182,44 +182,46 @@ public class QueryValidator {
         String queryToken = null;
         sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
         String[] queryTokens = sqlString.split(" ");
+        Map<String,Object> validationTokens = new HashMap<>();
 
             // Validate valid query type.
             if(Arrays.asList(queryLanguageTokens).contains(queryTokens[0].toUpperCase())) {
                 queryToken = queryTokens[0].toUpperCase();
-
+                
                 switch(queryToken){
-                    case "SELECT" : queryIsValid = validateSelect(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "SELECT" : validationTokens = validateSelect(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
+                                        generateQueryLog(sqlString);
+                                    }
+                                    // take validationTokens from here to get tokens.
+                                    break;
+                    case "INSERT" : validationTokens = validateInsert(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
-                    case "INSERT" : queryIsValid = validateInsert(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "DELETE" : validationTokens = validateDelete(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
-                    case "DELETE" : queryIsValid = validateDelete(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "UPDATE" : validationTokens = validateUpdate(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
-                    case "UPDATE" : queryIsValid = validateUpdate(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "ALTER"  : validationTokens = validateAlter(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
-                    case "ALTER"  : queryIsValid = validateAlter(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "DROP"   : validationTokens = validateDrop(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
-                    case "DROP"   : queryIsValid = validateDrop(queryTokens,sqlString);
-                                    if(queryIsValid) {
-                                        generateQueryLog(sqlString);
-                                    }
-                                    break;
-                    case "CREATE" : queryIsValid = validateCreate(queryTokens,sqlString);
-                                    if(queryIsValid) {
+                    case "CREATE" : validationTokens = validateCreate(queryTokens,sqlString);
+                                    if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     // Here will be your class object. For example. Create  create = new Create()
@@ -235,7 +237,7 @@ public class QueryValidator {
         return queryIsValid;
     }
 
-    public static boolean validateSelect(String[] queryTokens, String query) throws IOException {
+    public static Map<String,Object> validateSelect(String[] queryTokens, String query) throws IOException {
         boolean isValid=false;
         boolean mustClauseFlag = false;
         boolean tableColumnFlag = false;
@@ -244,6 +246,8 @@ public class QueryValidator {
         String mustClause = "FROM";
         String tableName = "";
         int index=0;
+        Map<String,Object> tokens = new HashMap<>();
+        List<Object> tokenList = new ArrayList<>();
 
         // Validate the must clause.
         for (int i=0;i<queryTokens.length;i++){
@@ -260,6 +264,7 @@ public class QueryValidator {
             if(index < queryTokens.length-1) {
                 if(!(optionalClause.equals(queryTokens[index+1].toUpperCase()))) {
                     tableName = queryTokens[index+1];
+                    tokens.put("tableName",tableName);
                     if(checkTable(tableName)) {   // Perform semantic analysis on Table Name. Check if table exists in the system.
                         if(queryTokens[1].equals("*")){
                             tableColumnFlag = true;
@@ -272,6 +277,8 @@ public class QueryValidator {
                                 for(int i=0;i<colString.length;i++){
                                     if(!(colString[i].equals("")) && colString[i].matches("[A-Za-z0-9]+")){
                                         if(checkTableAndColumn(tableName,colString)){ //semantic analysis for columns
+                                            List<String> tempList = createListFromArray(colString);
+                                            tokens.put("columns",tempList);
                                             tableColumnFlag = true;
                                         } else {
                                             System.out.println("ERROR: Invalid Column Names. Table '"+tableName+"' Does Not Contain Mentioned Columns.");
@@ -308,7 +315,7 @@ public class QueryValidator {
                     for (int i=index + 3;i<queryTokens.length;i++){
                         whereClauseArray.add(queryTokens[i]);
                     }
-
+                    tokens.put("where",whereClauseArray);
                     int indexOfWhere = query.toUpperCase().indexOf("WHERE");
                     int indexOfNextWord = indexOfWhere + 5;
                     String subString = query.substring(indexOfNextWord+1,query.length());
@@ -341,13 +348,16 @@ public class QueryValidator {
                 isValid = true;
             }
         }
-        if(isValid){
+        if(isValid) {
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered SELECT query is VALID.");
         } else {
+            tokens.put("isValid",false);
             System.out.println("");
         }
-
-        return isValid;
+        
+        //System.out.println(tokens);
+        return tokens;
     }
 
     public static boolean validateWhereClause(String subQuery){
@@ -359,7 +369,7 @@ public class QueryValidator {
         return result;
     }
 
-    public static boolean validateInsert(String[] queryTokens, String query) throws IOException {
+    public static Map<String,Object> validateInsert(String[] queryTokens, String query) throws IOException {
         boolean isValid=false;
         int indexOfColumns = query.toUpperCase().indexOf("(");
         int indexOfColumnsEnd = query.toUpperCase().indexOf(")");
@@ -371,7 +381,9 @@ public class QueryValidator {
         String[] tempArray = new String[queryTokens.length];
         String insertPattern = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9,_]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,_]+\\)";
         int indexOfInto = query.toUpperCase().indexOf("INTO");
+        Map<String,Object> tokens = new HashMap<>();
         String tableName = query.substring(indexOfInto+4,query.indexOf("(")).trim();
+        tokens.put("tableName",tableName);
         // To upper case
         for(int j=0;j<queryTokens.length;j++){
             tempArray[j] =  queryTokens[j].toUpperCase();
@@ -381,13 +393,16 @@ public class QueryValidator {
             columnSubString = query.substring(indexOfColumns+1,indexOfColumnsEnd);
             columnSubString = columnSubString.trim();
             String[] columnsArray = columnSubString.split("\\s*,\\s*");
+            tokens.put("columnNames",createListFromArray(columnsArray));
             valuesSubString = query.substring(indexOfValues+lengthOfValues,indexOfValuesEnd);
             valuesSubString = valuesSubString.trim();
             String[] valuesArray = valuesSubString.split("\\s*,\\s*");
+            tokens.put("columnValues",createListFromArray(valuesArray));
+            
             if(columnsArray.length == valuesArray.length){
                 for(int i=0;i<columnsArray.length;i++){
                     if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9]+")){
-                        if(checkTableAndColumn(tableName,columnsArray)) { // perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
+                        if(checkTableAndColumn(tableName,columnsArray)) { //perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
                             isValid = true;
                         } else {
                             isValid = false;
@@ -409,19 +424,25 @@ public class QueryValidator {
         }
 
         if(isValid){
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered INSERT query is valid.");
+        } else {
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
-    public static boolean validateDelete(String[] queryTokens,String query) throws IOException {
+    public static Map<String,Object> validateDelete(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String deletePattern = "[D-d][E-e][L-l][E-e][T-t][E-e]\\s+[F-f][R-r][O-o][M-m]\\s+[A-Za-z0-9_]+\\s*";
         String whereSubString = "";
         String deleteSubString = "";
         int whereLength = 5;
+        Map<String,Object> tokens = new HashMap<>();
         String tableName = queryTokens[2];
+        tokens.put("tableName",tableName);
         int indexWhere = query.toUpperCase().indexOf("WHERE");
 
         // check if contains where clause and table name.
@@ -431,11 +452,13 @@ public class QueryValidator {
                 if(deleteSubString.matches(deletePattern)) {
                     whereSubString = query.substring(indexWhere+whereLength+1);
                     String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
+                    tokens.put("whereArray",createListFromArray(whereArray));
                     for(int i=0;i<whereArray.length;i++){
                         if(validateWhereClause(whereArray[i])){
                             if(checkTable(tableName)){ // Perform semantic analysis on tableName.
                                 // Convert where clauses into array of columns
                                 String[] columnsArray = whereArray[i].split("\\s*=\\s*");
+                                tokens.put("columnsArray",createListFromArray(columnsArray));
                                 for(int j=0;j<columnsArray.length;j++){
                                     String[] list = {columnsArray[0]};
                                     if(checkTableAndColumn(tableName,list)){ // Perform semantic analysis on columns. Pass #columnsArray.
@@ -476,13 +499,17 @@ public class QueryValidator {
         }
 
         if(isValid){
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered DELETE query is valid.");
+        } else {
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
-    public static boolean validateUpdate(String[] queryTokens,String query) throws IOException {
+    public static Map<String,Object> validateUpdate(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String updatePattern = "[U-u][P-p][D-d][A-a][T-t][E-e]\\s+[A-Za-z0-9_]+\\s+[S-s][E-e][T-t]";
         int indexOfWhere = query.toUpperCase().indexOf("WHERE");
@@ -490,17 +517,21 @@ public class QueryValidator {
         int whereEndIndex = indexOfWhere + 5;
         String whereSubString = "";
         String setEndSubString = query.substring(0,indexOfSet);
+        Map<String,Object> tokens = new HashMap<>();
         String tableName = queryTokens[1];
+        tokens.put("tableName",tableName);
         boolean setClause = false;
 
         if(setEndSubString.matches(updatePattern)){
             if(containsWhere(queryTokens)){
                 whereSubString = query.substring(whereEndIndex,query.length()).trim().replaceAll("\\s*","");
                 String[] wherelist = whereSubString.split("\\s*[A-a][N-n][D-d]\\s*");
+                tokens.put("whereList",createListFromArray(wherelist));
                 for(int k=0;k<wherelist.length;k++){
                     if(validateWhereClause(wherelist[k])){
                         if(!(wherelist[k].equals("")) && (Character.compare(whereSubString.charAt(whereSubString.length()-1),',') != 0)){
                             String[] whereColumnList = wherelist[k].split("=");
+                            tokens.put("whereColumnList",createListFromArray(whereColumnList));
                             for(int m=0;m<whereColumnList.length;m=m+2){
                                 String[] list = {whereColumnList[0]};
                                 if(checkTableAndColumn(tableName,list)){ // Check semantics for table and columnlist. Pass #tableName and column list.
@@ -530,6 +561,7 @@ public class QueryValidator {
                 indexOfWhere = query.length();
                 String noWhereSubString = query.substring(indexOfSet+3,query.length()).trim().replaceAll("\\s*","");
                 String[] noWhereSubStringArray = noWhereSubString.split(",");
+                tokens.put("setClause",createListFromArray(noWhereSubStringArray));
                 for(int i =0;i<noWhereSubStringArray.length;i++){
                     if(!(noWhereSubStringArray[i].equals("")) && (Character.compare(noWhereSubString.charAt(noWhereSubString.length()-1),',') != 0)){
                         setClause = true;
@@ -546,16 +578,19 @@ public class QueryValidator {
         if(setClause){
             String setString = query.substring(indexOfSet,indexOfWhere).trim().replaceAll("\\s*","");
             String[] setArray = setString.split("\\s*,\\s*");
+            tokens.put("setColumns",createListFromArray(setArray));
             for(int j=0;j<setArray.length;j++){
                 if(validateWhereClause(setArray[j])){
                     if(!(setArray[j].equals("")) && (Character.compare(setString.charAt(setString.length()-1),',') != 0)){
                         String[] columnList = setArray[j].split("=");
+                        tokens.put("setColumnList",createListFromArray(columnList));
                         for(int m=0;m<columnList.length;m=m+2){
                             if(checkTableAndColumn(tableName,columnList)){ // Check semantics for table and columnlist. Pass #tableName and column list.
                                 setClause = true;
                                 isValid = true;
                             } else {
                                 System.out.println("ERROR: Invalid Column Names.");
+                                isValid = false;
                                 break;
                             }
                         }
@@ -577,10 +612,14 @@ public class QueryValidator {
         }
         // Check WHERE clause
         if(isValid){
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered UPDATE query is valid.");
+        } else {
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
     public static boolean containsWhere(String[] queryToken){
@@ -596,14 +635,16 @@ public class QueryValidator {
         return bool;
     }
 
-    public static boolean validateAlter(String[] queryTokens,String query) throws IOException {
+    public static Map<String,Object> validateAlter(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String alterPattern = "[A-a][L-l][T-t][E-e][R-r]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
         String[] alterClauses = {"ADD","MODIFY","DROP","CHANGE","RENAME_TO"};
         String alterSyntax = "[A-Za-z0-9_]+\\s+[A-Za-z0-9]+";
         String alterClause="";
         String alterQuery = "";
+        Map<String,Object> tokens = new HashMap<>();
         String tableName =  queryTokens[2];
+        tokens.put("tableName",tableName);
         boolean syntaxFlag = false;
         boolean alterFlag = false;
         boolean table = false;
@@ -641,15 +682,19 @@ public class QueryValidator {
             if(alterClause.equals("DROP") || alterClause.equals("RENAME_TO")) {
                 if(queryTokens.length == querylength+1){
                     if(alterClause.equals("RENAME_TO")) {
+                        tokens.put("type","RENAME_TO");
                         String newTableName = queryTokens[querylength];
+                        tokens.put("newTableName",newTableName);
                         if(newTableName.matches("[A-Za-z0-9_]+")){
                             table = true;
                         } else {
                             System.out.println("ERROR: Invalid table name. Table Name can only contain alpha numeric values and '_' ");
                         }
                     } else {
+                        tokens.put("type","DROP");
                         table = true;
                         columnName = queryTokens[querylength];
+                        tokens.put("columnToDrop",columnName);
                     }
                 } else {
                     System.out.println("ERROR: Incorrect SQL syntax in "+alterClause+" .Please enter query again.");
@@ -660,13 +705,17 @@ public class QueryValidator {
                 if(alterQuery.matches(alterSyntax)){
                     switch(alterClause) {
                         case "ADD"    : columnName = queryTokens[querylength]; columnDatatype = queryTokens[querylength+1];
+                                        tokens.put("columnName",columnName);
+                                        tokens.put("newColumnDatatype",columnDatatype);
                                         if(Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase()))
-                                        { table = true; } else {
+                                        { table = true; tokens.put("type","ADD"); } else {
                                             System.out.println("ERROR: Invalid datatype.");
                                         } break;
                         case "MODIFY" : columnName = queryTokens[querylength]; columnDatatype = queryTokens[querylength+1];
+                                        tokens.put("columnName",columnName);
+                                        tokens.put("newColumnDatatype",columnDatatype);
                                         if(Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase()))
-                                        { table = true; } else {
+                                        { table = true; tokens.put("type","MODIFY"); } else {
                                             System.out.println("ERROR: Invalid Data Type. Supported datatypes are (INT,VARCHAR,FLOAT)");
                                         } break;
                     }
@@ -676,9 +725,13 @@ public class QueryValidator {
             }
 
             if(alterClause.equals("CHANGE")) {
+                tokens.put("type","CHANGE");
                     if(querylength+3 == queryTokens.length) {
-                        columnName = queryTokens[querylength]; newColumnName = queryTokens[querylength+1]; columnDatatype = queryTokens[querylength+2];
+                        columnName = queryTokens[querylength]; newColumnName = queryTokens[querylength+1];
+                        tokens.put("newColumnName",newColumnName);
+                        columnDatatype = queryTokens[querylength+2];
                         if (Arrays.asList(tyepArray).contains(columnDatatype.toUpperCase())) {
+                            tokens.put("newDataType",columnDatatype.toUpperCase());
                             if(newColumnName.matches("[A-Za-z0-9_]+")) {
                                 table = true;
                             } else {
@@ -694,6 +747,7 @@ public class QueryValidator {
         }
 
         String[] columnList = new String[1];
+        tokens.put("originalColumnList",createListFromArray(columnList));
         columnList[0] = columnName;
 
         // Perform semantic analysis. Pass #TableName.
@@ -715,20 +769,25 @@ public class QueryValidator {
         }
 
         if(isValid) {
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered ALTER query is valid.");
+        } else {
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
-    public static boolean validateDrop(String[] queryTokens,String query) throws IOException {
+    public static Map<String,Object> validateDrop(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String dropPattern = "[D-d][R-r][O-o][P-p]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
-
-
+        Map<String,Object> tokens = new HashMap<>();
+        
         if(query.matches(dropPattern)) {
             String tableName = queryTokens[2];
             if(checkTable(tableName)) { //Perform semantic analysis. Pass #TableName.
+                tokens.put("tableToDrop",tableName);
                 isValid = true;
             } else {
                 System.out.println("ERROR: Table Does Not Exists In The Database.");
@@ -739,13 +798,17 @@ public class QueryValidator {
         }
 
         if(isValid) {
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered DROP query is valid.");
+        } else {
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
-    public static boolean validateCreate(String[] queryTokens,String query) throws IOException {
+    public static Map<String,Object> validateCreate(String[] queryTokens,String query) throws IOException {
         boolean isValid=false;
         String tablePattern = "[C-c][R-r][E-e][A-a][T-t][E-e]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+\\s*\\(";
         int createDefaultLength = 3;
@@ -757,9 +820,16 @@ public class QueryValidator {
         boolean createValid = false;
         boolean validLength = false;
         String columnsSubString = "";
+        Map<String,Object> tokens = new HashMap<>();
 
         if(queryTokens[queryTypeIndex].toUpperCase().equals("TABLE")) {
             tableName = queryTokens[2];
+            if(tableName.contains("(")){
+                tableName = tableName.substring(0,tableName.indexOf("(")).trim();
+            } else {
+                tableName = tableName.trim();
+            }
+            tokens.put("tableName",tableName);
             if(!checkTable(tableName)) { //Perform semantic analysis. Pass #TableName.
                     String craeteSubQuery = query.substring(0,columnIndex).trim();
                     if(craeteSubQuery.matches(tablePattern) && Character.compare(query.charAt(query.length()-1),')') == 0)  {
@@ -778,6 +848,7 @@ public class QueryValidator {
                 columnsSubString = query.substring(columnIndex,columnEndIndex).trim();
                 if(!(columnsSubString.charAt(columnsSubString.length()-1) == ',')){
                     String[] creationArray = columnsSubString.split("\\s*,\\s*");
+                    tokens.put("columnArray",createListFromArray(creationArray));
                     for(int i=0;i<creationArray.length;i++){
                         if(!creationArray[i].matches("\\s*")) {
                             if(validateColumnDefinition(creationArray[i].trim())){
@@ -800,10 +871,14 @@ public class QueryValidator {
             }
 
         if(isValid) {
+            tokens.put("isValid",true);
             System.out.println("SUCCESS: Entered CREATE query is valid.");
+        } else{
+            tokens.put("isValid",false);
         }
-
-        return isValid;
+    
+        //System.out.println(tokens);
+        return tokens;
     }
 
     public static boolean validateColumnDefinition(String coumnDef) throws IOException {
@@ -942,7 +1017,7 @@ public class QueryValidator {
                 }
             }
 
-            for(int j=0;j<columnList.length;j++){
+            for(int j=0;j<columnList.length;j=j+2){
                 if(columnNameList.contains(columnList[j])){
                   valid = true;
                   continue;
@@ -1001,6 +1076,14 @@ public class QueryValidator {
             }
         } while(flag == false);
     }
+    
+    public static List<String> createListFromArray(String[] strArray){
+        
+        List<String> tokenList = Arrays.asList(strArray);
+        
+        return tokenList;
+    }
+    
 }
 
 
