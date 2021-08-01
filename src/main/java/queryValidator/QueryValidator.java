@@ -9,9 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QueryValidator {
-
+    
     // Query Logs and check input for numbers and string. Check for single query and transaction. Check for Semantic analysis.
-
+    public static String currentDirectory = System.getProperty("user.dir");
     public static String[] tyepArray = {"INT","FLOAT","VARCHAR"};
     public static String tableNamePattern = "[A-Za-z0-9_]+";
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -877,7 +877,7 @@ public class QueryValidator {
             tokens.put("isValid",false);
         }
     
-        //System.out.println(tokens);
+        System.out.println(tokens);
         return tokens;
     }
 
@@ -969,7 +969,7 @@ public class QueryValidator {
         //formatter.format(date)
         String fileName = "QueryLogs.txt";
         boolean fileExists = false;
-        File queryLogFile = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+fileName);
+        File queryLogFile = new File(currentDirectory+"/appdata/database/"+databaseName+"/"+fileName);
         fileExists = queryLogFile.exists();
         FileWriter fileWriter = new FileWriter(queryLogFile, true);
 
@@ -987,7 +987,7 @@ public class QueryValidator {
 
     public static boolean databaseExists(String databaseName){
         boolean ifExists = false;
-        String databasePath = "D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName;
+        String databasePath = currentDirectory+"/appdata/database/"+databaseName;
         File database = new File(databasePath);
 
         if(database.exists()) {

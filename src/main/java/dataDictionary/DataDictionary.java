@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 public class DataDictionary {
+    
+        public static String currentDirectory = System.getProperty("user.dir");
+        
         public  Map<String, List<String>> getDataDictionary(String databaseName) throws IOException
         {
         String dataDictionary = "data_dictionary.txt";
-        File dataDictionaryFile = new File("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
+        File dataDictionaryFile = new File(currentDirectory+"/appdata/database/"+databaseName+"/"+dataDictionary);
         Map<String,List<String>> tableDictionary = new HashMap<>();
-        FileInputStream inputStream = new FileInputStream("D:/Materiel/Database Analytics/Project/csci-5408-s2021-group-19/appdata/database/"+databaseName+"/"+dataDictionary);
+        FileInputStream inputStream = new FileInputStream(currentDirectory+"/appdata/database/"+databaseName+"/"+dataDictionary);
         BufferedReader bufferStream = new BufferedReader(new InputStreamReader(inputStream));
         String tableLine;
         String table_name;
