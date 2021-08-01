@@ -4,27 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Create logger tests" />
-    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Query Validation module completed.&#10;&#10;CheckList.&#10;&#10;Completed.&#10;1) Validation for all query types.&#10;2) Query Log generation.&#10;3) Syntax analysis.&#10;4) Semantic analysis.&#10;&#10;Left&#10;1) Transaction Validation. (Can be done while transaction module.)">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dataDictionary/DataDictionary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.8/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/csci-5408-s2021-group-19.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="6a32728c-7e09-49dd-98c3-da5c07d4fc11" name="Default Changelist" comment="Dynamic directory path.">
+      <change afterPath="$PROJECT_DIR$/appdata/ERD/01_08_2021_18_45_36_ERD_database1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/ERD/01_08_2021_23_01_52_ERD_database1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/ERD/31_07_2021_02_34_01_ERD_database1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/ERD/ERD_database1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/database/database1/QueryLogs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/database/database1/data_dictionary.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/appdata/database/database1/user_data.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +50,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/erdGenerator/ERDGenerator.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/Transaction/TransactionHandler.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/queryValidator/QueryValidator.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectId" id="1uAqaJ8sN2Rtmo8JD463x4MzrP1" />

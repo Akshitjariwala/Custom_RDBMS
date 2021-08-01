@@ -1,0 +1,5 @@
+user_id	||	user_name	||	user_surname	||	user_email	||	user_contact
+1	||	alex	||	mark	||	alex.mark@gmail.com	||	5566223311
+2	||	tom	||	hannery	||	tomh@gmail.com	|| 8844556622
+3	||	jon	|| doe	||	jon.doe@gmail.com	||	4455663322
+4	||	jane	||	doe	||jane.doe@gmail.com	||	4455663322

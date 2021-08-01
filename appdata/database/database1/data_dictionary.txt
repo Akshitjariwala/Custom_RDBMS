@@ -1,0 +1,14 @@
+TABLE NAME	||	COLUMNS
+table_a	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	PK(column1)	|	FK(column2,table2,table_b)
+table_b	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL
+table_c	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	PK(column3)
+table_d	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column1)	|	FK(column2,table2,table_d)
+table_e	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	FK(column1,table2,table_m)
+table_f	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column2)	|	FK(column2,table2,table_g)
+table_g	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	column5 INT NOT_NULL	|	PK(column3)	|	FK(column3,table2,table_f)
+table_h	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column3)	|	FK(column2,table2,table_h)
+table_i	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column2)	|	FK(column1,table2,table_i)
+table_j	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	column5 INT NOT_NULL	|	column6 INT NOT_NULL	|	column7 INT NOT_NULL	|	PK(column1)	|	FK(column3,table2,table_j)
+table_k	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column3)	|	FK(column2,table2,table_f)
+table_l	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	PK(column1)	|	FK(column1,table2,table_f)
+table_m	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column2)	|	FK(column3,table2,table_a)
