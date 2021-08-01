@@ -1,18 +1,12 @@
 package queryProcessor;
-
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateDB {
     private static final String workingDir = System.getProperty("user.dir");
 
-    public CreateDB() {
-        Map<String, String> tokens = new HashMap<>();
-        // Create a direct
-        File theDir = new File("/path/directory");
-        if (!theDir.exists()){
-            theDir.mkdirs();
-        }
+    public static void create(String databaseName) {
+        // Create a folder
+        boolean databaseDir = new File(workingDir + "/appdata/database/" + databaseName).mkdirs();
+        // Create a data dictionary
     }
 }

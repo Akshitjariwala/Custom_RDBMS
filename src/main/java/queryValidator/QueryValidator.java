@@ -2,6 +2,8 @@ package queryValidator;
 
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
+import queryProcessor.CreateDB;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -70,6 +72,7 @@ public class QueryValidator {
                                     if (!databaseExists(databaseName)) {
                                         dbNotExists = true;
                                         // *********** pass valid to execution.**********///
+                                        CreateDB.create(databaseName);
                                         mainMenu = true;
                                     } else {
                                         dbNotExists = false;
