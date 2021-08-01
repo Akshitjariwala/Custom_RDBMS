@@ -6,6 +6,7 @@
 # Exclude Grade and Idea files
 /.gradle
 /.idea
+/build
 
 # User-specific stuff
 .idea/**/workspace.xml
