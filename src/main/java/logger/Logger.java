@@ -5,7 +5,7 @@ import java.io.*;
 public class Logger {
     private static final String logPath = "appdata/logs/log.log";
 
-    public boolean createLog() {
+    public static boolean createLog() {
         try {
             File log = new File(logPath);
             return log.createNewFile();
@@ -14,7 +14,7 @@ public class Logger {
         }
     }
 
-    public void log(String event) {
+    public static void log(String event) {
         try(FileWriter fw = new FileWriter(logPath, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
@@ -25,7 +25,7 @@ public class Logger {
         }
     }
 
-    public void printLog() {
+    public static void printLog() {
         try (BufferedReader br = new BufferedReader(new FileReader(logPath))) {
             String line;
             while ((line = br.readLine()) != null) {

@@ -72,7 +72,7 @@ public class QueryValidator {
                                     if (!databaseExists(databaseName)) {
                                         dbNotExists = true;
                                         // *********** pass valid to execution.**********///
-                                        CreateDB.create(databaseName);
+                                        CreateDB.execute(databaseName);
                                         mainMenu = true;
                                     } else {
                                         dbNotExists = false;
