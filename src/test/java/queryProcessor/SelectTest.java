@@ -8,6 +8,5 @@ class SelectTest {
 
     @Test
     void execute() {
-        Select.execute();
     }
 }

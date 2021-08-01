@@ -3,6 +3,7 @@ package queryValidator;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.CreateDB;
+import queryProcessor.Select;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -197,6 +198,8 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
+                                    System.out.println(validationTokens.toString());
+                                    Select.setTokens(validationTokens);
                                     // take validationTokens from here to get tokens.
                                     break;
                     case "INSERT" : validationTokens = validateInsert(queryTokens,sqlString);
