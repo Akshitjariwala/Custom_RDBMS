@@ -21,7 +21,7 @@ public class TransactionHandler {
             writer.write(tablePath+"\t||\tlocked");
             writer.write('\n');
             writer.close();
-            System.out.println("table is locked");
+            System.out.println("Table is locked.");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class TransactionHandler {
         {
             if(entry.getKey().equals(tableName)){
                 if(entry.getValue().equals("locked"))  {
-                    System.out.println("Table is locked. Wait for other transactions to complete");
+                    System.out.println("Table is Locked. Your Transaction will be executed after other Transaction finishes execution.");
                     locked = true;
                 }
             } else {
@@ -85,14 +85,14 @@ public class TransactionHandler {
                     printWriter.println(tableMetaData[0].trim()+"\t||\t"+tableMetaData[1].trim());
                 }
             }
-    
+            
             printWriter.flush();
             printWriter.close();
             reader.close();
             bufferedWriter.close();
             fileReader.close();
             fileWriter.close();
-    
+            
             oldFile.delete();
             
             File newName = new File(oldFileName);

@@ -4,11 +4,13 @@ import Transaction.TransactionHandler;
 import Transaction.TransactionQueue;
 import java.io.*;
 import java.util.Date;
+import java.util.List;
 
 
 public class Update {
     
     public static TransactionHandler transactionHandler;
+    public static TransactionQueue transactionQueue = new TransactionQueue();
     
     public static void main(String[] args) throws IOException {
         String sqlQuery = "update employees set department_ID = 1200 where employee_Id = 1000 AND username = akshit";
@@ -16,37 +18,42 @@ public class Update {
         String[] queryTokens = sqlQuery.split(" ");
         String dataName = "database1";
         String tableName = "user_data.txt";
-        String currentDirectory = System.getProperty("user.dir");
-        System.out.println(currentDirectory);
         performUpdate(dataName,tableName ,sqlQuery,queryTokens);
     }
     
     public static void performUpdate(String databaseName, String tableName,String sqlQuery,String[] queryTokens) throws IOException {
-    
+        
         transactionHandler = new TransactionHandler();
         String tablePath = databaseName+"/"+tableName;
+        List<String> queueList;
         
         if(transactionHandler.checkLock(tablePath)){
-            // to queue.
+            transactionQueue.AddToQueue(sqlQuery);
+            System.out.println("Waiting for other transactions to complete. Your query will be executed.");
         } else {
-            // fetch from queue.
-           
-            TransactionQueue.transactionQueue.add(sqlQuery);
-            while(TransactionQueue.transactionQueue.size() > 0){
-                transactionHandler.lockTable(tablePath);
-                /* Perform Update logic here
-                 unlock the table*/
-                String query = TransactionQueue.transactionQueue.peek();
-                try{
+            System.out.println("Table is not locked.");
+            transactionQueue.AddToQueue(sqlQuery);
+            int i=0;
+            queueList = transactionQueue.fetchFromQueue();
+            while(i < queueList.size()){
+                try {
+                    transactionHandler.lockTable(tablePath);
+                    /********Table is locked*********/
                     System.out.println("Updating data into database.");
-                    System.out.println("Executing Query : "+query);
-                    Thread.sleep(10000);
-                    transactionHandler.unlockTable(tablePath,tableName);
-                    System.out.println("Time Now: "+ new Date());
+                    /* Add update query logic here */
+                    System.out.println("Executing Query : " + queueList.get(i));
+                    /********Removing Query from queue*******************/
+                    transactionQueue.removeFromQueue(queueList.get(i));
+                    Thread.sleep(50000);
                 } catch (InterruptedException e) {
                     System.out.println(e);
+                } finally {
+                    transactionHandler.unlockTable(tablePath, tableName);
+                    System.out.println("Time Now: " + new Date());
+                    /********Table is unlocked*********/
                 }
-                
+                System.out.println("Queue is empty now.");
+                queueList = transactionQueue.fetchFromQueue();
             }
         }
     }
