@@ -1,0 +1,26 @@
+select column1,column2,column3 from table_a where userid = 100 and user = akshit	|	01/08/2021 19:05:50
+select column1,column2,column3 from table_a where userid = 100 and user = akshit	|	01/08/2021 19:10:36
+select column1,column2,column3 from table_a where userid = 100 and user = akshit	|	01/08/2021 19:15:41
+select column1,column2,column3 from table_c where userid = 100 and user = akshit	|	01/08/2021 19:29:18
+insert into table_c(column1,column2,column3) values(column1,column2,column3)	|	01/08/2021 19:35:23
+insert into table_c(column1,column2,column3) values(column1,column2,column3)	|	01/08/2021 19:37:24
+update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	01/08/2021 19:44:46
+update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	01/08/2021 19:57:48
+delete from table_b where column1=100 and column2=akshit and column3 =100	|	01/08/2021 20:03:17
+ALTER TABLE table_l RENAME_TO table_x	|	01/08/2021 20:17:56
+ALTER TABLE table_l DROP column1	|	01/08/2021 20:17:56
+ALTER TABLE table_h CHANGE column1 colukmn2 FLOAT	|	01/08/2021 20:17:56
+ALTER TABLE table_f MODIFY column2 INT	|	01/08/2021 20:21:20
+ALTER TABLE table_h CHANGE column1 colukmn2 FLOAT	|	01/08/2021 20:21:58
+ALTER TABLE table_l RENAME_TO table_x	|	01/08/2021 20:21:58
+ALTER TABLE table_c ADD column1 INT	|	01/08/2021 20:21:58
+drop table table_c	|	01/08/2021 20:25:00
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:27:32
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:29:13
+create table tutorials_tbl (tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:29:13
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:34:53
+create table tutorials_tbl (tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:34:53
+create table tutorials_tbl (tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:34:53
+create table tutorials_tbl (tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 20:34:53
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 22:37:00
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 23:02:13
