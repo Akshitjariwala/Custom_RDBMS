@@ -39,7 +39,8 @@ class LoginTest {
         String username = "user1";
         String password = "pass";
         String answer = "answer";
-        assertTrue(Login.authenticateUser(username, password, answer));
+        assertTrue(Login.authenticateUser(username, password));
+        assertTrue(Login.verifySecurityQuestion(answer));
     }
 
     @Test
