@@ -1,74 +1,88 @@
 package queryProcessor;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Create {
 
-    //Creating data dictionary
-    public static int createDataDictionary(String username, String tablename, ArrayList<String> columns,
-                                           ArrayList<String> values) throws IOException {
-        try {
-            File datadictionary = new File("Data_Dictionary.txt");
-            FileWriter fileWriter = new FileWriter(datadictionary, true);
-            if (datadictionary.createNewFile()){ //If data dictionary does not exists it will create new one.
-                System.out.println("Data Dictionary Created");
-            }
-            FileReader fileReader = new FileReader(datadictionary);//One user can create only one table with a particular name
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                if (line.equalsIgnoreCase(username)) {
-                    line = bufferedReader.readLine();  //check the table name with that user
-                    if (line.equalsIgnoreCase(tablename)) {
-                        System.out.println("User already associated with that table!");
-                        return 0;
-                    }
-                    continue;
-                }
-                line = bufferedReader.readLine();
-            }
-            fileWriter.append("UserName : ");
-            fileWriter.append(username);    //adding the username first
-            fileWriter.append("\n");
-            fileWriter.append("TableName : ");
-            fileWriter.append(tablename);   //then the table name
-            fileWriter.append("\n");
+    public void createDataDictionary(Map<String,Object> queryTokens) throws IOException {
+        List<Object> columns = new ArrayList<>();
+        columns = (List<Object>) queryTokens.get("columnArray");
+        String tableName = queryTokens.get("tableName").toString();
+        String ddFilePath = "/Users/rishitakotiyal/Desktop/csci-5408-s2021-group-19/appdata/database/database1/data_dictionary.txt";
+        File ddFile = new File(ddFilePath);
+        if (ddFile.exists()) {
+            FileWriter tablefileWriter = new FileWriter(ddFile, true);
+            tablefileWriter.append("\n" + tableName + " ||");
+            writeDataDictionary(columns,tablefileWriter);
+            tablefileWriter.flush();
+            tablefileWriter.close();
 
-            for (int i = 0; i < columns.size(); i++) {
-                fileWriter.append("ColumnName : ");
-                fileWriter.append(columns.get(i));   //get the column name
-                fileWriter.append(" || Value : " + values.get(i));
-                fileWriter.append("\n");
-            }
-            fileWriter.append("\n");    //empty line to denote end of record
-            fileWriter.close();
-            bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-        return 1;
+        else {
+            FileWriter tablefileWriter = new FileWriter(ddFile);
+            tablefileWriter.append("\n" + tableName + " ||");
+            tablefileWriter.append("TABLE NAME\t||\tCOLUMNS");
+            writeDataDictionary(columns,tablefileWriter);
+            tablefileWriter.flush();
+            tablefileWriter.close();
+
+        }
     }
 
-    // Creating Table
-    public int createTable(String username, String tablename, ArrayList<String> columns) throws IOException {
-        try{
-            File file = new File(tablename + ".txt");   //storing data of the table in a separate file
-            FileWriter tableFileWriter = new FileWriter(file, true);    //appending table
-            if (file.createNewFile()) //create a new one if no table exists for data dictionary
-            {
-                System.out.println("New table created successfully");
+    public void writeDataDictionary(List<Object> tableColumns, FileWriter tablefileWriter) throws IOException {
+        for(int i = 0; i < tableColumns.size(); i++){
+            String eachcol = tableColumns.get(i).toString();
+            if(eachcol.contains("PRIMARY_KEY")){
+                tablefileWriter.append("\t" + eachcol.replace("PRIMARY_KEY", "PK").replace(" ", "") + "\t" + "|");
             }
-            for (int i = 0; i < columns.size(); i++) {
-                tableFileWriter.append(columns.get(i));
-                tableFileWriter.append(" ");
-                tableFileWriter.append("\n");
+            else if (eachcol.contains("CONSTRAINT")) {
+                String[] splitted = eachcol.split(" ");
+                String foreignKey = "FK";
+                String col1 = splitted[3].replace("(","").replace(")","");
+                String[] references = splitted[5].split("\\(");
+                String refTable = references[0];
+                String refCol = references[1].replace(")", "");
+                tablefileWriter.append("\t"+ foreignKey + "(" + col1 + "," + refCol+ ","  + refTable + ")");
             }
-            tableFileWriter.append("\n");
-            tableFileWriter.close();
+            else {
+                tablefileWriter.append("\t" + eachcol + "\t"+ "|");
+            }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+    }
+
+    public void createTable(Map<String,Object> queryTokens) throws IOException {
+        List<Object> column = new ArrayList<>();
+        column = (List<Object>) queryTokens.get("columnArray");
+        String tableName = queryTokens.get("tableName").toString();
+        System.out.println(tableName);
+        String tableFilePath = "appdata/database/database1/" + tableName + ".txt";
+        String ddFilePath = "appdata/database/database1/data_dictionary.txt";
+        File tableFile = new File(tableFilePath);
+        if (tableFile.exists()) {
+            System.out.println("Table Already Exists");
         }
-        return 1;
+        else {
+            FileWriter tablefileWriter = new FileWriter(tableFile);
+            int listSize = 0;
+            if( column.get(column.size()-1).toString().contains("PRIMARY_KEY"))
+                listSize = column.size()-1;
+            else if( column.get(column.size()-1).toString().contains("CONSTRAINT"))
+                listSize = column.size()-2;
+            else
+                listSize = column.size();
+
+            for(int i = 0; i < listSize; i++){
+                String singleCol = column.get(i).toString();
+                String[] splitted = singleCol.split(" ");
+                if(!(i== listSize-1))
+                    tablefileWriter.append(splitted[0] + "\t" + "||" + "\t");
+                else
+                    tablefileWriter.append(splitted[0]);
+            }
+            tablefileWriter.flush();
+            tablefileWriter.close();
+        }
     }
 }
