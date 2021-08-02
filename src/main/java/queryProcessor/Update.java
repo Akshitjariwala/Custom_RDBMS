@@ -13,7 +13,8 @@ public class Update {
     public static TransactionQueue transactionQueue = new TransactionQueue();
     
     public static void main(String[] args) throws IOException {
-        String sqlQuery = "update employees set department_ID = 1200 where employee_Id = 1000 AND username = akshit";
+        String sqlQuery = "update employees set department_ID = 1200 where employee_Id = 1000 AND username = akshitjariwala";
+        //String sqlQuery = "update employees set department_ID = 900 where employee_Id = 1000 AND username = jariwala";
         sqlQuery = sqlQuery.trim().replaceAll("\\s{2,}"," ");
         String[] queryTokens = sqlQuery.split(" ");
         String dataName = "database1";
@@ -27,8 +28,9 @@ public class Update {
         String tablePath = databaseName+"/"+tableName;
         List<String> queueList;
         
-        if(transactionHandler.checkLock(tablePath)){
+        if(transactionHandler.checkLock(tablePath)) {
             transactionQueue.AddToQueue(sqlQuery);
+            System.out.println("Your Query : "+sqlQuery);
             System.out.println("Waiting for other transactions to complete. Your query will be executed.");
         } else {
             System.out.println("Table is not locked.");
@@ -52,7 +54,7 @@ public class Update {
                     System.out.println("Time Now: " + new Date());
                     /********Table is unlocked*********/
                 }
-                System.out.println("Queue is empty now.");
+                System.out.println("Queue is empty now.\n");
                 queueList = transactionQueue.fetchFromQueue();
             }
         }

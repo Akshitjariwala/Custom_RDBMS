@@ -2,13 +2,11 @@ package Transaction;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+
 
 public class TransactionQueue {
-    
-    public static Queue<String> transactionQueue = new LinkedList<>();
+
     public static String currentDirectory = System.getProperty("user.dir");
     public String fileName = currentDirectory+"/appdata/transactionFiles/queryQueueFile";
     
@@ -33,12 +31,10 @@ public class TransactionQueue {
                 queryList.add(query);
             }
             reader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+    
         return queryList;
     }
     
@@ -71,8 +67,6 @@ public class TransactionQueue {
             
             File newName = new File(fileName);
             newFile.renameTo(newName);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
