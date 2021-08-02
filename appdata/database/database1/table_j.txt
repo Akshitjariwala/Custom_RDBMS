@@ -1,0 +1,3 @@
+id	||	Name	||	Company	||	code
+1	||	Walmart	||	XYZ	||	1234
+2	||	Best Buy	||	MNO	||	123U
