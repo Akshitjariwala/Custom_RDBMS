@@ -47,3 +47,62 @@ UPDATE user_data SET user_name=newalex, user_contact=new5566223311 WHERE user_na
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:13:44
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:16:16
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:28:03
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 00:13:13
+UPDATE user_data set user_name = UpdatedMukesh,user_contact = Updated5566223311 where user_name = Mukesh AND user_contact = 5566223311	|	03/08/2021 00:13:13
+UPDATE user_data set user_name=UpdatedMukesh1,user_contact=Updated55662233111 where user_name=UpdatedMukesh AND user_contact=Updated5566223311	|	03/08/2021 00:19:01
+UPDATE user_data set user_name=UpdatedMukesh12,user_contact=Updated556622331112 where user_name=UpdatedMukesh1 AND user_contact=Updated55662233111	|	03/08/2021 00:19:45
+UPDATE user_data set user_name=UpdatedMukesh1,user_contact=Updated55662233111 where user_name=UpdatedMukesh AND user_contact=Updated5566223311	|	03/08/2021 00:25:35
+UPDATE user_data set user_name=UpdatedMukesh1,user_contact=Updated55662233111 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 00:26:36
+UPDATE user_data set user_name=UpdatedMukesh1,user_contact=Updated55662233111 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 00:26:36
+UPDATE user_data set user_name=UpdatedMukesh1,user_contact=Updated55662233111 where user_name=UpdatedMukesh1 AND user_contact=Updated55662233111	|	03/08/2021 00:28:01
+UPDATE user_data set user_name=UpdatedMukesh12,user_contact=Updated556622331112 where user_name=UpdatedMukesh1 AND user_contact=Updated55662233111	|	03/08/2021 00:28:01
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:24:02
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:24:51
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:29:53
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:31:56
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:31:56
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:38:32
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:39:25
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:55:36
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 02:57:25
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:02:52
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:02:52
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:02:52
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:02:52
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:02:52
+UPDATE user_data set user_name=NewMukesh,user_contact=New5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:11:04
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:18:26
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:24:23
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:25:01
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:27:37
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh	|	03/08/2021 03:33:37
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh	|	03/08/2021 03:33:37
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:35:49
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:35:49
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:49:06
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:49:06
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:51:37
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 03:56:25
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:06:18
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:24:27
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:25:20
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:27:15
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:31:05
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:31:05
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:37:00
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:38:44
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:38:44
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:40:58
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:40:58
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:42:34
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:43:15
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:45:12
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:50:35
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:53:36
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:54:50
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:54:50
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:56:50
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:56:50
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:57:41
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:59:04
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:59:04
