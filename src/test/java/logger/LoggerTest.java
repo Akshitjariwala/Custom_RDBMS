@@ -8,19 +8,19 @@ class LoggerTest {
 
     @Test
     void createLog() {
-        Logger logger = new Logger();
-        logger.createLog();
+        Logger.createLog("loggerTestDB");
     }
 
     @Test
     void log() {
-        Logger logger = new Logger();
-        logger.log("Hello World");
+        Logger.createLog("loggerTestDB");
+        Logger.log("Hello World");
     }
 
     @Test
     void printLog() {
         Logger logger = new Logger();
-        logger.printLog();
+        Logger.createLog("loggerTestDB");
+        Logger.printLog();
     }
 }

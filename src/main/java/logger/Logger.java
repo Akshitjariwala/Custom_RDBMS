@@ -3,9 +3,10 @@ package logger;
 import java.io.*;
 
 public class Logger {
-    private static final String logPath = "appdata/logs/log.log";
+    private static String logPath;
 
-    public static boolean createLog() {
+    public static boolean createLog(String database) {
+        logPath = System.getProperty("user.dir") + "/appdata/database/" + database + "/log.txt";
         try {
             File log = new File(logPath);
             return log.createNewFile();
