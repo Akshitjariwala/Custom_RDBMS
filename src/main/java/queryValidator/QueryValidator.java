@@ -379,7 +379,7 @@ public class QueryValidator {
     }
 
     public static boolean validateWhereClause(String subQuery){
-        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_]+";
+        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_@.]+";
         boolean result = false;
         if(Pattern.matches(regExPattern,subQuery)){
             result = true;
@@ -397,7 +397,7 @@ public class QueryValidator {
         int indexOfValues = query.toUpperCase().indexOf("VALUES");
         int indexOfValuesEnd = query.toUpperCase().indexOf(")",indexOfValues);
         String[] tempArray = new String[queryTokens.length];
-        String insertPattern = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9,_]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,_]+\\)";
+        String insertPattern = "[I-i][N-n][S-s][E-e][R-r][T-t]\\s+[I-i][N-n][T-t][O-o]\\s+[A-Za-z0-9_]+\\([A-Za-z0-9,_]+\\)\\s*[V-v][A-a][L-l][U-u][E-e][S-s]\\s*\\([A-Za-z0-9,_.@]+\\)";
         int indexOfInto = query.toUpperCase().indexOf("INTO");
         Map<String,Object> tokens = new HashMap<>();
         String tableName = query.substring(indexOfInto+4,query.indexOf("(")).trim();
@@ -419,7 +419,7 @@ public class QueryValidator {
             
             if(columnsArray.length == valuesArray.length){
                 for(int i=0;i<columnsArray.length;i++){
-                    if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9]+")){
+                    if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9_@.]+")){
                         if(checkTableAndColumn(tableName,columnsArray)) { //perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
                             isValid = true;
                         } else {
@@ -636,7 +636,7 @@ public class QueryValidator {
             tokens.put("isValid",false);
         }
     
-        //System.out.println(tokens);
+        System.out.println(tokens);
         return tokens;
     }
 

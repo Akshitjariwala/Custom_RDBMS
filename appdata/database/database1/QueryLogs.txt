@@ -26,3 +26,11 @@ create table tutorials_tbl (tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT
 create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 22:37:00
 create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	01/08/2021 23:02:13
 select column1,column2,column3 from table_a where userid = 100 and user = akshit	|	01/08/2021 19:28:26
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 17:25:19
+create table tutorials_tbl1(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 17:25:19
+create table tutorials_tb2(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 17:25:19
+create table tutorials_tbl3(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 17:25:19
+select column1,column2,column3 from table_c where userid = 100 and user = akshit	|	02/08/2021 17:44:42
+update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
+update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
+DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 18:10:05
