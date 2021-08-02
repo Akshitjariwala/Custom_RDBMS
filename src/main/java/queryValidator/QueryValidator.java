@@ -3,7 +3,6 @@ package queryValidator;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.CreateDB;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,24 +21,23 @@ public class QueryValidator {
     public static ArrayList<String> columnList = new ArrayList<>();
     public static DataDictionary dataDictionary = new DataDictionary();
     public static ERDGenerator erdGenerator = new ERDGenerator();
-    public static String[] tokenArray;
     
-    private static BufferedReader inputReader = new BufferedReader(
+    private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
     
     public static void main(String[] args) throws IOException {
         QueryValidator();
     }
 
-    public static boolean QueryValidator() throws IOException {
+    public static void QueryValidator() throws IOException {
         String regex = "";
         String SQL = "";
-        String tempSQL="";
-        boolean found = false;
-        boolean valid = false;
-        boolean dbExists = false;
+        String tempSQL;
+        boolean found;
+        boolean valid;
+        boolean dbExists;
         boolean dbNotExists = false;
-        boolean validInput = false;
+        boolean validInput;
         boolean mainMenu = false;
         boolean repeat = false;
         char input;
@@ -152,12 +150,9 @@ public class QueryValidator {
         while (matcher.find()) {
             found = true;
         }
-        return found;
     }
 
     public static boolean validateCreateDatabase(String sqlString) {
-        String queryToken = null;
-        int queryTypeIndex = 1;
         sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
         String[] queryTokens = sqlString.split(" ");
         boolean isValid = false;
