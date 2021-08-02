@@ -148,13 +148,13 @@ public class Update {
                         }
 
                         // Print table
-                        for (int i = 0; i < colSize; i++) {
-                            for (int j = 0; j < rowSize; j++) {
-                                String item = tableMatrix[i][j];
-                                System.out.print(item + "\t");
-                            }
-                            System.out.print("\n");
-                        }
+//                        for (int i = 0; i < colSize; i++) {
+//                            for (int j = 0; j < rowSize; j++) {
+//                                String item = tableMatrix[i][j];
+//                                System.out.print(item + "\t");
+//                            }
+//                            System.out.print("\n");
+//                        }
 
                         // Match where columns to index number
                         Map<String, Integer> indexOfSearchColumns = new HashMap<>();
