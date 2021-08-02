@@ -199,9 +199,9 @@ public class QueryValidator {
                                     // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        System.out.println(validationTokens.toString());
+                                        Select.setTokens(validationTokens);
                                     }
-                                    System.out.println(validationTokens.toString());
-                                    Select.setTokens(validationTokens);
                                     // take validationTokens from here to get tokens.
                                     break;
                     case "INSERT" : validationTokens = validateInsert(queryTokens,sqlString);
@@ -225,8 +225,8 @@ public class QueryValidator {
                                     // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        Update.execute(validationTokens);
                                     }
-                                    System.out.println(validationTokens);
                                     break;
                     case "ALTER"  : validationTokens = validateAlter(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
