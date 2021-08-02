@@ -46,3 +46,4 @@ create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_
 UPDATE user_data SET user_name=newalex, user_contact=new5566223311 WHERE user_name=alex AND user_contact=5566223311	|	02/08/2021 22:04:56
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:13:44
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:16:16
+DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:28:03
