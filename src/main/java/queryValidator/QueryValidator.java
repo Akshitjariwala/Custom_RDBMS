@@ -217,8 +217,8 @@ public class QueryValidator {
                                     //validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        Delete.execute(validationTokens);
                                     }
-                                    Delete.execute(validationTokens);
                                     break;
                     case "UPDATE" : validationTokens = validateUpdate(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
@@ -303,7 +303,7 @@ public class QueryValidator {
                             if(colSubString.charAt(colSubString.length() - 1) != ','){
                                 String[] colString = colSubString.split("\\s*,\\s*");
                                 for(int i=0;i<colString.length;i++){
-                                    if(!(colString[i].equals("")) && colString[i].matches("[A-Za-z0-9]+")){
+                                    if(!(colString[i].equals("")) && colString[i].matches("[A-Za-z0-9_]+")){
                                         if(checkTableAndColumn(tableName,colString)){ //semantic analysis for columns
                                             List<String> tempList = createListFromArray(colString);
                                             tokens.put("columns",tempList);
@@ -350,7 +350,7 @@ public class QueryValidator {
 
                     if(whereClauseArray.contains("AND") || whereClauseArray.contains("and")) {
 
-                        String[] subArray = subString.split("\\s+[A-a][N-n][D-d]\\s+");
+                        String[] subArray = subString.split("\\s+(?i)and\\s+");
 
                         for(int j=0;j<subArray.length;j++){
                             subArray[j] = subArray[j].trim();
@@ -389,7 +389,7 @@ public class QueryValidator {
     }
 
     public static boolean validateWhereClause(String subQuery){
-        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_@.]+";
+        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_@.,]+";
         boolean result = false;
         if(Pattern.matches(regExPattern,subQuery)){
             result = true;
@@ -479,7 +479,7 @@ public class QueryValidator {
                 deleteSubString = query.substring(0,indexWhere);
                 if(deleteSubString.matches(deletePattern)) {
                     whereSubString = query.substring(indexWhere+whereLength+1);
-                    String[] whereArray = whereSubString.split("\\s+[A-a][N-n][D-d]\\s+");
+                    String[] whereArray = whereSubString.split("\\s+(?i)and\\s+");
                     tokens.put("whereArray",createListFromArray(whereArray));
                     for(int i=0;i<whereArray.length;i++){
                         if(validateWhereClause(whereArray[i])){
@@ -553,7 +553,7 @@ public class QueryValidator {
         if(setEndSubString.matches(updatePattern)){
             if(containsWhere(queryTokens)){
                 whereSubString = query.substring(whereEndIndex,query.length()).trim().replaceAll("\\s*","");
-                String[] wherelist = whereSubString.split("\\s*[A-a][N-n][D-d]\\s*");
+                String[] wherelist = whereSubString.split("\\s*(?i)and\\s*");
                 tokens.put("whereList",createListFromArray(wherelist));
                 for(int k=0;k<wherelist.length;k++){
                     if(validateWhereClause(wherelist[k])){
@@ -575,13 +575,13 @@ public class QueryValidator {
                         } else {
                             isValid = false;
                             setClause = false;
-                            System.out.println("ERROR: Incorrect syntax in Where clause. 3");
+                            System.out.println("ERROR: Incorrect syntax in Where clause.");
                             break;
                         }
                     } else {
                         isValid = false;
                         setClause = false;
-                        System.out.println("ERROR: Incorrect syntax in Set clause. 4");
+                        System.out.println("ERROR: Incorrect syntax in Where clause.");
                         break;
                     }
                 }
@@ -613,7 +613,8 @@ public class QueryValidator {
                         String[] columnList = setArray[j].split("=");
                         tokens.put("setColumnList",createListFromArray(columnList));
                         for(int m=0;m<columnList.length;m=m+2){
-                            if(checkTableAndColumn(tableName,columnList)){ // Check semantics for table and columnlist. Pass #tableName and column list.
+                            String[] list = {columnList[0]};
+                            if(checkTableAndColumn(tableName,list)){ // Check semantics for table and columnlist. Pass #tableName and column list.
                                 setClause = true;
                                 isValid = true;
                             } else {
@@ -1045,7 +1046,7 @@ public class QueryValidator {
                 }
             }
 
-            for(int j=0;j<columnList.length;j=j+2){
+            for(int j=0;j<columnList.length;j++){
                 if(columnNameList.contains(columnList[j])){
                   valid = true;
                   continue;
