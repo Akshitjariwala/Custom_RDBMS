@@ -83,6 +83,7 @@ public class Select {
             // Get number of columns
             int colSize = rows.get(0).split("\\|\\|").length;
             int rowSize = rows.size();
+            // insert table into matrix
             String[][] tableMatrix = new String[colSize][rowSize];
             for (int i = 0; i < rowSize; i++) {
                 // System.out.println(rows.get(i));
