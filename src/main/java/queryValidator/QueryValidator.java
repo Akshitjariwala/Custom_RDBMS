@@ -2,6 +2,7 @@ package queryValidator;
 
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
+import queryProcessor.Create;
 import queryProcessor.CreateDB;
 import queryProcessor.Select;
 
@@ -236,6 +237,9 @@ public class QueryValidator {
                                     validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        Create create = new Create();
+                                        create.createDataDictionary(validationTokens);
+                                        create.createTable(validationTokens);
                                     }
                                     // Here will be your class object. For example. Create  create = new Create()
                                     // create.createMethod(queryTokens)
