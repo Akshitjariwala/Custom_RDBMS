@@ -419,7 +419,7 @@ public class QueryValidator {
             
             if(columnsArray.length == valuesArray.length){
                 for(int i=0;i<columnsArray.length;i++){
-                    if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9_@.]+")){
+                    if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9_]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9_@.]+")){
                         if(checkTableAndColumn(tableName,columnsArray)) { //perform semantic analysis to check if columns exits and belongs to table. Pass #tableName and columnArray.
                             isValid = true;
                         } else {
