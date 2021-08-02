@@ -60,7 +60,7 @@ public class QueryValidator {
             do {
                 System.out.print("Enter Selection : ");
                 int choice = userChoice.nextInt();
-                if(choice >=1 && choice <=3){
+                if(choice >=1 && choice <=4){
                     validInput = true;
                     switch (choice) {
                         case 1:
@@ -145,7 +145,8 @@ public class QueryValidator {
                             break;
                         case 3 : createERD(); break;
 
-                        case 4 : //Add sql dump object method; break;
+                        case 4 : generateSQLDump();break;
+                        
                         }
                 } else {
                     validInput = false;
@@ -157,6 +158,24 @@ public class QueryValidator {
         while (matcher.find()) {
             found = true;
         }
+    }
+    
+    public static void generateSQLDump(){
+        Boolean flag = false;
+        do{
+            System.out.print("Enter Database Name : ");
+            Scanner sc = new Scanner(System.in);
+            String databaseName = sc.nextLine();
+            
+            if(databaseExists(databaseName)){
+                sqlDump.getSQLDump(databaseName);
+                System.out.println("SQL Dump for Database "+databaseName+" Generated Successfully.");
+                flag = true;
+            } else {
+                System.out.println("ERROR: Database Does not exists in the system. Please Enter Valid Database Name.");
+            }
+            
+        }while(!flag);
     }
 
     public static boolean validateCreateDatabase(String sqlString) {
