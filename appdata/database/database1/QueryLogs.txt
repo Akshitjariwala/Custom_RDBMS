@@ -34,3 +34,14 @@ select column1,column2,column3 from table_c where userid = 100 and user = akshit
 update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
 update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 18:10:05
+CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 18:57:57
+create table student(student_id int, student_name varchar)	|	02/08/2021 19:05:02
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 19:05:02
+CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:05:02
+CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:18:59
+insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
+insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
+insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(2,THS,JSYX,123)	|	02/08/2021 19:18:59
+CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:18:59
+insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
+insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(2,EDC,MNO,123U)	|	02/08/2021 19:18:59
