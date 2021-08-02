@@ -8,19 +8,20 @@ public class Delete {
 
     public static void execute(Map<String, Object> validationTokens) {
         // Sample query: delete from table_b where column1=100 and column2=akshit and column3 =100
+        System.out.println(validationTokens);
         String databaseName;
         String tableName;
         List<String> columnsName;
         Map<String, String> searchTerms = new HashMap<>();
         boolean valid = validationTokens.containsKey("isValid")
-                && validationTokens.containsKey("where")
+                && validationTokens.containsKey("whereArray")
                 && validationTokens.containsKey("tableName")
                 && validationTokens.containsKey("databaseName");
         if (valid) {
             databaseName = (String) validationTokens.get("databaseName");
             tableName = (String) validationTokens.get("tableName");
             // columnsName = (List<String>) validationTokens.get("columns");
-            List<String> whereList = (List<String>) validationTokens.get("where");
+            List<String> whereList = (List<String>) validationTokens.get("whereArray");
             for (String s : whereList) {
                 if (s.contains("=")) {
                     String k = s.split("=")[0];
@@ -54,13 +55,13 @@ public class Delete {
             }
 
             // Print table
-            for (int i = 0; i < colSize; i++) {
-                for (int j = 0; j < rowSize; j++) {
-                    String item = tableMatrix[i][j];
-                    System.out.print(item + "\t");
-                }
-                System.out.print("\n");
-            }
+//            for (int i = 0; i < colSize; i++) {
+//                for (int j = 0; j < rowSize; j++) {
+//                    String item = tableMatrix[i][j];
+//                    System.out.print(item + "\t");
+//                }
+//                System.out.print("\n");
+//            }
 
             // Match where columns to index number
             Map<String, Integer> indexOfSearchColumns = new HashMap<>();
@@ -68,7 +69,7 @@ public class Delete {
                 for (int j = 0; j < rowSize; j++) {
                     if (tableMatrix[0][j].equals(s)) {
                         indexOfSearchColumns.put(searchTerms.get(s), j);
-                        System.out.println("Search for \"" + searchTerms.get(s) + "\" at index " + j);
+                        // System.out.println("Search for \"" + searchTerms.get(s) + "\" at index " + j);
                     }
                 }
             }

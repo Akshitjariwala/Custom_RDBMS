@@ -3,6 +3,7 @@ package queryValidator;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.CreateDB;
+import queryProcessor.Delete;
 import queryProcessor.Select;
 import sqlDump.SqlDump;
 
@@ -215,6 +216,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
+                                    Delete.execute(validationTokens);
                                     break;
                     case "UPDATE" : validationTokens = validateUpdate(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
@@ -521,7 +523,7 @@ public class QueryValidator {
             tokens.put("isValid",false);
         }
     
-        //System.out.println(tokens);
+        System.out.println(tokens);
         return tokens;
     }
 
