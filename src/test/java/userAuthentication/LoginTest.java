@@ -18,23 +18,28 @@ class LoginTest {
 
     @Test
     void loadUser() {
-        Login login = new Login();
-        login.loadUser();
+
     }
 
     @Test
-    void testLoadUser() {
+    void renderUI() {
     }
 
     @Test
     void createUser() {
+        String username = "user1";
+        String password = "pass";
+        String question = "what is the answer?";
+        String answer = "answer";
+        Login.createUser(username, password, question, answer);
     }
 
     @Test
     void authenticateUser() {
-        Login login = new Login();
-        login.loadUser();
-        assertTrue(login.authenticateUser("user", "pass"));
+        String username = "user1";
+        String password = "pass";
+        String answer = "answer";
+        assertTrue(Login.authenticateUser(username, password, answer));
     }
 
     @Test

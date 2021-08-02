@@ -82,7 +82,7 @@ public class Update {
             if (s.contains("=")) {
                 String k = s.split("=")[0];
                 String v = s.split("=")[1];
-                whereTerms.put(k, v);
+                whereTerms.put(k.trim(), v.trim());
             }
         }
         List<String> setList = (List<String>) validationTokens.get("setColumns");
@@ -90,7 +90,7 @@ public class Update {
             if (s.contains("=")) {
                 String k = s.split("=")[0];
                 String v = s.split("=")[1];
-                setTerms.put(k, v);
+                setTerms.put(k.trim(), v.trim());
             }
         }
 
@@ -124,7 +124,7 @@ public class Update {
                         try (BufferedReader br = new BufferedReader(new FileReader(tablePath))) {
                             String line;
                             while ((line = br.readLine()) != null) {
-                                rows.add(line);
+                                rows.add(line.trim());
                             }
                         } catch (IOException e) {
                             System.out.println("Invalid table");
@@ -200,7 +200,7 @@ public class Update {
                         System.out.println();
 
                         // Write to file
-                        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt", false);
+                        try (FileWriter fw = new FileWriter(tablePath, false);
                              BufferedWriter bw = new BufferedWriter(fw);
                              PrintWriter out = new PrintWriter(bw)) {
                             for (int i = 0; i < colSize; i++) {
