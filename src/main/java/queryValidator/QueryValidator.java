@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QueryValidator {
-    
+
     // Query Logs and check input for numbers and string. Check for single query and transaction. Check for Semantic analysis.
     public static String currentDirectory = System.getProperty("user.dir");
     public static String[] tyepArray = {"INT","FLOAT","VARCHAR"};
@@ -26,11 +26,11 @@ public class QueryValidator {
     public static DataDictionary dataDictionary = new DataDictionary();
     public static ERDGenerator erdGenerator = new ERDGenerator();
     public static SqlDump sqlDump = new SqlDump();
-    
-    
+
+
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
-    
+
     public static void main(String[] args) throws IOException {
         QueryValidator();
     }
@@ -146,7 +146,7 @@ public class QueryValidator {
                             }while(repeat);
                             break;
                         case 3 : createERD(); break;
-    
+
                         case 4 : //Add sql dump object method; break;
                         }
                 } else {
@@ -175,11 +175,11 @@ public class QueryValidator {
         } else {
             System.out.println("ERROR: Invalid CREATE Statement.");
         }
-        
+
         if(isValid) {
             System.out.println("SUCCESS: Entered CREATE Query Is Valid.");
         }
-        
+
         return isValid;
     }
 
@@ -194,10 +194,11 @@ public class QueryValidator {
             // Validate valid query type.
             if(Arrays.asList(queryLanguageTokens).contains(queryTokens[0].toUpperCase())) {
                 queryToken = queryTokens[0].toUpperCase();
-                
+
                 switch(queryToken){
                     case "SELECT" : validationTokens = validateSelect(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
@@ -207,12 +208,13 @@ public class QueryValidator {
                                     break;
                     case "INSERT" : validationTokens = validateInsert(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "DELETE" : validationTokens = validateDelete(queryTokens,sqlString);
-                                    validationTokens.put("databaseName",databaseName);
+                                    //validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
@@ -220,24 +222,29 @@ public class QueryValidator {
                                     break;
                     case "UPDATE" : validationTokens = validateUpdate(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
+                                    System.out.println(validationTokens);
                                     break;
                     case "ALTER"  : validationTokens = validateAlter(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "DROP"   : validationTokens = validateDrop(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                     }
                                     break;
                     case "CREATE" : validationTokens = validateCreate(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
+                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         sqlDump.storeCreateQuery(databaseName,sqlString,validationTokens.get("tableName").toString());
                                         generateQueryLog(sqlString);
@@ -373,7 +380,7 @@ public class QueryValidator {
             tokens.put("isValid",false);
             System.out.println("");
         }
-        
+
         //System.out.println(tokens);
         return tokens;
     }
@@ -416,7 +423,7 @@ public class QueryValidator {
             valuesSubString = valuesSubString.trim();
             String[] valuesArray = valuesSubString.split("\\s*,\\s*");
             tokens.put("columnValues",createListFromArray(valuesArray));
-            
+
             if(columnsArray.length == valuesArray.length){
                 for(int i=0;i<columnsArray.length;i++){
                     if(!(columnsArray[i].equals("")) && columnsArray[i].matches("[A-Za-z0-9]+") && !(valuesArray[i].equals("")) && valuesArray[i].matches("[A-Za-z0-9_@.]+")){
@@ -447,7 +454,7 @@ public class QueryValidator {
         } else {
             tokens.put("isValid",false);
         }
-    
+
         //System.out.println(tokens);
         return tokens;
     }
@@ -522,7 +529,7 @@ public class QueryValidator {
         } else {
             tokens.put("isValid",false);
         }
-    
+
         System.out.println(tokens);
         return tokens;
     }
@@ -635,7 +642,7 @@ public class QueryValidator {
         } else {
             tokens.put("isValid",false);
         }
-    
+
         System.out.println(tokens);
         return tokens;
     }
@@ -792,7 +799,7 @@ public class QueryValidator {
         } else {
             tokens.put("isValid",false);
         }
-    
+
         //System.out.println(tokens);
         return tokens;
     }
@@ -801,7 +808,7 @@ public class QueryValidator {
         boolean isValid=false;
         String dropPattern = "[D-d][R-r][O-o][P-p]\\s+[T-t][A-a][B-b][L-l][E-e]\\s+[A-Za-z0-9_]+";
         Map<String,Object> tokens = new HashMap<>();
-        
+
         if(query.matches(dropPattern)) {
             String tableName = queryTokens[2];
             if(checkTable(tableName)) { //Perform semantic analysis. Pass #TableName.
@@ -821,7 +828,7 @@ public class QueryValidator {
         } else {
             tokens.put("isValid",false);
         }
-    
+
         //System.out.println(tokens);
         return tokens;
     }
@@ -894,7 +901,7 @@ public class QueryValidator {
         } else{
             tokens.put("isValid",false);
         }
-    
+
         System.out.println(tokens);
         return tokens;
     }
@@ -1014,7 +1021,7 @@ public class QueryValidator {
 
         return ifExists;
     }
-    
+
     public static boolean checkTableAndColumn(String tableName,String[] columnList) throws IOException {
         boolean valid = false;
         Map<String,List<String>> tableDictionary = dataDictionary.getDataDictionary(databaseName);
@@ -1062,7 +1069,7 @@ public class QueryValidator {
         }
         return valid;
     }
-    
+
     public static void createERD() throws IOException {
         String createERDPattern = "[C-c][R-r][E-e][A-a][T-t][E-e]\\s+[E-e][R-r][D-d]\\s+[A-Za-z0-9]+";
         Boolean flag = false;
@@ -1072,7 +1079,7 @@ public class QueryValidator {
             System.out.print("Enter ERD Query : ");
             Scanner sc = new Scanner(System.in);
             String query = sc.nextLine();
-            
+
             if(query.matches(createERDPattern)){
                 String[] tokens = query.split("\\s+");
                 databaseName = tokens[tokens.length-1];
@@ -1094,14 +1101,14 @@ public class QueryValidator {
             }
         } while(flag == false);
     }
-    
+
     public static List<String> createListFromArray(String[] strArray){
-        
+
         List<String> tokenList = Arrays.asList(strArray);
-        
+
         return tokenList;
     }
-    
+
 }
 
 
