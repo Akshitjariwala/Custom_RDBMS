@@ -39,14 +39,14 @@ public class SqlDump {
         }
     }
     
-    public List<String> getSQLDump(String databaseName){
+    public Boolean getSQLDump(String databaseName){
         String dateStr;
         dateStr = formatter.format(date);
         dateStr = dateStr.replaceAll("\\s+","_").replaceAll("/","_").replaceAll(":","_");
         String createQueryFileName = fileName;
         createQueryFileName = createQueryFileName+"/sqlDumpFiles/"+databaseName+"_"+dateStr+".sql";
-        File queryFile = new File(createQueryFileName);
         List<String> tempList;
+        Boolean sqlDumpGeneration;
         
         List<String> tableList = new ArrayList<>();
         try {
@@ -55,16 +55,32 @@ public class SqlDump {
             for(Map.Entry<String,List<String>> entry : dictionaryMap.entrySet()){
                 tableList.add(entry.getKey());
             }
+    
+            File file = new File(createQueryFileName);
             
-            for(int i=0;i<tableList.size();i++){
-                tempList = fetchCreateQueries(databaseName,tableList.get(i));
-                // logic to write in file.
-                tempList.clear();
+            if(file.createNewFile()){
+                FileWriter fileWriter = new FileWriter(createQueryFileName);
+                fileWriter.write("-----------------------------------------------SQL DUMP FOR "+databaseName+"--------------------------------------------");
+                for(int i=0;i<tableList.size();i++){
+                    tempList = fetchCreateQueries(databaseName,tableList.get(i));
+                    fileWriter.write(System.getProperty( "line.separator" ));
+                    for(int j=0;j<tempList.size();j++){
+                        fileWriter.write(tempList.get(j));
+                    }
+                    tempList.clear();
+                }
+                fileWriter.close();
+                sqlDumpGeneration = true;
+            } else {
+                System.out.println("SQL Dump Creation Failed.");
+                sqlDumpGeneration = false;
             }
-            
         } catch (IOException e) {
             e.printStackTrace();
+            sqlDumpGeneration = false;
         }
+        
+        return sqlDumpGeneration;
     }
     
     public static List<String> fetchCreateQueries(String databaseName, String tableName) {
@@ -76,7 +92,7 @@ public class SqlDump {
         fileExists = queryFile.exists();
         Map<String,String> queryMap = new HashMap<>();
         String record;
-        String queryTOReturn = null;
+        String queryTOReturn;
         if(fileExists){
             try {
                 BufferedReader queryReader = new BufferedReader(new FileReader(createQueryFileName));
