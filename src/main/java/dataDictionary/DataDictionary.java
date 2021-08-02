@@ -29,10 +29,10 @@ public class DataDictionary {
                 table_name = tableLine.substring(0,separetorIndex).trim();
                 if(!table_name.equals("TABLE NAME")){ // Removing first row.
                     dictionarySubString = tableLine.substring(separetorIndex+2,tableLine.length()).trim();
-                    String[] columnDefinitionArray = dictionarySubString.split("\t|\t");
+                    String[] columnDefinitionArray = dictionarySubString.split("\\|");
                     for(int i=0;i<columnDefinitionArray.length;i++){
                         if(!columnDefinitionArray[i].equals("|")){
-                            columnDefinitionList.add(columnDefinitionArray[i]);
+                            columnDefinitionList.add(columnDefinitionArray[i].trim());
                         }
                     }
                     tableDictionary.put(table_name,columnDefinitionList);

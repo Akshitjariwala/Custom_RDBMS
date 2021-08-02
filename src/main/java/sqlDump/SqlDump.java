@@ -10,9 +10,13 @@ public class SqlDump {
     
     public static String currentDirectory = System.getProperty("user.dir");
     public static String fileName = currentDirectory+"/appdata/database/";
-    public DataDictionary dataDictionary = new DataDictionary();
+    public static DataDictionary dataDictionary = new DataDictionary();
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
+    
+    public static void main(String[] args){
+        getSQLDump("database1");
+    }
     
     public void storeCreateQuery(String databaseName,String createQuery,String tableName) {
         
@@ -39,7 +43,7 @@ public class SqlDump {
         }
     }
     
-    public Boolean getSQLDump(String databaseName){
+    public static Boolean getSQLDump(String databaseName){
         String dateStr;
         dateStr = formatter.format(date);
         dateStr = dateStr.replaceAll("\\s+","_").replaceAll("/","_").replaceAll(":","_");
@@ -96,13 +100,13 @@ public class SqlDump {
         if(fileExists){
             try {
                 BufferedReader queryReader = new BufferedReader(new FileReader(createQueryFileName));
-                while((record = queryReader.readLine()) != null){
-                    String[] entry = record.split("\t|\t");
+                while((record = queryReader.readLine()) != null) {
+                    String[] entry = record.split("\t\\|\t");
                     queryMap.put(entry[0],entry[1]);
                 }
                 
                 for(Map.Entry<String,String> entry : queryMap.entrySet()){
-                    if(entry.getKey().equals(tableName)){
+                    if(entry.getKey().equals(tableName)) {
                         queryTOReturn = entry.getValue();
                         tableSQLDump.add(queryTOReturn);
                     }
@@ -124,7 +128,7 @@ public class SqlDump {
         return tableSQLDump;
     }
     
-    public static List<String> fetchInsertQueries(String databaseName, String tableName){
+    public static List<String> fetchInsertQueries(String databaseName, String tableName) {
         List<String> insertQueryList  = new ArrayList<>();
         String insertQueryTablePath = fileName;
         insertQueryTablePath = insertQueryTablePath + databaseName +"/" +tableName+".txt";
