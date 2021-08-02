@@ -34,14 +34,15 @@ select column1,column2,column3 from table_c where userid = 100 and user = akshit
 update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
 update table_c set column1=70,column2=113,column3=akshit where column1 = 113 AND column2=akshit	|	02/08/2021 17:45:46
 DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 18:10:05
-CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 18:57:57
-create table student(student_id int, student_name varchar)	|	02/08/2021 19:05:02
-create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 19:05:02
-CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:05:02
-CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:18:59
-insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
-insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
-insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(2,THS,JSYX,123)	|	02/08/2021 19:18:59
-CREATE TABLE tutorials_tbl2 (tutorialid INT NOT_NULL ,tutorialtitle VARCHAR NOT_NULL,tutorialauthor VARCHAR NOT_NULL,submissiondate VARCHAR,PRIMARY_KEY (tutorialid))	|	02/08/2021 19:18:59
-insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(1,ABC,XYZ,1234)	|	02/08/2021 19:18:59
-insert into tutorials_tbl2(tutorialid,tutorialtitle,tutorialauthor,submissiondate) values(2,EDC,MNO,123U)	|	02/08/2021 19:18:59
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 19:14:59
+create table user_data1 (user_id INT NOT_NULL,user_name VARCHAR NOT_NULL,user_surname VARCHAR NOT_NULL,user_email VARCHAR NOT_NULL,user_contact INT NOT_NULL)	|	02/08/2021 19:23:27
+create table user_data (user_id INT NOT_NULL,user_name VARCHAR NOT_NULL,user_surname VARCHAR NOT_NULL,user_email VARCHAR NOT_NULL,user_contact INT NOT_NULL)	|	02/08/2021 19:58:38
+select column1,column2,column3 from table_c where userid = 100 and user = akshit	|	02/08/2021 21:44:07
+insert into table_c(column1,column2,column3) values(column1,column2,column3)	|	02/08/2021 21:48:27
+delete from user_data where user_id=100 and user_ame = akshit and user_email=akshit@gmail.com	|	02/08/2021 21:52:30
+ALTER TABLE table_h CHANGE column1 colukmn2 FLOAT	|	02/08/2021 21:58:09
+create table user_data2 (user_id INT NOT_NULL,user_name VARCHAR NOT_NULL,user_surname VARCHAR NOT_NULL,user_email VARCHAR NOT_NULL,user_contact INT NOT_NULL)	|	02/08/2021 21:58:09
+create table tutorials_tbl(tutorial_id INT NOT_NULL ,tutorial_title VARCHAR NOT_NULL,tutorial_author VARCHAR NOT_NULL,submission_date VARCHAR,PRIMARY_KEY (tutorial_id),CONSTRAINT fk_customer FOREIGN_KEY (Customer_Id) REFERENCES table_c(column1))	|	02/08/2021 21:58:09
+UPDATE user_data SET user_name=newalex, user_contact=new5566223311 WHERE user_name=alex AND user_contact=5566223311	|	02/08/2021 22:04:56
+DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:13:44
+DELETE FROM table_a WHERE column1=alex.mark@gmail.com and column2=alex and column3=5566223311	|	02/08/2021 22:16:16
