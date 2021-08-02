@@ -51,7 +51,6 @@ public class Select {
         String tableName;
         List<String> columnsName;
         Map<String, String> searchTerms = new HashMap<>();
-        System.out.println("Setting tokens...");
         boolean valid = validationTokens.containsKey("columns")
                 && validationTokens.containsKey("isValid")
                 && validationTokens.containsKey("where")
@@ -69,7 +68,7 @@ public class Select {
                     searchTerms.put(k, v);
                 }
             }
-            System.out.println("SELECT " + columnsName.toString().replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
+            System.out.print("QUERY: ");
             System.out.println("SELECT " + columnsName.toString().replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
             // TODO: Open table file
             List<String> rows = new ArrayList<>();
@@ -127,7 +126,8 @@ public class Select {
             }
 
             // Print results
-            System.out.println("Results: ");
+            System.out.println();
+            System.out.println("RESULTS: ");
             for (int j = 0; j < rowSize; j++) {
                 String item = tableMatrix[0][j];
                 // Print only selected columns
@@ -145,6 +145,7 @@ public class Select {
                 }
                 System.out.println();
             }
+            System.out.println();
 
             // Print matrix
 //        for (int i = 0; i < colSize; i++) {
