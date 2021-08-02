@@ -12,3 +12,4 @@ table_j	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NUL
 table_k	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column3)	|	FK(column2,table2,table_f)
 table_l	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	column4 INT NOT_NULL	|	PK(column1)	|	FK(column1,table2,table_f)
 table_m	||	column1 INT NOT_NULL	|	column2 VARCHAR NOT_NULL	|	column3 INT NOT_NULL	|	PK(column2)	|	FK(column3,table2,table_a)
+tutorials_tbl2 ||	tutorialid INT NOT_NULL	|	tutorialtitle VARCHAR NOT_NULL	|	tutorialauthor VARCHAR NOT_NULL	|	submissiondate VARCHAR	|	PK(tutorialid)	|
