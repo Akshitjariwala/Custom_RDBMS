@@ -2,10 +2,7 @@ package queryValidator;
 
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
-import queryProcessor.Create;
-import queryProcessor.CreateDB;
-import queryProcessor.Delete;
-import queryProcessor.Select;
+import queryProcessor.*;
 import sqlDump.SqlDump;
 
 import java.io.*;
@@ -210,6 +207,8 @@ public class QueryValidator {
                                     validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        Insert insert = new Insert();
+                                        insert.insertData(validationTokens);
                                     }
                                     break;
                     case "DELETE" : validationTokens = validateDelete(queryTokens,sqlString);
