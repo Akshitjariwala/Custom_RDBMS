@@ -11,10 +11,8 @@ public class ERDGenerator {
     public String currentDirectory = System.getProperty("user.dir");
     DataDictionary dictionary = new DataDictionary();
     Map<String, List<String>> dictionaryMap = new HashMap<>();
-    Scanner userChoice = new Scanner( System.in );
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
-    public static String database;
     
     public Boolean createERD(String database) throws IOException {
         String dateStr;
@@ -82,7 +80,7 @@ public class ERDGenerator {
                             }
                     
                             String fkTable = getReferenceTable(foreignKeyString);
-                            String fkColumn = getreferenceColumn(foreignKeyString);
+                            String fkColumn = getReferenceColumn(foreignKeyString);
                     
                             if (primaryFlag == true && foreignKeyFlag == true){
                                 writer.write(String.format("%20s %15s |%15s |%30s |%15s |%15s |%15s |%15s%n","" ,metaData[0], metaData[1], constraintArray, "PRIMARY KEY", "FOREIGN KEY",fkTable,fkColumn));
@@ -155,7 +153,7 @@ public class ERDGenerator {
                             }
                     
                             String fkTable = getReferenceTable(foreignKeyString);
-                            String fkColumn = getreferenceColumn(foreignKeyString);
+                            String fkColumn = getReferenceColumn(foreignKeyString);
                     
                             if(foreignKeyColumnSameTable.equals(metaData[0])){
                                 foreignKeyFlag = true;
@@ -202,7 +200,7 @@ public class ERDGenerator {
             writer.close();
             return true;
         } else {
-            System.out.println("File Creattion Failed.");
+            System.out.println("File Creation Failed.");
             return false;
         }
     
@@ -272,7 +270,7 @@ public class ERDGenerator {
         return refTable;
     }
     
-    public String getreferenceColumn(String foreignKeyString){
+    public String getReferenceColumn(String foreignKeyString){
         String refColumn = null;
         String columns = foreignKeyString.substring(foreignKeyString.indexOf("(")+1,foreignKeyString.length()-1);
         String[] columnList = columns.split("\\s*,\\s*");

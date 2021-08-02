@@ -4,6 +4,8 @@ import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.CreateDB;
 import queryProcessor.Select;
+import sqlDump.SqlDump;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,6 +24,8 @@ public class QueryValidator {
     public static ArrayList<String> columnList = new ArrayList<>();
     public static DataDictionary dataDictionary = new DataDictionary();
     public static ERDGenerator erdGenerator = new ERDGenerator();
+    public static SqlDump sqlDump = new SqlDump();
+    
     
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
@@ -52,7 +56,8 @@ public class QueryValidator {
             System.out.println("1. Create Database.");
             System.out.println("2. Use Database.");
             System.out.println("3. Create ERD.");
-            System.out.println("\n Select 1 to Create Database and 2 to Use Database.\n");
+            System.out.println("4. Create SQL Dump.");
+            System.out.println("\n Select 1 to Create Database and 4 to Use Database.\n");
             do {
                 System.out.print("Enter Selection : ");
                 int choice = userChoice.nextInt();
@@ -140,6 +145,8 @@ public class QueryValidator {
                             }while(repeat);
                             break;
                         case 3 : createERD(); break;
+    
+                        case 4 : //Add sql dump object method; break;
                         }
                 } else {
                     validInput = false;
@@ -167,11 +174,11 @@ public class QueryValidator {
         } else {
             System.out.println("ERROR: Invalid CREATE Statement.");
         }
-
+        
         if(isValid) {
             System.out.println("SUCCESS: Entered CREATE Query Is Valid.");
         }
-
+        
         return isValid;
     }
 
@@ -230,6 +237,7 @@ public class QueryValidator {
                     case "CREATE" : validationTokens = validateCreate(queryTokens,sqlString);
                                     validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
+                                        sqlDump.storeCreateQuery(databaseName,sqlString,validationTokens.get("tableName").toString());
                                         generateQueryLog(sqlString);
                                     }
                                     // Here will be your class object. For example. Create  create = new Create()
