@@ -70,6 +70,7 @@ public class SqlDump {
                     fileWriter.write(System.getProperty( "line.separator" ));
                     for(int j=0;j<tempList.size();j++){
                         fileWriter.write(tempList.get(j));
+                        fileWriter.write('\n');
                     }
                     tempList.clear();
                 }
@@ -101,13 +102,13 @@ public class SqlDump {
             try {
                 BufferedReader queryReader = new BufferedReader(new FileReader(createQueryFileName));
                 while((record = queryReader.readLine()) != null) {
-                    String[] entry = record.split("\t\\|\t");
-                    queryMap.put(entry[0],entry[1]);
+                    String[] entry = record.split("\\|");
+                    queryMap.put(entry[0].trim(),entry[1].trim());
                 }
                 
                 for(Map.Entry<String,String> entry : queryMap.entrySet()){
                     if(entry.getKey().equals(tableName)) {
-                        queryTOReturn = entry.getValue();
+                        queryTOReturn = entry.getValue()+";";
                         tableSQLDump.add(queryTOReturn);
                     }
                 }
@@ -137,12 +138,14 @@ public class SqlDump {
         try {
         if(queryFile.exists()){
             BufferedReader queryReader = new BufferedReader(new FileReader(insertQueryTablePath));
+            int flag = 0; // To remove columns from insert query
             while((insertQuery = queryReader.readLine()) != null){
-                if(!(insertQuery.matches("TABLE\t|\tQUERY"))){
-                    insertQuery = insertQuery.replaceAll("\\s+||\\s+",",");
-                    insertQuery = "INSERT INTO "+tableName+" VALUES ("+insertQuery+" )";
+                if(flag>0){
+                    insertQuery = insertQuery.replaceAll("\\s*\\|\\|\\s*","','");
+                    insertQuery = "INSERT INTO "+tableName+" VALUES ('"+insertQuery+"');";
                     insertQueryList.add(insertQuery);
                 }
+                flag++;
             }
         } else {
             System.out.println("ERROR: Table Does Not Exists.");
