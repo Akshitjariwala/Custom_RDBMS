@@ -1,6 +1,7 @@
 package queryProcessor;
 
 import Transaction.TransactionHandler;
+import Transaction.TransactionLog;
 import Transaction.TransactionQueue;
 import java.io.*;
 import java.util.*;
@@ -10,7 +11,8 @@ public class Update {
     private static final String workingDir = System.getProperty("user.dir");
 
     public static TransactionHandler transactionHandler;
-    public static TransactionQueue transactionQueue = new TransactionQueue();
+    public static TransactionQueue transactionQueue;
+    public static TransactionLog transactionLog = new TransactionLog();
     
     public static void main(String[] args) throws IOException {
         String sqlQuery = "update employees set department_ID = 1200 where employee_Id = 1000 AND username = akshitjariwala";
@@ -19,12 +21,13 @@ public class Update {
         String[] queryTokens = sqlQuery.split(" ");
         String dataName = "database1";
         String tableName = "user_data.txt";
-        performUpdate(dataName,tableName ,sqlQuery,queryTokens);
+        //performUpdate(dataName,tableName ,sqlQuery,queryTokens);
     }
     
-    public static void performUpdate(String databaseName, String tableName,String sqlQuery,String[] queryTokens) throws IOException {
-        
-        transactionHandler = new TransactionHandler();
+    public static void performUpdate(String databaseName,String tableName,String sqlQuery,String[] queryTokens) throws IOException {
+    
+        transactionQueue = new TransactionQueue(databaseName);
+        transactionHandler = new TransactionHandler(databaseName);
         String tablePath = databaseName+"/"+tableName;
         List<String> queueList;
         
@@ -97,12 +100,14 @@ public class Update {
         final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') +  " WHERE " + whereTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
         System.out.println("QUERY: " + rebuiltQuery);
         final String tablePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
-
-        transactionHandler = new TransactionHandler();
+        final String tablePathForLock = databaseName + "/" + tableName + ".txt";
+    
+        transactionQueue = new TransactionQueue(databaseName);
+        transactionHandler = new TransactionHandler(databaseName);
         List<String> queueList;
 
         try {
-            if (transactionHandler.checkLock(tablePath)) {
+            if (transactionHandler.checkLock(tablePathForLock)) {
                 transactionQueue.AddToQueue(rebuiltQuery);
                 System.out.println("Your Query : "+ rebuiltQuery);
                 System.out.println("Waiting for other transactions to complete. Your query will be executed.");
@@ -113,7 +118,7 @@ public class Update {
                 queueList = transactionQueue.fetchFromQueue();
                 while(q < queueList.size()){
                     try {
-                        transactionHandler.lockTable(tablePath);
+                        transactionHandler.lockTable(tablePathForLock);
                         /********Table is locked*********/
                         System.out.println("Updating data into database.");
                         /* Add update query logic here */
@@ -155,7 +160,9 @@ public class Update {
 //                            }
 //                            System.out.print("\n");
 //                        }
-
+                        List<String> oldValues = new ArrayList<>();
+                        List<String> columnList = new ArrayList<>();
+                        
                         // Match where columns to index number
                         Map<String, Integer> indexOfSearchColumns = new HashMap<>();
                         for (String s : whereTerms.keySet()) {
@@ -163,10 +170,12 @@ public class Update {
                                 if (tableMatrix[0][j].equals(s)) {
                                     indexOfSearchColumns.put(whereTerms.get(s), j);
                                     System.out.println("Search for \"" + whereTerms.get(s) + "\" at index " + j);
+                                    columnList.add(s);
+                                    oldValues.add(whereTerms.get(s));
                                 }
                             }
                         }
-
+                        
                         Set<String> matchedValues = new HashSet<>();
                         Set<Integer> rowsToUpdate = new HashSet<>();
                         for (int i = 0; i < colSize; i++) {
@@ -182,7 +191,9 @@ public class Update {
                             }
                             // System.out.print("\n");
                         }
-
+    
+                        List<String> newValues = new ArrayList<>();
+                        
                         if (matchedValues.size() == whereTerms.size()) {
                             for (Integer i : rowsToUpdate) {
                                 for (int j = 0; j < rowSize; j++) {
@@ -191,13 +202,16 @@ public class Update {
                                         if (columnsIndex.get(s) == j) {
                                             System.out.println("Set " + item + " to " + setTerms.get(s) + " at [" + i + "," + j + "]");
                                             tableMatrix[i][j] = setTerms.get(s);
+                                            newValues.add(setTerms.get(s));
                                         }
                                     }
                                 }
                             }
                         }
-
-                        System.out.println();
+    
+                        transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
+                        
+                        //send oldValues , newValues, columns, databaseName, tableName
 
                         // Write to file
                         try (FileWriter fw = new FileWriter(tablePath, false);
@@ -222,11 +236,11 @@ public class Update {
                         }
                         /********Removing Query from queue*******************/
                         transactionQueue.removeFromQueue(queueList.get(q));
-                        Thread.sleep(50000);
+                        Thread.sleep(70000);
                     } catch (InterruptedException e) {
                         System.out.println(e);
                     } finally {
-                        transactionHandler.unlockTable(tablePath, tableName);
+                        transactionHandler.unlockTable(tablePathForLock, tableName);
                         System.out.println("Time Now: " + new Date());
                         /********Table is unlocked*********/
                     }

@@ -14,10 +14,6 @@ public class SqlDump {
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
     
-    public static void main(String[] args){
-        getSQLDump("database1");
-    }
-    
     public void storeCreateQuery(String databaseName,String createQuery,String tableName) {
         
         String createQueryFileName = fileName;
