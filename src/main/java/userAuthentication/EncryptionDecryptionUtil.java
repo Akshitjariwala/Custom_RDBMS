@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 
-// Adapted from https://stackoverflow.com/questions/10494764/input-length-must-be-multiple-of-16-when-decrypting-with-padded-cipher
 public class EncryptionDecryptionUtil {
 
     public static String encrypt(final String secret, final String data) {
