@@ -15,11 +15,12 @@ class LoggerTest {
     void log() {
         Logger.createLog("loggerTestDB");
         Logger.log("Hello World");
+        Logger.log("This is an event");
+        Logger.log("Something happened");
     }
 
     @Test
     void printLog() {
-        Logger logger = new Logger();
         Logger.createLog("loggerTestDB");
         Logger.printLog();
     }
