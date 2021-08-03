@@ -46,31 +46,31 @@ public class insertValidation {
                             isValid = true;
                         } else {
                             isValid = false;
-                            System.out.println("ERROR: Error in SQL syntax. Columns does not match with Table "+tableName);
+                            System.out.println("ERROR: Error in SQL syntax. Columns Does Not Match With Table "+tableName);
                             break;
                         }
                     } else {
                         isValid = false;
-                        System.out.println("ERROR: Error in SQL syntax. Columns in query does not match.");
+                        System.out.println("ERROR: Error in SQL syntax. Invalid Column Name Or Value.");
                         break;
                     }
                 }
             } else {
-                System.out.println("ERROR: Error in SQL syntax. Columns in query does not match.");
+                System.out.println("ERROR: Error In SQL Syntax. Columns In Query Does Not Match.");
             }
         }
         else {
-            System.out.println("ERROR: Invalid query");
+            System.out.println("ERROR: Invalid INSERT Query Syntax.");
         }
         
         if(isValid){
             tokens.put("isValid",true);
-            System.out.println("SUCCESS: Entered INSERT query is valid.");
+            System.out.println("SUCCESS: Entered INSERT Query Is Valid.");
         } else {
             tokens.put("isValid",false);
         }
         
-        System.out.println(tokens);
+        //System.out.println(tokens);
         return tokens;
     }
     

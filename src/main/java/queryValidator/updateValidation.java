@@ -39,20 +39,20 @@ public class updateValidation {
                                 } else {
                                     isValid = false;
                                     setClause = false;
-                                    System.out.println("ERROR: Invalid Table or Column Names.");
+                                    System.out.println("ERROR: Invalid Table Or Column Names.");
                                     break;
                                 }
                             }
                         } else {
                             isValid = false;
                             setClause = false;
-                            System.out.println("ERROR: Incorrect syntax in Where clause.");
+                            System.out.println("ERROR: Incorrect Syntax In Where clause.");
                             break;
                         }
                     } else {
                         isValid = false;
                         setClause = false;
-                        System.out.println("ERROR: Incorrect syntax in Where clause.");
+                        System.out.println("ERROR: Incorrect Syntax In Where Clause.");
                         break;
                     }
                 }
@@ -70,7 +70,7 @@ public class updateValidation {
                 }
             }
         } else {
-            System.out.println("ERROR: Incorrect SQL syntax. Please enter Valid query.");
+            System.out.println("ERROR: Incorrect SQL Syntax. Please Enter Valid Query.");
         }
         
         
@@ -97,28 +97,28 @@ public class updateValidation {
                     } else {
                         setClause = false;
                         isValid = false;
-                        System.out.println("ERROR: Incorrect syntax in Set clause.");
+                        System.out.println("ERROR: Incorrect Syntax In Set Clause.");
                         break;
                     }
                 } else {
                     isValid = false;
                     setClause = false;
-                    System.out.println("ERROR: Incorrect syntax in Set clause.");
+                    System.out.println("ERROR: Incorrect Syntax In Set Clause.");
                     break;
                 }
             }
         } else {
-            System.out.println("ERROR: Incorrect SQL syntax. PLease enter query again.");
+            System.out.println("ERROR: Incorrect SQL Syntax. PLease Enter Query Again.");
         }
         // Check WHERE clause
         if(isValid){
             tokens.put("isValid",true);
-            System.out.println("SUCCESS: Entered UPDATE query is valid.");
+            System.out.println("SUCCESS: Entered UPDATE Query Is Valid.");
         } else {
             tokens.put("isValid",false);
         }
         
-        System.out.println(tokens);
+        //System.out.println(tokens);
         return tokens;
     }
 }

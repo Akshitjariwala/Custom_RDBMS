@@ -4,7 +4,6 @@ import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.*;
 import sqlDump.SqlDump;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,8 +26,7 @@ public class QueryValidator {
     public static dropValidation validationDrop;
     public static createValidation validationCreate;
     public static tableValidationMethods tableValidation = new tableValidationMethods();
-
-
+    
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
@@ -182,19 +180,16 @@ public class QueryValidator {
                     case "SELECT" : validationSelect = new selectValidation();
                                     validationTokens = validationSelect.validateSelect(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
                                         Select.execute(validationTokens);
                                         queryIsValid = true;
                                     }
-                                    // take validationTokens from here to get tokens.
                                     break;
                     case "INSERT" : validationInsert = new insertValidation();
                                     validationTokens = validationInsert.validateInsert(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Insert insert = new Insert();
@@ -204,7 +199,6 @@ public class QueryValidator {
                                     break;
                     case "DELETE" : validationDelete = new deleteValidation();
                                     validationTokens = validationDelete.validateDelete(queryTokens,sqlString,databaseName);
-                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Delete.execute(validationTokens);
@@ -214,7 +208,6 @@ public class QueryValidator {
                     case "UPDATE" : validationUpdate = new updateValidation();
                                     validationTokens = validationUpdate.validateUpdate(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Update.execute(validationTokens);
@@ -232,7 +225,6 @@ public class QueryValidator {
                     case "DROP"   : validationDrop = new dropValidation();
                                     validationTokens = validationDrop.validateDrop(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         queryIsValid = true;
@@ -241,7 +233,6 @@ public class QueryValidator {
                     case "CREATE" : validationCreate = new createValidation();
                                     validationTokens = validationCreate.validateCreate(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         sqlDump.storeCreateQuery(databaseName,sqlString,validationTokens.get("tableName").toString());
                                         generateQueryLog(sqlString);
@@ -260,7 +251,6 @@ public class QueryValidator {
     }
 
     public static void generateQueryLog(String query) throws IOException {
-        //formatter.format(date)
         String fileName = "QueryLogs.txt";
         boolean fileExists = false;
         File queryLogFile = new File(currentDirectory+"/appdata/database/"+databaseName+"/"+fileName);
@@ -306,7 +296,7 @@ public class QueryValidator {
                     System.out.println("ERROR: Table does not exists in the database.");
                 }
             } else {
-                System.out.println("ERROR: Invalid Query Syntx. Please Enter Query Again.");
+                System.out.println("ERROR: Invalid Query Syntax. Please Enter Query Again.");
             }
         } while(flag == false);
     }

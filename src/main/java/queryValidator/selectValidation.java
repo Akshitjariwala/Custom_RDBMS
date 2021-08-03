@@ -22,7 +22,6 @@ public class selectValidation {
         Map<String,Object> tokens = new HashMap<>();
         List<Object> tokenList = new ArrayList<>();
         
-        // Validate the must clause.
         for (int i=0;i<queryTokens.length;i++){
             if(queryTokens[i].toUpperCase().equals(mustClause)) {
                 if(i != 1){
@@ -32,13 +31,12 @@ public class selectValidation {
             }
         }
         
-        // Check for table name syntax. Check if Table exists in the database. Check if columns exists in the database.
         if(mustClauseFlag) {
             if(index < queryTokens.length-1) {
                 if(!(optionalClause.equals(queryTokens[index+1].toUpperCase()))) {
                     tableName = queryTokens[index+1];
                     tokens.put("tableName",tableName);
-                    if(tableValidationMethods.checkTable(tableName,databaseName)) {   // Perform semantic analysis on Table Name. Check if table exists in the system.
+                    if(tableValidationMethods.checkTable(tableName,databaseName)) {
                         if(queryTokens[1].equals("*")){
                             tableColumnFlag = true;
                         } else {
@@ -129,7 +127,7 @@ public class selectValidation {
             System.out.println("");
         }
         
-        System.out.println(tokens);
+        //System.out.println(tokens);
         return tokens;
     }
 }
