@@ -43,6 +43,9 @@ public class Delete {
         } catch (IOException e) {
             System.out.println("Invalid table");
         }
+
+        final String path = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
+        QueryProcessor.loadTableToArray(path);
         // Get number of columns
         int colSize = rows.get(0).split("\\|\\|").length;
         int rowSize = rows.size();

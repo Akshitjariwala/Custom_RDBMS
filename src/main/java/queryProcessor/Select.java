@@ -65,20 +65,9 @@ public class Select {
         String[][] tableMatrix = null;
         int rowSize = 0;
         int colSize = 0;
-        boolean loadedTable = false;
-        try {
-            tableMatrix = loadTableToArray(filePath);
-            rowSize = tableMatrix.length;
-            colSize = tableMatrix[0].length;
-            loadedTable = true;
-        } catch (FileNotFoundException e) {
-            System.out.println("Failed to load table");
-        }
-
-        if (!loadedTable) {
-            System.out.println("Failed to load table");
-            return;
-        }
+        tableMatrix = QueryProcessor.loadTableToArray(filePath);
+        rowSize = tableMatrix.length;
+        colSize = tableMatrix[0].length;
 
         // Create a column index
         Map<String, Integer> columnsIndex = new HashMap<>();
