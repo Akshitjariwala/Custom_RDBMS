@@ -186,7 +186,8 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
-                                        Select.setTokens(validationTokens);
+                                        Select.execute(validationTokens);
+
                                     }
                                     // take validationTokens from here to get tokens.
                                     break;
@@ -231,8 +232,8 @@ public class QueryValidator {
                                     // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
-                                        Drop drop = new Drop();
-                                        drop.dropTable(validationTokens);
+                                        Drop dp = new Drop();
+                                        dp.dropTable(validationTokens);
                                     }
                                     break;
                     case "CREATE" : validationCreate = new createValidation();

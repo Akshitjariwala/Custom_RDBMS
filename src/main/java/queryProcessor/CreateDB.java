@@ -10,6 +10,7 @@ public class CreateDB {
         // Create a folder
         boolean databaseDir = new File(workingDir + "/appdata/database/" + databaseName).mkdirs();
         // log action
+        Logger.createLog(databaseName);
         Logger.log("Created database: " + databaseName);
         return databaseDir;
     }
