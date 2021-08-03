@@ -3,6 +3,7 @@ package queryProcessor;
 import Transaction.TransactionHandler;
 import Transaction.TransactionLog;
 import Transaction.TransactionQueue;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,34 +14,34 @@ public class Update {
     public static TransactionHandler transactionHandler;
     public static TransactionQueue transactionQueue;
     public static TransactionLog transactionLog = new TransactionLog();
-    
+
     public static void main(String[] args) throws IOException {
         String sqlQuery = "update employees set department_ID = 1200 where employee_Id = 1000 AND username = akshitjariwala";
         //String sqlQuery = "update employees set department_ID = 900 where employee_Id = 1000 AND username = jariwala";
-        sqlQuery = sqlQuery.trim().replaceAll("\\s{2,}"," ");
+        sqlQuery = sqlQuery.trim().replaceAll("\\s{2,}", " ");
         String[] queryTokens = sqlQuery.split(" ");
         String dataName = "database1";
         String tableName = "user_data.txt";
         //performUpdate(dataName,tableName ,sqlQuery,queryTokens);
     }
-    
-    public static void performUpdate(String databaseName,String tableName,String sqlQuery,String[] queryTokens) throws IOException {
-    
+
+    public static void performUpdate(String databaseName, String tableName, String sqlQuery, String[] queryTokens) throws IOException {
+
         transactionQueue = new TransactionQueue(databaseName);
         transactionHandler = new TransactionHandler(databaseName);
-        String tablePath = databaseName+"/"+tableName;
+        String tablePath = databaseName + "/" + tableName;
         List<String> queueList;
-        
-        if(transactionHandler.checkLock(tablePath)) {
+
+        if (transactionHandler.checkLock(tablePath)) {
             transactionQueue.AddToQueue(sqlQuery);
-            System.out.println("Your Query : "+sqlQuery);
+            System.out.println("Your Query : " + sqlQuery);
             System.out.println("Waiting for other transactions to complete. Your query will be executed.");
         } else {
             System.out.println("Table is not locked.");
             transactionQueue.AddToQueue(sqlQuery);
-            int q=0;
+            int q = 0;
             queueList = transactionQueue.fetchFromQueue();
-            while(q < queueList.size()){
+            while (q < queueList.size()) {
                 try {
                     transactionHandler.lockTable(tablePath);
                     /********Table is locked*********/
@@ -96,91 +97,133 @@ public class Update {
                 setTerms.put(k.trim(), v.trim());
             }
         }
-
-        final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') +  " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
-        System.out.println("QUERY: " + rebuiltQuery);
+        final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
         final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
 
-        final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
-        final String[][] updatedTableMatrix = QueryProcessor.loadTableToArray(filePath);
+        transactionQueue = new TransactionQueue(databaseName);
+        transactionHandler = new TransactionHandler(databaseName);
+        List<String> queueList;
 
-        final int rowSize = tableMatrix[0].length;
-        final int colSize = tableMatrix[0].length;
+        try {
+            if (transactionHandler.checkLock(filePath)) {
+                transactionQueue.AddToQueue(rebuiltQuery);
+                System.out.println("Your Query : " + rebuiltQuery);
+                System.out.println("Waiting for other transactions to complete. Your query will be executed.");
+            } else {
+                System.out.println("Table is not locked.");
+                transactionQueue.AddToQueue(rebuiltQuery);
+                int q = 0;
+                queueList = transactionQueue.fetchFromQueue();
+                while (q < queueList.size()) {
+                    try {
+                        transactionHandler.lockTable(filePath);
+                        /********Table is locked*********/
+                        System.out.println("Updating data into database.");
+                        /* Add update query logic here */
 
-        // Create a column index
-        Map<String, Integer> columnsIndex = new HashMap<>();
-        List<Integer> selectedColumns = new LinkedList<>();
-        for (int j = 0; j < colSize; j++) {
-            String item = tableMatrix[0][j];
-            columnsIndex.put(item, j);
-            if (setTerms.containsKey(item)) {
-                selectedColumns.add(j);
-            }
-        }
+                        System.out.println("QUERY: " + rebuiltQuery);
 
-        // Find rows that match the where clause
-        TreeSet<Integer> matchedRows = new TreeSet<>();
-        int numberOfConditions = whereConditions.size();
-        for (int row = 1; row < rowSize; row++) {
-            int conditionCounter = 0;
-            for (String key : whereConditions.keySet()) {
-                int col = columnsIndex.get(key);
-                String value = tableMatrix[row][col];
-                String whereValue = whereConditions.get(key);
-                if (value.equals(whereValue)) {
-                    conditionCounter++;
-                    if (conditionCounter == numberOfConditions) {
-                        matchedRows.add(row);
-                        conditionCounter = 0;
-                    }
-                }
-            }
-        }
+                        final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
+                        final String[][] updatedTableMatrix = QueryProcessor.loadTableToArray(filePath);
 
-        // Update table
-        for (Integer row : matchedRows) {
-            for (Integer col : selectedColumns) {
-                String colName = tableMatrix[0][col];
-                updatedTableMatrix[row][col] = setTerms.get(colName);
+                        final int rowSize = tableMatrix[0].length;
+                        final int colSize = tableMatrix[0].length;
+
+                        // Create a column index
+                        Map<String, Integer> columnsIndex = new HashMap<>();
+                        List<Integer> selectedColumns = new LinkedList<>();
+                        for (int j = 0; j < colSize; j++) {
+                            String item = tableMatrix[0][j];
+                            columnsIndex.put(item, j);
+                            if (setTerms.containsKey(item)) {
+                                selectedColumns.add(j);
+                            }
+                        }
+
+                        // Find rows that match the where clause
+                        TreeSet<Integer> matchedRows = new TreeSet<>();
+                        int numberOfConditions = whereConditions.size();
+                        for (int row = 1; row < rowSize; row++) {
+                            int conditionCounter = 0;
+                            for (String key : whereConditions.keySet()) {
+                                int col = columnsIndex.get(key);
+                                String value = tableMatrix[row][col];
+                                String whereValue = whereConditions.get(key);
+                                if (value.equals(whereValue)) {
+                                    conditionCounter++;
+                                    if (conditionCounter == numberOfConditions) {
+                                        matchedRows.add(row);
+                                        conditionCounter = 0;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Update table
+                        for (Integer row : matchedRows) {
+                            for (Integer col : selectedColumns) {
+                                String colName = tableMatrix[0][col];
+                                updatedTableMatrix[row][col] = setTerms.get(colName);
 //                String item = updatedTableMatrix[row][col];
 //                System.out.format("%-24s", item);
-            }
-            System.out.println();
-        }
+                            }
+                            System.out.println();
+                        }
 
-        // Print results
-        System.out.println();
-        System.out.println("\t\t\t\t\t\t\tORIGINAL TABLE\t\t\t\t\t");
-        System.out.println("----------------------------------------------------------------------------");
-        // Print selected rows
-        for (int row = 0; row < rowSize; row++) {
-            for (int col = 0; col < colSize; col++) {
-                String item = tableMatrix[row][col];
-                System.out.format("%-24s", item);
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println("\t\t\t\t\t\t\tUPDATED TABLE\t\t\t\t\t");
-        System.out.println("----------------------------------------------------------------------------");
+                        // Print results
+                        System.out.println();
+                        System.out.println("\t\t\t\t\t\t\tORIGINAL TABLE\t\t\t\t\t");
+                        System.out.println("----------------------------------------------------------------------------");
+                        // Print selected rows
+                        for (int row = 0; row < rowSize; row++) {
+                            for (int col = 0; col < colSize; col++) {
+                                String item = tableMatrix[row][col];
+                                System.out.format("%-24s", item);
+                            }
+                            System.out.println();
+                        }
+                        System.out.println();
+                        System.out.println("\t\t\t\t\t\t\tUPDATED TABLE\t\t\t\t\t");
+                        System.out.println("----------------------------------------------------------------------------");
 
-        for (int row = 0; row < rowSize; row++) {
-            for (int col = 0; col < colSize; col++) {
-                String item = updatedTableMatrix[row][col];
-                System.out.format("%-24s", item);
-            }
-            System.out.println();
-        }
+                        for (int row = 0; row < rowSize; row++) {
+                            for (int col = 0; col < colSize; col++) {
+                                String item = updatedTableMatrix[row][col];
+                                System.out.format("%-24s", item);
+                            }
+                            System.out.println();
+                        }
 
-        // Write to file
-        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
-             BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
-            for (int row = 0; row < rowSize; row++) {
-                for (int col = 0; col < colSize; col++) {
-                    out.print(updatedTableMatrix[row][col] + "\t||\t");
+                        // Write to file
+                        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
+                             BufferedWriter bw = new BufferedWriter(fw);
+                             PrintWriter out = new PrintWriter(bw)) {
+                            for (int row = 0; row < rowSize; row++) {
+                                for (int col = 0; col < colSize; col++) {
+                                    out.print(updatedTableMatrix[row][col] + "\t||\t");
+                                }
+                                out.println();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        // transactionLog.createTransactionLog(databaseName, tableName, columnList, oldValues, newValues);
+
+                        //send oldValues , newValues, columns, databaseName, tableName
+                        /********Removing Query from queue*******************/
+                        transactionQueue.removeFromQueue(queueList.get(q));
+                        Thread.sleep(70000);
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    } finally {
+                        transactionHandler.unlockTable(filePath, tableName);
+                        System.out.println("Time Now: " + new Date());
+                        /********Table is unlocked*********/
+                    }
+                    System.out.println("Queue is empty now.\n");
+                    queueList = transactionQueue.fetchFromQueue();
                 }
-                out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -221,11 +264,11 @@ public class Update {
             }
         }
 
-        final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') +  " WHERE " + whereTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
+        final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') + " WHERE " + whereTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
         System.out.println("QUERY: " + rebuiltQuery);
         final String tablePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
         final String tablePathForLock = databaseName + "/" + tableName + ".txt";
-    
+
         transactionQueue = new TransactionQueue(databaseName);
         transactionHandler = new TransactionHandler(databaseName);
         List<String> queueList;
@@ -233,14 +276,14 @@ public class Update {
         try {
             if (transactionHandler.checkLock(tablePathForLock)) {
                 transactionQueue.AddToQueue(rebuiltQuery);
-                System.out.println("Your Query : "+ rebuiltQuery);
+                System.out.println("Your Query : " + rebuiltQuery);
                 System.out.println("Waiting for other transactions to complete. Your query will be executed.");
             } else {
                 System.out.println("Table is not locked.");
                 transactionQueue.AddToQueue(rebuiltQuery);
                 int q = 0;
                 queueList = transactionQueue.fetchFromQueue();
-                while(q < queueList.size()){
+                while (q < queueList.size()) {
                     try {
                         transactionHandler.lockTable(tablePathForLock);
                         /********Table is locked*********/
@@ -280,7 +323,7 @@ public class Update {
 
                         List<String> oldValues = new ArrayList<>();
                         List<String> columnList = new ArrayList<>();
-                        
+
                         // Match where columns to index number
                         Map<String, Integer> indexOfSearchColumns = new HashMap<>();
                         for (String s : whereTerms.keySet()) {
@@ -293,7 +336,7 @@ public class Update {
                                 }
                             }
                         }
-                        
+
                         Set<String> matchedValues = new HashSet<>();
                         Set<Integer> rowsToUpdate = new HashSet<>();
                         for (int i = 0; i < rowSize; i++) {
@@ -309,7 +352,7 @@ public class Update {
                             }
                             // System.out.print("\n");
                         }
-    
+
                         List<String> newValues = new ArrayList<>();
                         boolean writeToFile = false;
                         System.out.println("Matched " + matchedValues.size() + " of " + whereTerms.size() + " values");
@@ -332,9 +375,9 @@ public class Update {
                         } else {
                             System.out.println("No update performed");
                         }
-    
-                        transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
-                       
+
+                        transactionLog.createTransactionLog(databaseName, tableName, columnList, oldValues, newValues);
+
                         //send oldValues , newValues, columns, databaseName, tableName
 
                         // Write to file
