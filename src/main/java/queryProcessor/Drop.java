@@ -10,6 +10,19 @@ import java.util.Map;
 
 public class Drop {
     public void dropTable(Map<String, Object> validationTokens) throws IOException {
+        for (Map.Entry<String, Object> tokens1: validationTokens.entrySet()) {
+            System.out.println("keys: "  + tokens1.getKey() + "\n" + "value: " + tokens1.getValue());
+        }
+        String tableName = validationTokens.get("tableToDrop").toString();
+        ddTableDrop(tableName);
+        String databasePath = "appdata/database/database1/";
+        String tableFile = tableName + ".txt";
+        File file  = new File(databasePath+ tableFile);
+        boolean result = Files.deleteIfExists(file.toPath());
+        if(result)
+            System.out.println("table: "+ tableName  +" dropped successfully");
+        else
+            System.out.println("could not drop table as it is locked by another process");
     }
 
     public void ddTableDrop(String tableName) throws IOException {
