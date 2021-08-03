@@ -53,7 +53,7 @@ public class Update {
                 } catch (InterruptedException e) {
                     System.out.println(e);
                 } finally {
-                    transactionHandler.unlockTable(tablePath, tableName);
+                    transactionHandler.unlockTable(tablePath);
                     System.out.println("Time Now: " + new Date());
                     /********Table is unlocked*********/
                 }
@@ -100,163 +100,153 @@ public class Update {
         final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') +  " WHERE " + whereTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
         System.out.println("QUERY: " + rebuiltQuery);
         final String tablePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
-        final String tablePathForLock = databaseName + "/" + tableName + ".txt";
+        final String tablePathForLock = databaseName + "/" + tableName;
     
         transactionQueue = new TransactionQueue(databaseName);
         transactionHandler = new TransactionHandler(databaseName);
         List<String> queueList;
 
-        try {
-            if (transactionHandler.checkLock(tablePathForLock)) {
-                transactionQueue.AddToQueue(rebuiltQuery);
-                System.out.println("Your Query : "+ rebuiltQuery);
-                System.out.println("Waiting for other transactions to complete. Your query will be executed.");
-            } else {
-                System.out.println("Table is not locked.");
-                transactionQueue.AddToQueue(rebuiltQuery);
-                int q = 0;
-                queueList = transactionQueue.fetchFromQueue();
-                while(q < queueList.size()){
-                    try {
-                        transactionHandler.lockTable(tablePathForLock);
-                        /********Table is locked*********/
-                        System.out.println("Updating data into database.");
-                        /* Add update query logic here */
-                        System.out.println("Executing Query : " + queueList.get(q));
-                        // UPDATE user_data SET user_name=newalex, user_contact=new5566223311 WHERE user_name=alex AND user_contact=5566223311
-                        // {setColumns=[user_name=newalex, user_contact=new5566223311], whereColumnList=[user_contact, 5566223311], setColumnList=[user_contact, new5566223311], databaseName=database1, isValid=true, whereList=[user_name=alex, user_contact=5566223311], tableName=user_data}
-                        List<String> rows = new ArrayList<>();
-                        try (BufferedReader br = new BufferedReader(new FileReader(tablePath))) {
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                                rows.add(line.trim());
-                            }
-                        } catch (IOException e) {
-                            System.out.println("Invalid table");
-                        }
-                        // Get number of columns
-                        int colSize = rows.get(0).split("\\|\\|").length;
-                        int rowSize = rows.size();
-                        // System.out.println("[" + rowSize + ", " + colSize + "]");
-                        // insert table into matrix
-                        String[][] tableMatrix = new String[rowSize][colSize];
-                        for (int i = 0; i < rowSize; i++) {
-                            String[] columnValues = rows.get(i).split("\\|\\|");
-                            for (int j = 0; j < colSize; j++) {
-                                tableMatrix[i][j] = columnValues[j].trim();
-                            }
-                        }
-
-                        // Create an index for the string
-                        Map<String, Integer> columnsIndex = new HashMap<>();
-                        for (int j = 0; j < colSize; j++) {
-                            String item = tableMatrix[0][j];
-                            columnsIndex.put(item, j);
-                        }
-
-                        List<String> oldValues = new ArrayList<>();
-                        List<String> columnList = new ArrayList<>();
-                        
-                        // Match where columns to index number
-                        Map<String, Integer> indexOfSearchColumns = new HashMap<>();
-                        for (String s : whereTerms.keySet()) {
-                            for (int j = 0; j < colSize; j++) {
-                                if (tableMatrix[0][j].equals(s)) {
-                                    indexOfSearchColumns.put(whereTerms.get(s), j);
-                                    System.out.println("Search for \"" + whereTerms.get(s) + "\" at index " + j);
-                                    //columnList.add(s);
-                                    //oldValues.add(whereTerms.get(s));
-                                }
-                            }
-                        }
-                        
-                        Set<String> matchedValues = new HashSet<>();
-                        Set<Integer> rowsToUpdate = new HashSet<>();
-                        for (int i = 0; i < rowSize; i++) {
-                            for (String s : indexOfSearchColumns.keySet()) {
-                                int j = indexOfSearchColumns.get(s);
-                                String item = tableMatrix[i][j];
-                                if (item.equals(s)) {
-                                    System.out.println("Found " + s + " at [" + i + "," + j + "]");
-                                    matchedValues.add(item);
-                                    rowsToUpdate.add(i);
-                                }
-                                // System.out.print(item + "\t");
-                            }
-                            // System.out.print("\n");
-                        }
-    
-                        List<String> newValues = new ArrayList<>();
-                        boolean writeToFile = false;
-                        System.out.println("Matched " + matchedValues.size() + " of " + whereTerms.size() + " values");
-                        if (matchedValues.size() == whereTerms.size()) {
-                            for (Integer i : rowsToUpdate) {
-                                for (int j = 0; j < colSize; j++) {
-                                    String item = tableMatrix[i][j];
-                                    for (String s : setTerms.keySet()) {
-                                        if (columnsIndex.get(s) == j) {
-                                            oldValues.add(item);
-                                            System.out.println("Set " + item + " to " + setTerms.get(s) + " at [" + i + "," + j + "]");
-                                            columnList.add(tableMatrix[0][j]);
-                                            tableMatrix[i][j] = setTerms.get(s);
-                                            newValues.add(setTerms.get(s));
-                                        }
-                                    }
-                                }
-                            }
-                            writeToFile = true;
-                        } else {
-                            System.out.println("No update performed");
-                        }
-    
-                        transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
-                       
-                        //send oldValues , newValues, columns, databaseName, tableName
-
-                        // Write to file
-                        if (writeToFile) {
-
-                        }
-                        try (FileWriter fw = new FileWriter(tablePath, false);
-                             BufferedWriter bw = new BufferedWriter(fw);
-                             PrintWriter out = new PrintWriter(bw)) {
-                            for (int i = 0; i < rowSize; i++) {
-                                for (int j = 0; j < colSize; j++) {
-                                    String item = tableMatrix[i][j];
-                                    if (j < colSize - 1) {
-                                        System.out.print(item + "\t||\t");
-                                        if (writeToFile) {
-                                            out.print(item + "\t||\t");
-                                        }
-                                    } else {
-                                        System.out.print(item);
-                                        if (writeToFile) {
-                                            out.print(item);
-                                        }
-                                    }
-                                }
-                                System.out.print("\n");
-                                out.print("\n");
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        /********Removing Query from queue*******************/
-                        transactionQueue.removeFromQueue(queueList.get(q));
-                        Thread.sleep(70000);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    } finally {
-                        transactionHandler.unlockTable(tablePathForLock, tableName);
-                        System.out.println("Time Now: " + new Date());
-                        /********Table is unlocked*********/
+        /*if (transactionHandler.checkLock(tablePathForLock)) {
+            transactionQueue.AddToQueue(rebuiltQuery);
+            System.out.println("Your Query : "+ rebuiltQuery);
+            System.out.println("Waiting for other transactions to complete. Your query will be executed.");
+        } else {*/
+        System.out.println("Table is not locked.");
+        //transactionQueue.AddToQueue(rebuiltQuery);
+        int q = 0;
+        //queueList = fetchFromQueue();
+       // while(q < queueList.size()){
+            try {
+                //transactionHandler.lockTable(tablePathForLock);
+                /********Table is locked*********/
+                
+                System.out.println("Updating data into database.");
+                
+                List<String> rows = new ArrayList<>();
+                try (BufferedReader br = new BufferedReader(new FileReader(tablePath))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        rows.add(line.trim());
                     }
-                    System.out.println("Queue is empty now.\n");
-                    queueList = transactionQueue.fetchFromQueue();
+                } catch (IOException e) {
+                    System.out.println("Invalid table");
                 }
+                
+                // Get number of columns
+                int colSize = rows.get(0).split("\\|\\|").length;
+                int rowSize = rows.size();
+                String[][] tableMatrix = new String[rowSize][colSize];
+                for (int i = 0; i < rowSize; i++) {
+                    String[] columnValues = rows.get(i).split("\\|\\|");
+                    for (int j = 0; j < colSize; j++) {
+                        tableMatrix[i][j] = columnValues[j].trim();
+                    }
+                }
+
+                // Create an index for the string
+                Map<String, Integer> columnsIndex = new HashMap<>();
+                for (int j = 0; j < colSize; j++) {
+                    String item = tableMatrix[0][j];
+                    columnsIndex.put(item, j);
+                }
+
+                List<String> oldValues = new ArrayList<>();
+                List<String> columnList = new ArrayList<>();
+                
+                // Match where columns to index number
+                Map<String, Integer> indexOfSearchColumns = new HashMap<>();
+                for (String s : whereTerms.keySet()) {
+                    for (int j = 0; j < colSize; j++) {
+                        if (tableMatrix[0][j].equals(s)) {
+                            indexOfSearchColumns.put(whereTerms.get(s), j);
+                            System.out.println("Search for \"" + whereTerms.get(s) + "\" at index " + j);
+                        }
+                    }
+                }
+                
+                Set<String> matchedValues = new HashSet<>();
+                Set<Integer> rowsToUpdate = new HashSet<>();
+                for (int i = 0; i < rowSize; i++) {
+                    for (String s : indexOfSearchColumns.keySet()) {
+                        int j = indexOfSearchColumns.get(s);
+                        String item = tableMatrix[i][j];
+                        if (item.equals(s)) {
+                            System.out.println("Found " + s + " at [" + i + "," + j + "]");
+                            matchedValues.add(item);
+                            rowsToUpdate.add(i);
+                        }
+                        // System.out.print(item + "\t");
+                    }
+                    // System.out.print("\n");
+                }
+
+                List<String> newValues = new ArrayList<>();
+                boolean writeToFile = false;
+                System.out.println("Matched " + matchedValues.size() + " of " + whereTerms.size() + " values");
+                if (matchedValues.size() == whereTerms.size()) {
+                    for (Integer i : rowsToUpdate) {
+                        for (int j = 0; j < colSize; j++) {
+                            String item = tableMatrix[i][j];
+                            for (String s : setTerms.keySet()) {
+                                if (columnsIndex.get(s) == j) {
+                                    oldValues.add(item);
+                                    System.out.println("Set " + item + " to " + setTerms.get(s) + " at [" + i + "," + j + "]");
+                                    columnList.add(tableMatrix[0][j]);
+                                    tableMatrix[i][j] = setTerms.get(s);
+                                    newValues.add(setTerms.get(s));
+                                }
+                            }
+                        }
+                    }
+                    writeToFile = true;
+                } else {
+                    System.out.println("No update performed");
+                }
+
+                transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
+               
+                //send oldValues , newValues, columns, databaseName, tableName
+
+                // Write to file
+                if (writeToFile) {
+
+                }
+                try (FileWriter fw = new FileWriter(tablePath, false);
+                     BufferedWriter bw = new BufferedWriter(fw);
+                     PrintWriter out = new PrintWriter(bw)) {
+                    for (int i = 0; i < rowSize; i++) {
+                        for (int j = 0; j < colSize; j++) {
+                            String item = tableMatrix[i][j];
+                            if (j < colSize - 1) {
+                                System.out.print(item + "\t||\t");
+                                if (writeToFile) {
+                                    out.print(item + "\t||\t");
+                                }
+                            } else {
+                                System.out.print(item);
+                                if (writeToFile) {
+                                    out.print(item);
+                                }
+                            }
+                        }
+                        System.out.print("\n");
+                        out.print("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                /********Removing Query from queue*******************/
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            } finally {
+                //transactionHandler.unlockTable(tablePathForLock);
+                System.out.println("Time Now: " + new Date());
+                /********Table is unlocked*********/
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Queue is empty now.\n");
+            //queueList = fetchFromQueue();
+        //}
+        /*  }*/
     }
 }

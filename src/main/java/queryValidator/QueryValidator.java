@@ -1,5 +1,6 @@
 package queryValidator;
 
+import Transaction.Transaction;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.*;
@@ -15,7 +16,7 @@ public class QueryValidator {
     public static String currentDirectory = System.getProperty("user.dir");
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
-    public static String databaseName;
+    public static String databaseName = "database1";
     public static ERDGenerator erdGenerator = new ERDGenerator();
     public static SqlDump sqlDump = new SqlDump();
     public static selectValidation validationSelect;
@@ -26,12 +27,14 @@ public class QueryValidator {
     public static dropValidation validationDrop;
     public static createValidation validationCreate;
     public static tableValidationMethods tableValidation = new tableValidationMethods();
+    public static Transaction transaction = new Transaction();
     
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        QueryValidator();
+        //QueryValidator();
+        transaction.startTransaction("database1");
     }
 
     public static void QueryValidator() throws IOException {
@@ -165,7 +168,7 @@ public class QueryValidator {
     }
 
     public static boolean validate(String sqlString) throws IOException {
-        String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE"};
+        String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE","START"};
         boolean queryIsValid = false;
         String queryToken = null;
         sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
@@ -244,6 +247,7 @@ public class QueryValidator {
                                         queryIsValid = true;
                                     }
                                     break;
+                   // case "START" :
                 }
             }
             else {

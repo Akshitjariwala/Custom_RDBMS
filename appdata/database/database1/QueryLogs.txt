@@ -154,3 +154,31 @@ update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND 
 update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:13:13
 update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:25:40
 select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 18:28:51
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 23:01:39
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	03/08/2021 23:04:08
+insert into table_c(id,Name,Company,code) values(4,"Bombardier","BBI","54UB")	|	03/08/2021 23:09:23
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 23:09:23
+insert into table_c(id,Name,Company,code) values(5,"Bombardier","BBI","54UB")	|	03/08/2021 23:13:48
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 23:13:48
+insert into table_c(id,Name,Company,code) values(5,"Bombardier","BBI","54UB")	|	03/08/2021 23:15:55
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 23:15:55
+insert into table_c(id,Name,Company,code) values(5,"Bombardier","BBI","54UB")	|	03/08/2021 23:19:21
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 23:19:21
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	03/08/2021 23:29:07
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 23:29:07
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:01:42
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:01:42
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:08:57
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:08:57
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:10:41
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:10:41
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:11:53
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:11:53
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:15:04
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:15:04
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:18:14
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:18:14
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 00:21:00
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:21:00
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:21:40
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:22:00
