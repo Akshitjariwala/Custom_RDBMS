@@ -15,7 +15,7 @@ class SelectTest {
 
     @Test
     void load() throws FileNotFoundException {
-        Select.loadTableToArray("appdata/database/database1/table_f.txt");
+        Select.loadTableToArray("appdata/database/database1/user_data1.txt");
     }
 
     @Test
@@ -31,5 +31,20 @@ class SelectTest {
         validationTokens.put("tableName", "user_data");
         validationTokens.put("databaseName", "database1");
         // Select.execute(validationTokens);
+    }
+
+    @Test
+    void selectTest() {
+        System.out.println("\n\n----------------------------------------------------------------------------");
+        System.out.println("\t\t\t\t\t\t\tSelect Query Test\t\t\t\t\t");
+        System.out.println("----------------------------------------------------------------------------");
+        // select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh
+        Map<String, Object> validationTokens = new HashMap<>();
+        validationTokens.put("columns", Arrays.asList("user_id", "user_name", "user_email"));
+        validationTokens.put("isValid", true);
+        validationTokens.put("where", Arrays.asList("user_id = 1", "user_name = Mukesh"));
+        validationTokens.put("tableName", "user_data");
+        validationTokens.put("databaseName", "database1");
+        Select.execute(validationTokens);
     }
 }
