@@ -158,3 +158,11 @@ CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_
 CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))	|	03/08/2021 19:36:35
 INSERT INTO student(id,name,address,contact) VALUES(2,Rishita,India,1234)	|	03/08/2021 19:36:35
 create table abc(id int)	|	03/08/2021 19:36:35
+insert into student(id,name,address,contact) values(3,abc,india,4567)	|	03/08/2021 19:36:35
+insert into student(id,name,address,contact) values(4,lucy,US,6789)	|	04/08/2021 01:44:12
+insert into student(id,name,address,contact) values(5,james,US,6780)	|	04/08/2021 01:47:18
+insert into student(id,name,address,contact) values(6,joyce,Mexico,6680)	|	04/08/2021 01:48:57
+insert into student(id,name,address,contact) values(7,roy,Mexico,9080)	|	04/08/2021 01:52:44
+insert into student(id,name,address,contact) values(8,tina,Brazil,1080)	|	04/08/2021 02:12:03
+insert into student(id,name,address,contact) values(8,sonia,Mexico,9090)	|	04/08/2021 02:13:50
+insert into student(id,name,address,contact) values(abc,bhd,hdus,1)	|	04/08/2021 02:13:50

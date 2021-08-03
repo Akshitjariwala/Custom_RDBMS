@@ -32,14 +32,14 @@ public class Drop {
         String databasePath = "appdata/database/database1/";
         String ddFile = "data_dictionary.txt";
         File file  = new File(databasePath + ddFile);
-        File temp = new File(file.getAbsolutePath() + ".tmp");
-        PrintWriter out = new PrintWriter(new FileWriter(temp));
+        File tempFile = new File(file.getAbsolutePath() + ".tmp");
+        PrintWriter printWriter = new PrintWriter(new FileWriter(tempFile));
         Files.lines(file.toPath())
-                .filter(line -> !line.contains(tableName))
-                .forEach(out::println);
-        out.flush();
-        out.close();
+                .filter(row -> !row.contains(tableName))
+                .forEach(printWriter::println);
+        printWriter.flush();
+        printWriter.close();
         file.delete();
-        temp.renameTo(file);
+        tempFile.renameTo(file);
     }
 }

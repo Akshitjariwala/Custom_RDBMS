@@ -20,7 +20,7 @@ public class Insert {
         List<String> columnList = getPrimaryColumn(tableName);
         String pKTempColumn = null;
         String tablePath = "appdata/database/database1/" + tableName + ".txt";
-        for(int i = 0; i < columnList.size(); i++){
+        for(int i = 0; i < columnList.size(); i++){//
             System.out.println("Column List: " + columnList.get(i));
             if( columnList.get(i).contains("PK")) {
                 pKTempColumn = columnList.get(i);
@@ -28,13 +28,15 @@ public class Insert {
         }
         String primaryKeyColumn = null;
         primaryKeyColumn = pKTempColumn.split("\\(")[1].replace(")","");
-        System.out.println(primaryKeyColumn);
+        System.out.println("Primary key column :" +primaryKeyColumn);
 
         int primaryKeyPosition = 0;
         for(int i = 0; i < columnNames.size(); i++) {
             if(columnNames.get(i).equals(primaryKeyColumn))
                 primaryKeyPosition = i;
+
         }
+        System.out.println("Primary key position: " + primaryKeyPosition);
 
         String primaryKeyValue = (String) columnValues.get(primaryKeyPosition);
 
@@ -44,11 +46,12 @@ public class Insert {
         String tableLine;
         int i = 1;
         int pos =0;
-        boolean dupStatus = false;
+        boolean duplicateStatus = false;
 
         while((tableLine = bufferStream.readLine()) != null) {
             String[] columnsSplit = null;
             columnsSplit = tableLine.split("\\t||\\t");
+            //System.out.println("column split: " + columnsSplit);
             if (i == 1) {
                 for (int j = 0; j < columnsSplit.length; j++) {
                     if (columnsSplit[j].contains(primaryKeyColumn)) {
@@ -59,11 +62,11 @@ public class Insert {
             }
             if (columnsSplit[pos].equals(primaryKeyValue)) {
                 System.out.println("Duplicate Error");
-                dupStatus = true;
+                duplicateStatus = true;
             }
         }
 
-        if(dupStatus == false){
+        if(duplicateStatus == false){
 
             File tablefile = new File(tablePath);
             if (tablefile.exists()) {
@@ -93,7 +96,6 @@ public class Insert {
         Map<String, List<String>> tableDictionary = dataDictionary.getDataDictionary(QueryValidator.databaseName);
         List<String> attributeList = new ArrayList<>();
         List<String> columnNameList = new ArrayList<>();
-        String subString = "";
         String columnName = "";
 
         if (tableDictionary.containsKey(tableName)) {
