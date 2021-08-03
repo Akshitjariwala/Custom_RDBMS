@@ -24,12 +24,12 @@ public class updateValidation {
         if(setEndSubString.matches(updatePattern)){
             if(tableValidationMethods.containsWhere(queryTokens)){
                 whereSubString = query.substring(whereEndIndex,query.length()).trim().replaceAll("\\s*","");
-                String[] wherelist = whereSubString.split("\\s*(?i)and\\s*");
+                String[] wherelist = whereSubString.replaceAll("\"","").split("\\s*(?i)and\\s*");
                 tokens.put("whereList",tableValidationMethods.createListFromArray(wherelist));
                 for(int k=0;k<wherelist.length;k++){
                     if(tableValidationMethods.validateWhereClause(wherelist[k])){
                         if(!(wherelist[k].equals("")) && (Character.compare(whereSubString.charAt(whereSubString.length()-1),',') != 0)){
-                            String[] whereColumnList = wherelist[k].split("=");
+                            String[] whereColumnList = wherelist[k].replaceAll("\"","").split("=");
                             tokens.put("whereColumnList",tableValidationMethods.createListFromArray(whereColumnList));
                             for(int m=0;m<whereColumnList.length;m=m+2){
                                 String[] list = {whereColumnList[0]};
@@ -76,12 +76,12 @@ public class updateValidation {
         
         if(setClause){
             String setString = query.substring(indexOfSet,indexOfWhere).trim().replaceAll("\\s*","");
-            String[] setArray = setString.split("\\s*,\\s*");
+            String[] setArray = setString.replaceAll("\"","").split("\\s*,\\s*");
             tokens.put("setColumns",tableValidationMethods.createListFromArray(setArray));
             for(int j=0;j<setArray.length;j++){
                 if(tableValidationMethods.validateWhereClause(setArray[j])){
                     if(!(setArray[j].equals("")) && (Character.compare(setString.charAt(setString.length()-1),',') != 0)){
-                        String[] columnList = setArray[j].split("=");
+                        String[] columnList = setArray[j].replaceAll("\"","").split("=");
                         tokens.put("setColumnList",tableValidationMethods.createListFromArray(columnList));
                         for(int m=0;m<columnList.length;m=m+2){
                             String[] list = {columnList[0]};

@@ -86,7 +86,7 @@ public class selectValidation {
                 if (queryTokens[index + 2].toUpperCase().equals("WHERE")) {
                     // Convert into subarray of where.
                     for (int i=index + 3;i<queryTokens.length;i++){
-                        whereClauseArray.add(queryTokens[i]);
+                        whereClauseArray.add(queryTokens[i].replaceAll("\"",""));
                     }
                     tokens.put("where",whereClauseArray);
                     int indexOfWhere = query.toUpperCase().indexOf("WHERE");
@@ -129,7 +129,7 @@ public class selectValidation {
             System.out.println("");
         }
         
-        //System.out.println(tokens);
+        System.out.println(tokens);
         return tokens;
     }
 }

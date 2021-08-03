@@ -25,13 +25,13 @@ public class deleteValidation {
                 deleteSubString = query.substring(0,indexWhere);
                 if(deleteSubString.matches(deletePattern)) {
                     whereSubString = query.substring(indexWhere+whereLength+1);
-                    String[] whereArray = whereSubString.split("\\s+(?i)and\\s+");
+                    String[] whereArray = whereSubString.replaceAll("\"","").split("\\s+(?i)and\\s+");
                     tokens.put("whereArray",tableValidationMethods.createListFromArray(whereArray));
                     for(int i=0;i<whereArray.length;i++){
                         if(tableValidationMethods.validateWhereClause(whereArray[i])){
                             if(tableValidationMethods.checkTable(tableName,databaseName)){ // Perform semantic analysis on tableName.
                                 // Convert where clauses into array of columns
-                                String[] columnsArray = whereArray[i].split("\\s*=\\s*");
+                                String[] columnsArray = whereArray[i].replaceAll("\"","").split("\\s*=\\s*");
                                 tokens.put("columnsArray",tableValidationMethods.createListFromArray(columnsArray));
                                 for(int j=0;j<columnsArray.length;j++){
                                     String[] list = {columnsArray[0]};
