@@ -204,7 +204,7 @@ public class QueryValidator {
                                     break;
                     case "DELETE" : validationDelete = new deleteValidation();
                                     validationTokens = validationDelete.validateDelete(queryTokens,sqlString,databaseName);
-                                    //validationTokens.put("sqlString",sqlString);
+                                    validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Delete.execute(validationTokens);
