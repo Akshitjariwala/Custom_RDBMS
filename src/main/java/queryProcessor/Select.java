@@ -31,19 +31,19 @@ public class Select {
                 tableMatrix[i][j] = columnValues[j].trim();
             }
         }
-        for (int i = 0; i < rowSize; i++) {
-            for (int j = 0; j < colSize; j++) {
-                System.out.print("[" + i + ", " + j + "]");
-            }
-            System.out.print("\n");
-        }
-        for (int i = 0; i < rowSize; i++) {
-            for (int j = 0; j < colSize; j++) {
-                String item = tableMatrix[i][j];
-                System.out.print(item + "\t");
-            }
-            System.out.print("\n");
-        }
+//        for (int i = 0; i < rowSize; i++) {
+//            for (int j = 0; j < colSize; j++) {
+//                System.out.print("[" + i + ", " + j + "]");
+//            }
+//            System.out.print("\n");
+//        }
+//        for (int i = 0; i < rowSize; i++) {
+//            for (int j = 0; j < colSize; j++) {
+//                String item = tableMatrix[i][j];
+//                System.out.print(item + "\t");
+//            }
+//            System.out.print("\n");
+//        }
         return tableMatrix;
     }
 
