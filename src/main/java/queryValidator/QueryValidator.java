@@ -38,7 +38,7 @@ public class QueryValidator {
         transaction.startTransaction("database1");
     }
 
-    public static void QueryValidator() throws IOException {
+    public static void QueryValidator() throws IOException, InterruptedException {
         String regex = "";
         String SQL = "";
         String tempSQL;
@@ -168,7 +168,7 @@ public class QueryValidator {
         }
     }
 
-    public static boolean validate(String sqlString) throws IOException {
+    public static boolean validate(String sqlString) throws IOException, InterruptedException {
         String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE","START"};
         boolean queryIsValid = false;
         String queryToken = null;
@@ -188,6 +188,7 @@ public class QueryValidator {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
                                         Select.execute(validationTokens);
+                                        Thread.sleep(30000);
                                         queryIsValid = true;
                                     }
                                     break;
@@ -198,6 +199,7 @@ public class QueryValidator {
                                         generateQueryLog(sqlString);
                                         Insert insert = new Insert();
                                         insert.insertData(validationTokens);
+                                        Thread.sleep(30000);
                                         queryIsValid = true;
                                     }
                                     break;
@@ -207,6 +209,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Delete.execute(validationTokens);
+                                        Thread.sleep(30000);
                                         queryIsValid = true;
                                     }
                                     break;
@@ -216,6 +219,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Update.execute(validationTokens);
+                                        Thread.sleep(30000);
                                         queryIsValid = true;
                                     }
                                     break;
@@ -224,6 +228,7 @@ public class QueryValidator {
                                     validationTokens.put("databaseName",databaseName);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        Thread.sleep(30000);
                                         queryIsValid = true;
                                     }
                                     break;
@@ -235,6 +240,7 @@ public class QueryValidator {
                                         queryIsValid = true;
                                         Drop dp = new Drop();
                                         dp.dropTable(validationTokens);
+                                        Thread.sleep(30000);
                                     }
                                     break;
                     case "CREATE" : validationCreate = new createValidation();
@@ -247,6 +253,7 @@ public class QueryValidator {
                                         create.createDataDictionary(validationTokens);
                                         create.createTable(validationTokens);
                                         queryIsValid = true;
+                                        Thread.sleep(30000);
                                     }
                                     break;
                    case "START" :   transaction.startTransaction(databaseName);

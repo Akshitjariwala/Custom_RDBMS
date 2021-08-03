@@ -14,7 +14,7 @@ public class TransactionLog {
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
     
-    public void createTransactionLog(String databaseName,String tableName, List<String> columnList, List<String> oldValues, List<String> newValues){
+    public void createTransactionLog(String databaseName,String tableName, List<String> columnList, List<String> oldValues, List<String> newValues,String type){
         int randomNumber = (int)(Math.random()*(9999-1000+1)+1000);
         String transactionID = "T"+randomNumber;
         String printPattern = "%15s |%15s |%15s |%15s |%20s |%20s |%20s |%20s%n";
@@ -35,7 +35,7 @@ public class TransactionLog {
             System.out.println("Log creation started.");
                 
             for(int i=0;i<length;i++){
-                printWriter.printf(printPattern,transactionID,"UPDATE",databaseName,tableName,columnList.get(i),oldValues.get(i),newValues.get(i),formatter.format(date));
+                printWriter.printf(printPattern,transactionID,type,databaseName,tableName,columnList.get(i),oldValues.get(i),newValues.get(i),formatter.format(date));
             }
             
             printWriter.flush();

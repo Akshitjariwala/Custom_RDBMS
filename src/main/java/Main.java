@@ -8,7 +8,7 @@ public class Main {
     
     public static QueryValidator queryValidator;
     
-    public static void main (String[] args) throws IOException {
+    public static void main (String[] args) throws IOException, InterruptedException {
         Boolean menuFlag = false;
         
         do {

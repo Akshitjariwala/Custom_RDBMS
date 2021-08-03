@@ -1,0 +1,22 @@
+TABLE NAME	||	COLUMNS
+table_a	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_b	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL
+table_c	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)
+table_d	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_e	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	FK(code,code,table_n)
+table_g	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_h	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_i	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_j	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_k	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_l	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_m	||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR NOT_NULL	|	PK(id)	|	FK(code,code,table_n)
+table_n	||	code VARCHAR NOT_NULL	|	Name VARCHAR NOT_NULL   |	PK(code)
+user_data   ||  user_id INT NOT_NULL    |   user_name VARCHAR NOT_NULL  |   user_surname VARCHAR NOT_NULL  |	user_email VARCHAR NOT_NULL  |   user_contact INT NOT_NULL
+user_data1   ||  user_id INT NOT_NULL    |   user_name VARCHAR NOT_NULL  |   user_surname VARCHAR NOT_NULL  |	user_email VARCHAR NOT_NULL  |   user_contact INT NOT_NULL
+table_o ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|	PK(id)	|	FK(code,code,table_n)
+table_p ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|	PK(id)	|
+table_q ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|
+user_table ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|	PK(id)	|	FK(code,code,table_n)
+student ||	id int not_null	|	name varchar not_null	|	address varchar not_null	|	contact int	|	PK(id)	|
+abc ||	id int	|

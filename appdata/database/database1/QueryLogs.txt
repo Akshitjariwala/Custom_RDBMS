@@ -158,6 +158,32 @@ CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_
 CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))	|	03/08/2021 19:36:35
 INSERT INTO student(id,name,address,contact) VALUES(2,Rishita,India,1234)	|	03/08/2021 19:36:35
 create table abc(id int)	|	03/08/2021 19:36:35
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	04/08/2021 02:33:20
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 02:36:39
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 02:36:39
+insert into table_c(id,Name,Company,code) values(7,"Bombardier","BBI","54UB")	|	04/08/2021 02:36:39
+update table_a set id=7,Name="Honda City",Company="honda" where id = 2 AND Name="ferrari"	|	04/08/2021 02:36:39
+update table_a set id=7,Name="Honda City",Company="honda" where id = 2 AND Name="ferrari"	|	04/08/2021 02:38:40
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 02:45:17
+update table_a set id=7,Name="Honda City",Company="honda" where id = 2 AND Name="ferrari"	|	04/08/2021 02:45:17
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	04/08/2021 02:54:32
+update table_a set id=7,Name="Honda City",Company="honda" where id = 2 AND Name="ferrari"	|	04/08/2021 02:54:32
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	04/08/2021 02:58:26
+update table_a set id=7,Name="Honda City",Company="honda" where id=2 AND Name="ferrari"	|	04/08/2021 02:59:39
+update table_a set id=7,Name="Honda",Company="honda" where id=2 AND Name="ferrari"	|	04/08/2021 03:01:22
+UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	04/08/2021 03:02:10
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 03:02:10
+select id,Name,Company from table_b where id=1 and Name=ferrari	|	04/08/2021 03:09:45
+insert into table_c(id,Name,Company,code) values(8,"Bombardier","BBI","54UB")	|	04/08/2021 03:09:45
+UPDATE user_data1 set user_name=UpdatedNicola,user_contact=Updated5566223311 where user_name=nicola AND user_contact=5566223311	|	04/08/2021 03:09:45
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 03:17:56
+update table_a set id=7,Name="Honda City",Company="honda" where id = 2 AND Name="ferrari"	|	04/08/2021 03:27:28
+DELETE FROM user_data WHERE user_name=Mukesh AND user_contact=5566223311	|	04/08/2021 03:28:21
+DELETE FROM table_a WHERE id=alexmarkgmailcom and Name=alex and Company=5566223311	|	04/08/2021 03:28:21
+drop table table_f	|	04/08/2021 03:28:21
+insert into table_c(id,Name,Company,code) values(7,"Bombardier","BBI","54UB")	|	04/08/2021 03:28:21
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 03:28:21
+select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	04/08/2021 03:58:21
 select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 18:10:00
 select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 18:16:37
 select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	03/08/2021 18:17:35

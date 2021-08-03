@@ -25,10 +25,11 @@ public class Transaction {
             if(SQL.toUpperCase().equals("COMMIT") || SQL.toUpperCase().equals("ROLLBACK")){
                 if(SQL.toUpperCase().equals("ROLLBACK")) {
                     replaceFile(databaseName);
+                    commitFlag = true;
                 } else {
                     executeTransaction(databaseName);
+                    commitFlag = true;
                 }
-                commitFlag = true;
             } else{
                 addToTransactionQueue(SQL,databaseName);
             }
@@ -84,19 +85,6 @@ public class Transaction {
             }
             reader.close();
             
-            /*for(int i=0;i<transactionQueryList.size();i++) {
-                String table = extractTable(transactionQueryList.get(i));
-                String tablePath = databaseName+"/"+table;
-                tableList.add(tablePath);
-                if(!transactionHandler.checkLock(table)) {
-                    transactionHandler.lockTable(tablePath);
-                    valid = queryValidator.validate(transactionQueryList.get(i));
-                    removeFromTransactionQueue(transactionQueryList.get(i),databaseName);
-                } else {
-                    System.out.println("Table is Already Locked.");
-                }
-            }*/
-            
             int i =0;
             do{
                 String table = extractTable(transactionQueryList.get(i));
@@ -119,6 +107,8 @@ public class Transaction {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

@@ -1,3 +1,0 @@
-id	||	Name	||	Company	||	code
-1	||	USA	||	XYZ	||	1234
-2	||	Canada	||	MNO	||	123U
