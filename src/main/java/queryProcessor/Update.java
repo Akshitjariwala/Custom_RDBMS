@@ -137,36 +137,30 @@ public class Update {
                         // Get number of columns
                         int colSize = rows.get(0).split("\\|\\|").length;
                         int rowSize = rows.size();
+                        // System.out.println("[" + rowSize + ", " + colSize + "]");
                         // insert table into matrix
-                        String[][] tableMatrix = new String[colSize][rowSize];
+                        String[][] tableMatrix = new String[rowSize][colSize];
                         for (int i = 0; i < rowSize; i++) {
-                            // System.out.println(rows.get(i));
-                            String[] columnValues = rows.get(i).split(("\\|\\|"));
+                            String[] columnValues = rows.get(i).split("\\|\\|");
                             for (int j = 0; j < colSize; j++) {
                                 tableMatrix[i][j] = columnValues[j].trim();
                             }
                         }
+
+                        // Create an index for the string
                         Map<String, Integer> columnsIndex = new HashMap<>();
-                        for (int j = 0; j < rowSize; j++) {
+                        for (int j = 0; j < colSize; j++) {
                             String item = tableMatrix[0][j];
                             columnsIndex.put(item, j);
                         }
 
-                        // Print table
-//                        for (int i = 0; i < colSize; i++) {
-//                            for (int j = 0; j < rowSize; j++) {
-//                                String item = tableMatrix[i][j];
-//                                System.out.print(item + "\t");
-//                            }
-//                            System.out.print("\n");
-//                        }
                         List<String> oldValues = new ArrayList<>();
                         List<String> columnList = new ArrayList<>();
                         
                         // Match where columns to index number
                         Map<String, Integer> indexOfSearchColumns = new HashMap<>();
                         for (String s : whereTerms.keySet()) {
-                            for (int j = 0; j < rowSize; j++) {
+                            for (int j = 0; j < colSize; j++) {
                                 if (tableMatrix[0][j].equals(s)) {
                                     indexOfSearchColumns.put(whereTerms.get(s), j);
                                     System.out.println("Search for \"" + whereTerms.get(s) + "\" at index " + j);
@@ -178,7 +172,7 @@ public class Update {
                         
                         Set<String> matchedValues = new HashSet<>();
                         Set<Integer> rowsToUpdate = new HashSet<>();
-                        for (int i = 0; i < colSize; i++) {
+                        for (int i = 0; i < rowSize; i++) {
                             for (String s : indexOfSearchColumns.keySet()) {
                                 int j = indexOfSearchColumns.get(s);
                                 String item = tableMatrix[i][j];
@@ -193,10 +187,11 @@ public class Update {
                         }
     
                         List<String> newValues = new ArrayList<>();
-                        
+                        boolean writeToFile = false;
+                        System.out.println("Matched " + matchedValues.size() + " of " + whereTerms.size() + " values");
                         if (matchedValues.size() == whereTerms.size()) {
                             for (Integer i : rowsToUpdate) {
-                                for (int j = 0; j < rowSize; j++) {
+                                for (int j = 0; j < colSize; j++) {
                                     String item = tableMatrix[i][j];
                                     for (String s : setTerms.keySet()) {
                                         if (columnsIndex.get(s) == j) {
@@ -207,25 +202,35 @@ public class Update {
                                     }
                                 }
                             }
+                            writeToFile = true;
+                        } else {
+                            System.out.println("No update performed");
                         }
     
-                        transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
+                        // transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
                         
                         //send oldValues , newValues, columns, databaseName, tableName
 
                         // Write to file
+                        if (writeToFile) {
+
+                        }
                         try (FileWriter fw = new FileWriter(tablePath, false);
                              BufferedWriter bw = new BufferedWriter(fw);
                              PrintWriter out = new PrintWriter(bw)) {
-                            for (int i = 0; i < colSize; i++) {
-                                for (int j = 0; j < rowSize; j++) {
+                            for (int i = 0; i < rowSize; i++) {
+                                for (int j = 0; j < colSize; j++) {
                                     String item = tableMatrix[i][j];
                                     if (j < rowSize - 1) {
                                         System.out.print(item + "\t||\t");
-                                        out.print(item + "\t||\t");
+                                        if (writeToFile) {
+                                            out.print(item + "\t||\t");
+                                        }
                                     } else {
                                         System.out.print(item);
-                                        out.print(item);
+                                        if (writeToFile) {
+                                            out.print(item);
+                                        }
                                     }
                                 }
                                 System.out.print("\n");
@@ -236,7 +241,7 @@ public class Update {
                         }
                         /********Removing Query from queue*******************/
                         transactionQueue.removeFromQueue(queueList.get(q));
-                        Thread.sleep(70000);
+                        Thread.sleep(0);
                     } catch (InterruptedException e) {
                         System.out.println(e);
                     } finally {
