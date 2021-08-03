@@ -135,3 +135,6 @@ create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_
 create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 15:14:07
 create table table_p(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id))	|	03/08/2021 15:14:07
 create table table_q(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR)	|	03/08/2021 15:14:07
+CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))	|	03/08/2021 19:05:22
+INSERT INTO student(id,name,address,contact) VALUES(2,Rishita,India,1234)	|	03/08/2021 19:05:22
+drop table student	|	03/08/2021 19:05:22
