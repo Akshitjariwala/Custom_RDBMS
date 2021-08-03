@@ -23,11 +23,16 @@ class LoginTest {
     }
 
     @Test
-    void testLoadUser() {
+    void renderUI() {
     }
 
     @Test
     void createUser() {
+        String username = "user1";
+        String password = "pass";
+        String question = "what is the answer?";
+        String answer = "answer";
+        Login.createUser(username, password, question, answer);
     }
 
     @Test
