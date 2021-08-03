@@ -18,3 +18,5 @@ user_data1   ||  user_id INT NOT_NULL    |   user_name VARCHAR NOT_NULL  |   use
 table_o ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|	PK(id)	|	FK(code,code,table_n)
 table_p ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|	PK(id)	|
 table_q ||	id INT NOT_NULL	|	Name VARCHAR NOT_NULL	|	Company VARCHAR NOT_NULL	|	code VARCHAR	|
+abc ||	id int	|	name varchar	|
+student ||	id int not_null	|	name varchar not_null	|	address varchar not_null	|	contact int	|	PK(id)	|
