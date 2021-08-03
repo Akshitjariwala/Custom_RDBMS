@@ -128,3 +128,10 @@ delete from user_data where user_id=4 and user_name="Azim"	|	03/08/2021 13:47:39
 delete from user_data where user_id=4 and user_name="Azim"	|	03/08/2021 13:49:44
 update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 13:52:34
 update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 13:56:17
+create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 14:40:30
+create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 14:55:30
+INSERT INTO table_c(id,Name,Company,code) VALUES("7","Lock Head Martin","LHM","96IP")	|	03/08/2021 15:10:43
+create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 15:10:43
+create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 15:14:07
+create table table_p(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id))	|	03/08/2021 15:14:07
+create table table_q(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR)	|	03/08/2021 15:14:07
