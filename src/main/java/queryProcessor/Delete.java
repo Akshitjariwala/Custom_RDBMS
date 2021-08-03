@@ -107,7 +107,7 @@ public class Delete {
                     for (int col = 0; col < colSize; col++) {
                         out.print(tableMatrix[row][col] + "\t||\t");
                     }
-                    System.out.println();
+                    out.println();
                 }
             }
         } catch (IOException e) {
