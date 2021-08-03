@@ -121,3 +121,6 @@ insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96I
 insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:37:35
 insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:38:45
 insert into table_c(id,Name,Company,code) values(6,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:38:45
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = "Mukesh"	|	03/08/2021 13:43:28
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 13:45:13
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = "Mukesh"	|	03/08/2021 13:45:32

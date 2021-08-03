@@ -16,7 +16,7 @@ public class tableValidationMethods {
     public static String currentDirectory = System.getProperty("user.dir");
     
     public static boolean validateWhereClause(String subQuery){
-        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_@.,]+";
+        String regExPattern = "[a-zA-Z0-9_]+\\s*=\\s*[a-zA-Z0-9_@.,\"\\s*]+";
         boolean result = false;
         if(Pattern.matches(regExPattern,subQuery)){
             result = true;
