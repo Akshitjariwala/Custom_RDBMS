@@ -94,7 +94,7 @@ public class Delete {
         if (debug) {
             return;
         }
-        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
+        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
             for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {

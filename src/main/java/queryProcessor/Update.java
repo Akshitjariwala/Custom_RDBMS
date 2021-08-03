@@ -68,6 +68,112 @@ public class Update {
 
         String databaseName;
         String tableName;
+        Map<String, String> whereConditions = new HashMap<>();
+        Map<String, String> setTerms = new HashMap<>();
+        boolean valid = validationTokens.containsKey("setColumns")
+                && validationTokens.containsKey("whereList")
+                && validationTokens.containsKey("databaseName")
+                && validationTokens.containsKey("tableName");
+        if (!valid) {
+            System.out.println("Invalid tokens");
+            return;
+        }
+        databaseName = (String) validationTokens.get("databaseName");
+        tableName = (String) validationTokens.get("tableName");
+        List<String> whereList = (List<String>) validationTokens.get("whereList");
+        for (String s : whereList) {
+            if (s.contains("=")) {
+                String k = s.split("=")[0];
+                String v = s.split("=")[1];
+                whereConditions.put(k.trim(), v.trim());
+            }
+        }
+
+        final String rebuiltQuery = "DELETE FROM " + tableName + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
+        System.out.println("QUERY: " + rebuiltQuery);
+        final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
+
+        final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
+
+        final int rowSize = tableMatrix[0].length;
+        final int colSize = tableMatrix[0].length;
+
+        // Create a column index
+        Map<String, Integer> columnsIndex = new HashMap<>();
+        for (int col = 0; col < colSize; col++) {
+            String item = tableMatrix[0][col];
+            columnsIndex.put(item, col);
+        }
+
+        // Find rows that match the where clause
+        TreeSet<Integer> matchedRows = new TreeSet<>();
+        int numberOfConditions = whereConditions.size();
+        for (int row = 1; row < rowSize; row++) {
+            int conditionCounter = 0;
+            for (String key : whereConditions.keySet()) {
+                int col = columnsIndex.get(key);
+                String value = tableMatrix[row][col];
+                String whereValue = whereConditions.get(key);
+                if (value.equals(whereValue)) {
+                    conditionCounter++;
+                    if (conditionCounter == numberOfConditions) {
+                        matchedRows.add(row);
+                        conditionCounter = 0;
+                    }
+                }
+            }
+        }
+
+        // Print results
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------");
+        // Print title row
+        for (int col = 0; col < colSize; col++) {
+            String item = tableMatrix[0][col];
+            System.out.format("%-24s", item);
+        }
+        // Print selected rows
+        System.out.println();
+        for (Integer row : matchedRows) {
+            for (int col = 0; col < colSize; col++) {
+                String item = tableMatrix[row][col];
+                System.out.format("%-24s", item);
+            }
+            System.out.println();
+        }
+        System.out.println("----------------------------------------------------------------------------");
+
+        for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+            for (int col = 0; col < colSize; col++) {
+                String item = tableMatrix[row][col];
+                System.out.format("%-24s", item);
+            }
+            System.out.println();
+        }
+
+        // Write to file
+        if (true) {
+            return;
+        }
+        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+            for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+                for (int col = 0; col < colSize; col++) {
+                    out.print(tableMatrix[row][col] + "\t||\t");
+                }
+                System.out.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void executeOld(Map<String, Object> validationTokens) {
+        System.out.println("Update module received tokens: " + validationTokens);
+
+        String databaseName;
+        String tableName;
         Map<String, String> whereTerms = new HashMap<>();
         Map<String, String> setTerms = new HashMap<>();
         boolean valid = validationTokens.containsKey("setColumns")
