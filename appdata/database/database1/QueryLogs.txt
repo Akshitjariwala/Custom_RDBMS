@@ -116,3 +116,8 @@ delete from user_data where user_id=4 and user_name=Azim	|	03/08/2021 13:12:54
 insert into table_c(id,Name,Company,code) values(3,Bombardier,BBI,54UB)	|	03/08/2021 13:12:54
 insert into table_c(id,Name,Company,code) values(3,Bombardier,BBI,54UB)	|	03/08/2021 13:12:54
 insert into table_c(id,Name,Company,code) values(4,LockHeadMartin,LHM,96IP)	|	03/08/2021 13:12:54
+insert into table_c(id,Name,Company,code) values(4,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:35:08
+insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:35:08
+insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:37:35
+insert into table_c(id,Name,Company,code) values(5,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:38:45
+insert into table_c(id,Name,Company,code) values(6,"Lock Head Martin","LHM","96IP")	|	03/08/2021 13:38:45
