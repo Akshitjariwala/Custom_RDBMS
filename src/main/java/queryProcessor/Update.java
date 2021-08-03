@@ -38,17 +38,17 @@ public class Update {
         } else {
             System.out.println("Table is not locked.");
             transactionQueue.AddToQueue(sqlQuery);
-            int i=0;
+            int q=0;
             queueList = transactionQueue.fetchFromQueue();
-            while(i < queueList.size()){
+            while(q < queueList.size()){
                 try {
                     transactionHandler.lockTable(tablePath);
                     /********Table is locked*********/
                     System.out.println("Updating data into database.");
                     /* Add update query logic here */
-                    System.out.println("Executing Query : " + queueList.get(i));
+                    System.out.println("Executing Query : " + queueList.get(q));
                     /********Removing Query from queue*******************/
-                    transactionQueue.removeFromQueue(queueList.get(i));
+                    transactionQueue.removeFromQueue(queueList.get(q));
                     Thread.sleep(50000);
                 } catch (InterruptedException e) {
                     System.out.println(e);
@@ -88,21 +88,34 @@ public class Update {
                 whereConditions.put(k.trim(), v.trim());
             }
         }
+        List<String> setList = (List<String>) validationTokens.get("setColumns");
+        for (String s : setList) {
+            if (s.contains("=")) {
+                String k = s.split("=")[0];
+                String v = s.split("=")[1];
+                setTerms.put(k.trim(), v.trim());
+            }
+        }
 
-        final String rebuiltQuery = "DELETE FROM " + tableName + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
+        final String rebuiltQuery = "UPDATE " + tableName + " SET " + setList.toString().replace('[', '(').replace(']', ')') +  " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND");
         System.out.println("QUERY: " + rebuiltQuery);
         final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
 
         final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
+        final String[][] updatedTableMatrix = QueryProcessor.loadTableToArray(filePath);
 
         final int rowSize = tableMatrix[0].length;
         final int colSize = tableMatrix[0].length;
 
         // Create a column index
         Map<String, Integer> columnsIndex = new HashMap<>();
-        for (int col = 0; col < colSize; col++) {
-            String item = tableMatrix[0][col];
-            columnsIndex.put(item, col);
+        List<Integer> selectedColumns = new LinkedList<>();
+        for (int j = 0; j < colSize; j++) {
+            String item = tableMatrix[0][j];
+            columnsIndex.put(item, j);
+            if (setTerms.containsKey(item)) {
+                selectedColumns.add(j);
+            }
         }
 
         // Find rows that match the where clause
@@ -124,45 +137,50 @@ public class Update {
             }
         }
 
+        // Update table
+        for (Integer row : matchedRows) {
+            for (Integer col : selectedColumns) {
+                String colName = tableMatrix[0][col];
+                updatedTableMatrix[row][col] = setTerms.get(colName);
+//                String item = updatedTableMatrix[row][col];
+//                System.out.format("%-24s", item);
+            }
+            System.out.println();
+        }
+
         // Print results
         System.out.println();
+        System.out.println("\t\t\t\t\t\t\tORIGINAL TABLE\t\t\t\t\t");
         System.out.println("----------------------------------------------------------------------------");
-        // Print title row
-        for (int col = 0; col < colSize; col++) {
-            String item = tableMatrix[0][col];
-            System.out.format("%-24s", item);
-        }
         // Print selected rows
-        System.out.println();
-        for (Integer row : matchedRows) {
+        for (int row = 0; row < rowSize; row++) {
             for (int col = 0; col < colSize; col++) {
                 String item = tableMatrix[row][col];
                 System.out.format("%-24s", item);
             }
             System.out.println();
         }
+        System.out.println();
+        System.out.println("\t\t\t\t\t\t\tUPDATED TABLE\t\t\t\t\t");
         System.out.println("----------------------------------------------------------------------------");
 
-        for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+        for (int row = 0; row < rowSize; row++) {
             for (int col = 0; col < colSize; col++) {
-                String item = tableMatrix[row][col];
+                String item = updatedTableMatrix[row][col];
                 System.out.format("%-24s", item);
             }
             System.out.println();
         }
 
         // Write to file
-        if (true) {
-            return;
-        }
         try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
-            for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+            for (int row = 0; row < rowSize; row++) {
                 for (int col = 0; col < colSize; col++) {
-                    out.print(tableMatrix[row][col] + "\t||\t");
+                    out.print(updatedTableMatrix[row][col] + "\t||\t");
                 }
-                System.out.println();
+                out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();
