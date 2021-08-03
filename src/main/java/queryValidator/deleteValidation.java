@@ -50,16 +50,16 @@ public class deleteValidation {
                                 break;
                             }
                         } else {
-                            System.out.println("ERROR: Error in Where Clause");
+                            System.out.println("ERROR: Error In Where Clause");
                             isValid = false;
                             break;
                         }
                     }
                 } else {
-                    System.out.println("ERROR: Invalid query");
+                    System.out.println("ERROR: Invalid DELETE Query Syntax");
                 }
             } else {
-                System.out.println("ERROR: No Table name provided. Please provide Table name in the query.");
+                System.out.println("ERROR: No Table Name Provided. Please Provide Table Name In The Query.");
                 isValid = false;
             }
             
@@ -68,7 +68,7 @@ public class deleteValidation {
                 isValid = true;
             } else {
                 isValid = false;
-                System.out.println("ERROR: Incorrect syntax in Where clause.");
+                System.out.println("ERROR: Incorrect Syntax In Where Clause.");
             }
         }
         
@@ -79,7 +79,7 @@ public class deleteValidation {
             tokens.put("isValid",false);
         }
         
-        System.out.println(tokens);
+        //System.out.println(tokens);
         return tokens;
     }
 }

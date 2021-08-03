@@ -43,10 +43,10 @@ public class createValidation {
                     System.out.println("ERROR: Incorrect CREATE Statement.");
                 }
             } else {
-                System.out.println("ERROR: TABLE Already exist in the database.");
+                System.out.println("ERROR: TABLE Already Exist In The Database.");
             }
         } else {
-            System.out.println("ERROR: CREATE query type not provided.");
+            System.out.println("ERROR: CREATE Query Type Not Provided.");
         }
         
         if(createValid){
@@ -65,7 +65,7 @@ public class createValidation {
                         }
                     } else {
                         isValid = false;
-                        System.out.println("ERROR: Incorrect Syntax in Table Definition.");
+                        System.out.println("ERROR: Incorrect Syntax In Table Definition.");
                         break;
                     }
                 }
@@ -77,7 +77,7 @@ public class createValidation {
         
         if(isValid) {
             tokens.put("isValid",true);
-            System.out.println("SUCCESS: Entered CREATE query is valid.");
+            System.out.println("SUCCESS: Entered CREATE Query Is Valid.");
         } else{
             tokens.put("isValid",false);
         }
@@ -110,7 +110,7 @@ public class createValidation {
                     if(constraintName.toUpperCase().equals("NOT_NULL")){
                         bool = true;
                     } else {
-                        System.out.println("ERROR: INVALID Constraint. Please Add PRIMARY KEY and FOREIGN KEY in end arguments.");
+                        System.out.println("ERROR: INVALID Constraint. Please Add PRIMARY KEY And FOREIGN KEY In End Arguments.");
                     }
                 } else if(arrayCol.length==2) {
                     bool = true;
@@ -120,7 +120,7 @@ public class createValidation {
                     System.out.println("ERROR: Incorrect Syntax in Table Definition.");
                 }
             } else {
-                System.out.println("ERROR: Invalid Data type. Supported datatypes are (INT,VARCHAR,FLOAT)");
+                System.out.println("ERROR: Invalid Data type. Supported Datatypes Are (INT,VARCHAR,FLOAT)");
             }
         }
         

@@ -20,7 +20,6 @@ public class Create {
             writeDataDictionary(columns,tablefileWriter);
             tablefileWriter.flush();
             tablefileWriter.close();
-
         }
         else {
             FileWriter tablefileWriter = new FileWriter(ddFile);

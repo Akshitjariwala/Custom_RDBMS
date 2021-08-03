@@ -1,2 +1,0 @@
-UPDATE table_c SET (id=7, Name="UpdatedBoeing", Company="boeing") WHERE (id=2 AND Name="boeing")
-UPDATE table_c SET (id=7, Name=UpdatedBoeing, Company=boeing) WHERE (id=2 AND Name=boeing)

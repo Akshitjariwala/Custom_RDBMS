@@ -20,7 +20,7 @@ public class TransactionLog {
         String printPattern = "%15s |%15s |%15s |%15s |%20s |%20s |%20s |%20s%n";
         String currentDirectory = System.getProperty("user.dir");
         String fileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/transactionLogs.txt";
-        int length = columnList.size();
+        int length = oldValues.size();
         
         try {
             File file = new File(fileName);
