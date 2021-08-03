@@ -182,3 +182,10 @@ insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	
 update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:21:00
 update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:21:40
 update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 00:22:00
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 01:17:57
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 01:19:26
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	04/08/2021 01:25:32
+insert into table_c(id,Name,Company,code) values(3,"Bombardier","BBI","54UB")	|	04/08/2021 01:27:41
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	04/08/2021 01:50:31
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	04/08/2021 02:18:32
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	04/08/2021 02:26:23

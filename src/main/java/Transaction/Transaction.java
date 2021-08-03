@@ -18,6 +18,7 @@ public class Transaction {
         Boolean commitFlag = false;
         String SQL = "";
         Scanner inputReader = new Scanner( System.in );
+        System.out.println("Starting Transaction...");
         do{
             System.out.print("=> Enter query : ");
             SQL = inputReader.nextLine();
@@ -61,7 +62,7 @@ public class Transaction {
             file.delete();
             File newName = new File(filePath);
             tempFile.renameTo(newName);
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
@@ -73,6 +74,7 @@ public class Transaction {
         queryValidator = new QueryValidator();
         transactionHandler = new TransactionHandler(databaseName);
         List<String> tableList = new ArrayList<>();
+        Boolean valid = false;
         
         try {
             File file = new File(filePath);
@@ -80,22 +82,40 @@ public class Transaction {
             while((query = reader.readLine()) != null) {
                 transactionQueryList.add(query);
             }
+            reader.close();
             
-            for(int i=0;i<transactionQueryList.size();i++) {
+            /*for(int i=0;i<transactionQueryList.size();i++) {
                 String table = extractTable(transactionQueryList.get(i));
                 String tablePath = databaseName+"/"+table;
                 tableList.add(tablePath);
                 if(!transactionHandler.checkLock(table)) {
                     transactionHandler.lockTable(tablePath);
-                    queryValidator.validate(transactionQueryList.get(i));
+                    valid = queryValidator.validate(transactionQueryList.get(i));
+                    removeFromTransactionQueue(transactionQueryList.get(i),databaseName);
                 } else {
                     System.out.println("Table is Already Locked.");
                 }
+            }*/
+            
+            int i =0;
+            do{
+                String table = extractTable(transactionQueryList.get(i));
+                String tablePath = databaseName+"/"+table;
+                tableList.add(tablePath);
+                if(!transactionHandler.checkLock(table)) {
+                    transactionHandler.lockTable(tablePath);
+                    valid = queryValidator.validate(transactionQueryList.get(i));
+                    removeFromTransactionQueue(transactionQueryList.get(i),databaseName);
+                } else {
+                    System.out.println("Table is Already Locked.");
+                }
+                i++;
+            }while(valid && i<transactionQueryList.size());
+            
+            for(int j=0;j<tableList.size();j++){
+                transactionHandler.unlockTable(tableList.get(j));
             }
             
-            for(int i=0;i<tableList.size();i++){
-                transactionHandler.unlockTable(tableList.get(i));
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -135,5 +155,40 @@ public class Transaction {
         }
         
         return queryTable;
+    }
+    
+    public static void removeFromTransactionQueue(String query, String databaseName){
+        String newFileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/tempFile.txt";
+        String filePath = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/"+fileName;
+        File oldFile = new File(filePath);
+        File newFile = new File(newFileName);
+        try {
+            FileReader fileReader = new FileReader(oldFile);
+            BufferedReader reader = new BufferedReader(new FileReader(oldFile));
+            FileWriter fileWriter = new FileWriter(newFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter printWriter = new PrintWriter(bufferedWriter);
+            String queryString;
+            
+            while((queryString = reader.readLine()) != null){
+                if(!(queryString.equals(query))){
+                    printWriter.println(queryString);
+                }
+            }
+            
+            printWriter.flush();
+            printWriter.close();
+            fileReader.close();
+            reader.close();
+            fileWriter.close();
+            bufferedWriter.close();
+            
+            oldFile.delete();
+            
+            File newName = new File(filePath);
+            newFile.renameTo(newName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

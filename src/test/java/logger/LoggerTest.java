@@ -22,6 +22,6 @@ class LoggerTest {
     @Test
     void printLog() {
         Logger.createLog("loggerTestDB");
-        Logger.printLog();
+        //Logger.printLog();
     }
 }

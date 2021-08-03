@@ -1,5 +1,6 @@
 package queryValidator;
 
+import Transaction.TransactionQueue;
 import Transaction.Transaction;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
@@ -16,7 +17,7 @@ public class QueryValidator {
     public static String currentDirectory = System.getProperty("user.dir");
     public static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public static Date date = new Date();
-    public static String databaseName = "database1";
+    public static String databaseName;
     public static ERDGenerator erdGenerator = new ERDGenerator();
     public static SqlDump sqlDump = new SqlDump();
     public static selectValidation validationSelect;
@@ -247,7 +248,8 @@ public class QueryValidator {
                                         queryIsValid = true;
                                     }
                                     break;
-                   // case "START" :
+                   case "START" :   transaction.startTransaction(databaseName);
+                                    break;
                 }
             }
             else {

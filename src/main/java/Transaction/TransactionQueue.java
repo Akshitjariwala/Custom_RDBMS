@@ -18,7 +18,7 @@ public class TransactionQueue {
         this.databaseName = databaseName;
         this.currentDirectory = System.getProperty("user.dir");
         this.fileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/queryQueueFile";
-        this.tokenFileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/tokenQueueFile";
+        this.tokenFileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/generalQueryQueue";
     }
     
     public void AddToQueue(String updateQuery){
@@ -33,7 +33,7 @@ public class TransactionQueue {
         }
     }
     
-    public void AddToQueueTokens(Map<String, Object> validationTokens){
+    public void AddToGeneralQueue(Map<String, Object> validationTokens){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(tokenFileName, true));
             writer.write(String.valueOf(validationTokens));
@@ -112,7 +112,7 @@ public class TransactionQueue {
     
     public void removeFromQueueTokens(Map<String, Object> validationTokens){
         String newFileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/tempFile.txt";
-        File oldFile = new File(fileName);
+        File oldFile = new File(tokenFileName);
         File newFile = new File(newFileName);
         try {
             FileReader fileReader = new FileReader(oldFile);
@@ -136,7 +136,7 @@ public class TransactionQueue {
             
             oldFile.delete();
             
-            File newName = new File(fileName);
+            File newName = new File(tokenFileName);
             newFile.renameTo(newName);
         } catch (IOException e) {
             e.printStackTrace();
