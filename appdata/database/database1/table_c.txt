@@ -1,3 +1,5 @@
 id	||	Name	||	Company	||	code
 1	||	Airbus	||	XYZ	||	1234
 2	||	boeing	||	MNO	||	123U
+3	||	Bombardier	||	BBI	||	54UB
+4	||	LockHeadMartin	||	LHM	||	96IP

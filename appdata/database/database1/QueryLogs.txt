@@ -106,3 +106,13 @@ UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 wher
 UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:57:41
 UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:59:04
 UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 04:59:04
+select * from user_data	|	03/08/2021 11:41:15
+select column1,column2,column3 from table_c where column1 = 100 and column2 = akshit	|	03/08/2021 12:35:39
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 12:41:07
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 12:42:53
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 12:45:15
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 12:46:37
+delete from user_data where user_id=4 and user_name=Azim	|	03/08/2021 13:12:54
+insert into table_c(id,Name,Company,code) values(3,Bombardier,BBI,54UB)	|	03/08/2021 13:12:54
+insert into table_c(id,Name,Company,code) values(3,Bombardier,BBI,54UB)	|	03/08/2021 13:12:54
+insert into table_c(id,Name,Company,code) values(4,LockHeadMartin,LHM,96IP)	|	03/08/2021 13:12:54
