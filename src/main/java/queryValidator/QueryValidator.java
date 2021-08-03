@@ -1,5 +1,7 @@
 package queryValidator;
 
+import Transaction.TransactionQueue;
+import Transaction.Transaction;
 import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.*;
@@ -26,12 +28,14 @@ public class QueryValidator {
     public static dropValidation validationDrop;
     public static createValidation validationCreate;
     public static tableValidationMethods tableValidation = new tableValidationMethods();
+    public static Transaction transaction = new Transaction();
     
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        QueryValidator();
+        //QueryValidator();
+        transaction.startTransaction("database1");
     }
 
     public static void QueryValidator() throws IOException {
@@ -165,7 +169,7 @@ public class QueryValidator {
     }
 
     public static boolean validate(String sqlString) throws IOException {
-        String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE"};
+        String[] queryLanguageTokens = {"SELECT","INSERT","DELETE","UPDATE","ALTER","DROP","CREATE","START"};
         boolean queryIsValid = false;
         String queryToken = null;
         sqlString = sqlString.trim().replaceAll("\\s{2,}"," ");
@@ -244,6 +248,8 @@ public class QueryValidator {
                                         create.createTable(validationTokens);
                                         queryIsValid = true;
                                     }
+                                    break;
+                   case "START" :   transaction.startTransaction(databaseName);
                                     break;
                 }
             }

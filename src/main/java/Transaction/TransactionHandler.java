@@ -78,7 +78,7 @@ public class TransactionHandler {
         return locked;
     }
     
-    public Boolean unlockTable(String tablePath,String tableName) throws IOException {
+    public Boolean unlockTable(String tablePath) throws IOException {
         Boolean locked = false;
         String oldFileName  = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/"+fileName;
         Map<String,String> fileLogMap = new HashMap<>();
