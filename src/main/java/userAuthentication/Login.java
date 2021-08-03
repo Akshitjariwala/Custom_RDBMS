@@ -1,19 +1,16 @@
 package userAuthentication;
 import java.io.*;
-import java.util.Objects;
 import java.util.Properties;
-import java.util.Scanner;
 
 public class Login {
     private static final String secret = "BC62AB92D2";
     private static final String workingDir = System.getProperty("user.dir");
     private static final Properties currentUser = new Properties();
-    private static final BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
     public static boolean authenticateUser(String username, String password) {
         try {
             currentUser.load(new FileInputStream(workingDir + "/appdata/users/" + username + ".user"));
-            String correctUsername = EncryptionDecryptionUtil.decrypt(secret, currentUser.getProperty("username"));
+            String correctUsername = currentUser.getProperty("username");
             String correctPassword = EncryptionDecryptionUtil.decrypt(secret, currentUser.getProperty("password"));
             boolean passwordIsCorrect = (username.equals(correctUsername) && password.equals(correctPassword));
             if (passwordIsCorrect) {
@@ -35,7 +32,7 @@ public class Login {
             System.out.println("Authenticate user first");
             return false;
         }
-        boolean answerIsCorrect = answer.equals(currentUser.getProperty("answer"));
+        boolean answerIsCorrect = answer.equals(EncryptionDecryptionUtil.decrypt(secret, currentUser.getProperty("answer")));
         if (!answerIsCorrect) {
             System.out.println("Answer is incorrect");
             return false;
@@ -47,10 +44,10 @@ public class Login {
 
     public static void createUser(String username, String password, String question, String answer) {
         Properties user = new Properties();
-        user.put("username", EncryptionDecryptionUtil.encrypt(secret, username));
+        user.put("username", username);
         user.put("password", EncryptionDecryptionUtil.encrypt(secret, password));
         user.put("question", question);
-        user.put("answer", answer);
+        user.put("answer", EncryptionDecryptionUtil.encrypt(secret, answer));
         String filePath = workingDir + "/appdata/users/" + username + ".user";
         if (new File(filePath).exists()) {
             System.out.println("User \"" + username + "\" already exists");

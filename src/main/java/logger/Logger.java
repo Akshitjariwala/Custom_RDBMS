@@ -6,7 +6,7 @@ public class Logger {
     private static String logPath;
 
     public static boolean createLog(String database) {
-        logPath = System.getProperty("user.dir") + "/appdata/database/" + database + "/log.txt";
+        logPath = System.getProperty("user.dir") + "/appdata/database/" + database + "/" + database + ".log";
         try {
             File log = new File(logPath);
             return log.createNewFile();

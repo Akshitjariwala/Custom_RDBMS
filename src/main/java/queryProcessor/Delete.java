@@ -13,8 +13,7 @@ public class Delete {
         String tableName;
         List<String> columnsName;
         Map<String, String> searchTerms = new HashMap<>();
-        boolean valid = validationTokens.containsKey("isValid")
-                && validationTokens.containsKey("whereArray")
+        boolean valid = validationTokens.containsKey("whereArray")
                 && validationTokens.containsKey("tableName")
                 && validationTokens.containsKey("databaseName");
         if (!valid) {
