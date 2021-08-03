@@ -186,7 +186,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
-                                        Select.setTokens(validationTokens);
+                                        Select.execute(validationTokens);
                                         queryIsValid = true;
                                     }
                                     // take validationTokens from here to get tokens.

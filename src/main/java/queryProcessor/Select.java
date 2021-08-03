@@ -8,45 +8,7 @@ import java.util.*;
 public class Select {
     private static final String workingDir = System.getProperty("user.dir");
 
-    public static void setTokens(Map<String, Object> validationTokens) {
-        String databaseName;
-        String tableName;
-        List<String> columnsName;
-        Map<String, String> searchTerms = new HashMap<>();
-        System.out.println("Setting tokens...");
-        boolean valid = validationTokens.containsKey("columns")
-                && validationTokens.containsKey("isValid")
-                && validationTokens.containsKey("where")
-                && validationTokens.containsKey("tableName")
-                && validationTokens.containsKey("databaseName");
-        if (valid) {
-            databaseName = (String) validationTokens.get("databaseName");
-            tableName = (String) validationTokens.get("tableName");
-            columnsName = (List<String>) validationTokens.get("columns");
-            List<String> whereList = (List<String>) validationTokens.get("where");
-            for (String s : whereList) {
-                if (s.contains("=")) {
-                    String k = s.split("=")[0];
-                    String v = s.split("=")[1];
-                    searchTerms.put(k, v);
-                }
-            }
-            System.out.println("SELECT " + columnsName.toString().replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
-        }
-    }
-
     public static void execute(Map<String, Object> validationTokens) {
-//        String databaseName = "database1";
-//        String tableName = "user_data";
-//        List<String> columnsName = Arrays.asList("user_name", "user_email", "user_contact");
-//        Map<String, String> searchTerms = new HashMap<>();
-//        searchTerms.put("user_name", "alex");
-//        searchTerms.put("user_email", "alex.mark@gmail.com");
-//        searchTerms.put("user_contact", "5566223311");
-        // Sample query: select column1,column2,column3 from table_a where userid = 100 and user = akshit
-        // Sample query: SELECT user_name, user_email, user_contact FROM user_data WHERE user_email=alex.mark@gmail.com, user_name=alex, user_contact=5566223311
-        // tableName
-        // condition(s) - columns/values
         String databaseName;
         String tableName;
         List<String> columnsName;
