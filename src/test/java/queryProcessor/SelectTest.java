@@ -42,7 +42,7 @@ class SelectTest {
         Map<String, Object> validationTokens = new HashMap<>();
         validationTokens.put("columns", Arrays.asList("user_id", "user_name", "user_email"));
         validationTokens.put("isValid", true);
-        validationTokens.put("where", Arrays.asList("user_id = 1", "user_name = Mukesh"));
+        validationTokens.put("where", Arrays.asList("user_id", "=", "1", "user_name", "=", "Mukesh"));
         validationTokens.put("tableName", "user_data");
         validationTokens.put("databaseName", "database1");
         Select.execute(validationTokens);

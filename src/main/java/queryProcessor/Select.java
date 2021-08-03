@@ -50,6 +50,11 @@ public class Select {
         final String tableName = (String) validationTokens.get("tableName");
         final List<String> columnsName = (List<String>) validationTokens.get("columns");
         final List<String> whereList = (List<String>) validationTokens.get("where");
+//        for (int i = 0; i < whereList.size(); i = i + 3) {
+//            String k = (String) whereList.toArray()[i];
+//            String v = (String) whereList.toArray()[i + 2];
+//            whereConditions.put(k.trim(), v.trim());
+//        }
         for (String s : whereList) {
             if (s.contains("=")) {
                 String k = s.split("=")[0].trim();

@@ -72,36 +72,43 @@ public class Delete {
             System.out.format("%-24s", item);
         }
         // Print selected rows
+
         System.out.println();
-        for (Integer row : matchedRows) {
+        System.out.println("\t\t\t\t\t\t\tORIGINAL TABLE\t\t\t\t\t");
+        System.out.println("----------------------------------------------------------------------------");
+        // Print selected rows
+        for (int row = 0; row < rowSize; row++) {
             for (int col = 0; col < colSize; col++) {
                 String item = tableMatrix[row][col];
                 System.out.format("%-24s", item);
             }
             System.out.println();
         }
+        System.out.println();
+        System.out.println("\t\t\t\t\t\t\tUPDATED TABLE\t\t\t\t\t");
         System.out.println("----------------------------------------------------------------------------");
 
-        for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
-            for (int col = 0; col < colSize; col++) {
-                String item = tableMatrix[row][col];
-                System.out.format("%-24s", item);
+        for (int row = 0; row < rowSize; row++) {
+            if (!matchedRows.contains(row)) {
+                for (int col = 0; col < colSize; col++) {
+                    String item = tableMatrix[row][col];
+                    System.out.format("%-24s", item);
+                }
+                System.out.println();
             }
-            System.out.println();
         }
 
         // Write to file
-        if (debug) {
-            return;
-        }
-        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
+        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
-            for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
-                for (int col = 0; col < colSize; col++) {
-                    out.print(tableMatrix[row][col] + "\t||\t");
+            for (int row = 0; row < rowSize; row++) {
+                if (!matchedRows.contains(row)) {
+                    for (int col = 0; col < colSize; col++) {
+                        out.print(tableMatrix[row][col] + "\t||\t");
+                    }
+                    System.out.println();
                 }
-                System.out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();
