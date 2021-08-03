@@ -58,7 +58,7 @@ public class Select {
                 whereConditions.put(k, v);
             }
         }
-        System.out.print("QUERY > ");
+        System.out.print("QUERY: ");
         System.out.println("SELECT " + columnsName.toString().replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
         final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
 
