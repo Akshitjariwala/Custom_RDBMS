@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Create {
+    
+    public static String currentDirectory = System.getProperty("user.dir");
 
     public void createDataDictionary(Map<String,Object> queryTokens) throws IOException {
         List<Object> columns = new ArrayList<>();
         columns = (List<Object>) queryTokens.get("columnArray");
         String tableName = queryTokens.get("tableName").toString();
-        String ddFilePath = "/Users/rishitakotiyal/Desktop/csci-5408-s2021-group-19/appdata/database/database1/data_dictionary.txt";
+        String ddFilePath = currentDirectory+"/appdata/database/database1/data_dictionary.txt";
         File ddFile = new File(ddFilePath);
         if (ddFile.exists()) {
             FileWriter tablefileWriter = new FileWriter(ddFile, true);
@@ -27,7 +29,6 @@ public class Create {
             writeDataDictionary(columns,tablefileWriter);
             tablefileWriter.flush();
             tablefileWriter.close();
-
         }
     }
 

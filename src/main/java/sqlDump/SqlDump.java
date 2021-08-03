@@ -131,14 +131,17 @@ public class SqlDump {
         insertQueryTablePath = insertQueryTablePath + databaseName +"/" +tableName+".txt";
         File queryFile = new File(insertQueryTablePath);
         String insertQuery;
+        String columnTitles = null;
         try {
         if(queryFile.exists()){
             BufferedReader queryReader = new BufferedReader(new FileReader(insertQueryTablePath));
             int flag = 0; // To remove columns from insert query
             while((insertQuery = queryReader.readLine()) != null){
-                if(flag>0){
-                    insertQuery = insertQuery.replaceAll("\\s*\\|\\|\\s*","','");
-                    insertQuery = "INSERT INTO "+tableName+" VALUES ('"+insertQuery+"');";
+                if(flag == 0){
+                    columnTitles = "("+insertQuery.replaceAll("\\s*\\|\\|\\s*",",")+")";
+                } else {
+                    insertQuery = insertQuery.replaceAll("\\s*\\|\\|\\s*","\",\"");
+                    insertQuery = "INSERT INTO "+tableName+columnTitles+" VALUES(\""+insertQuery+"\");";
                     insertQueryList.add(insertQuery);
                 }
                 flag++;
