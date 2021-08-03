@@ -5,14 +5,10 @@ import java.util.*;
 
 public class Delete {
     private static final String workingDir = System.getProperty("user.dir");
+    private static final boolean debug = true;
 
     public static void execute(Map<String, Object> validationTokens) {
-        // Sample query: delete from table_b where column1=100 and column2=akshit and column3 =100
         System.out.println(validationTokens);
-        String databaseName;
-        String tableName;
-        List<String> columnsName;
-        Map<String, String> searchTerms = new HashMap<>();
         boolean valid = validationTokens.containsKey("whereArray")
                 && validationTokens.containsKey("tableName")
                 && validationTokens.containsKey("databaseName");
@@ -20,128 +16,95 @@ public class Delete {
             System.out.println("Invalid tokens");
             return;
         }
-        databaseName = (String) validationTokens.get("databaseName");
-        tableName = (String) validationTokens.get("tableName");
-        // columnsName = (List<String>) validationTokens.get("columns");
-        List<String> whereList = (List<String>) validationTokens.get("whereArray");
+        final String databaseName = (String) validationTokens.get("databaseName");
+        final String tableName = (String) validationTokens.get("tableName");
+        final List<String> whereList = (List<String>) validationTokens.get("whereArray");
+        final Map<String, String> whereConditions = new HashMap<>();
         for (String s : whereList) {
             if (s.contains("=")) {
                 String k = s.split("=")[0];
                 String v = s.split("=")[1];
-                searchTerms.put(k, v);
+                whereConditions.put(k, v);
             }
         }
+        final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
+
         System.out.print("QUERY: ");
-        System.out.println("DELETE FROM " + tableName + " WHERE " + searchTerms.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
-        // TODO: Open table file
-        List<String> rows = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                rows.add(line);
-            }
-        } catch (IOException e) {
-            System.out.println("Invalid table");
+        System.out.println("DELETE FROM " + tableName + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
+
+        final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
+
+        final int rowSize = tableMatrix[0].length;
+        final int colSize = tableMatrix[0].length;
+
+        // Create a column index
+        Map<String, Integer> columnsIndex = new HashMap<>();
+        for (int col = 0; col < colSize; col++) {
+            String item = tableMatrix[0][col];
+            columnsIndex.put(item, col);
         }
 
-        final String path = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
-        QueryProcessor.loadTableToArray(path);
-        // Get number of columns
-        int colSize = rows.get(0).split("\\|\\|").length;
-        int rowSize = rows.size();
-        // insert table into matrix
-        String[][] tableMatrix = new String[colSize][rowSize];
-        for (int i = 0; i < rowSize; i++) {
-            // System.out.println(rows.get(i));
-            String[] columnValues = rows.get(i).split(("\\|\\|"));
-            for (int j = 0; j < colSize; j++) {
-                tableMatrix[i][j] = columnValues[j].trim();
-            }
-        }
-
-        // Print table
-//            for (int i = 0; i < colSize; i++) {
-//                for (int j = 0; j < rowSize; j++) {
-//                    String item = tableMatrix[i][j];
-//                    System.out.print(item + "\t");
-//                }
-//                System.out.print("\n");
-//            }
-
-        // Match where columns to index number
-        Map<String, Integer> indexOfSearchColumns = new HashMap<>();
-        for (String s : searchTerms.keySet()) {
-            for (int j = 0; j < rowSize; j++) {
-                if (tableMatrix[0][j].equals(s)) {
-                    indexOfSearchColumns.put(searchTerms.get(s), j);
-                    // System.out.println("Search for \"" + searchTerms.get(s) + "\" at index " + j);
-                }
-            }
-        }
-
-        Set<String> matchedValues = new HashSet<>();
-        Set<Integer> rowsToDelete = new HashSet<>();
-        for (int i = 0; i < colSize; i++) {
-            for (String s : indexOfSearchColumns.keySet()) {
-                int j = indexOfSearchColumns.get(s);
-                String item = tableMatrix[i][j];
-                if (item.equals(s)) {
-                    matchedValues.add(item);
-                    rowsToDelete.add(i);
-                }
-                // System.out.print(item + "\t");
-            }
-            // System.out.print("\n");
-        }
-
-        System.out.println();
-
-        if (matchedValues.size() == searchTerms.size()) {
-            for (Integer i : rowsToDelete) {
-                System.out.print("Delete row " + i + " (");
-                for (int j = 0; j < rowSize; j++) {
-                    String item = tableMatrix[i][j];
-                    if (j < rowSize - 1) {
-                        System.out.print(item + ", ");
-                    } else {
-                        System.out.print(item);
+        // Find rows that match the where clause
+        TreeSet<Integer> matchedRows = new TreeSet<>();
+        int numberOfConditions = whereConditions.size();
+        for (int row = 1; row < rowSize; row++) {
+            int conditionCounter = 0;
+            for (String key : whereConditions.keySet()) {
+                int col = columnsIndex.get(key);
+                String value = tableMatrix[row][col];
+                String whereValue = whereConditions.get(key);
+                if (value.equals(whereValue)) {
+                    conditionCounter++;
+                    if (conditionCounter == numberOfConditions) {
+                        matchedRows.add(row);
+                        conditionCounter = 0;
                     }
                 }
-                System.out.println(")");
             }
         }
 
+        // Print results
         System.out.println();
+        System.out.println("----------------------------------------------------------------------------");
+        // Print title row
+        for (int col = 0; col < colSize; col++) {
+            String item = tableMatrix[0][col];
+            System.out.format("%-24s", item);
+        }
+        // Print selected rows
+        System.out.println();
+        for (Integer row : matchedRows) {
+            for (int col = 0; col < colSize; col++) {
+                String item = tableMatrix[row][col];
+                System.out.format("%-24s", item);
+            }
+            System.out.println();
+        }
+        System.out.println("----------------------------------------------------------------------------");
+
+        for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+            for (int col = 0; col < colSize; col++) {
+                String item = tableMatrix[row][col];
+                System.out.format("%-24s", item);
+            }
+            System.out.println();
+        }
 
         // Write to file
-        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt", false);
+        if (debug) {
+            return;
+        }
+        try (FileWriter fw = new FileWriter(workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".temp", false);
              BufferedWriter bw = new BufferedWriter(fw);
              PrintWriter out = new PrintWriter(bw)) {
-            for (int i = 0; i < colSize; i++) {
-                if (!rowsToDelete.contains(i)) {
-                    for (int j = 0; j < rowSize; j++) {
-                        String item = tableMatrix[i][j];
-                        if (j < rowSize - 1) {
-                            System.out.print(item + "\t||\t");
-                            out.print(item + "\t||\t");
-                        } else {
-                            System.out.print(item);
-                            out.print(item);
-                        }
-                    }
-                    System.out.print("\n");
-                    out.print("\n");
+            for (int row = 0; row < rowSize && !matchedRows.contains(row); row++) {
+                for (int col = 0; col < colSize; col++) {
+                    out.print(tableMatrix[row][col] + "\t||\t");
                 }
+                System.out.println();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        // Print results
-        System.out.println();
-        System.out.println("RESULTS: ");
-
-
     }
 }

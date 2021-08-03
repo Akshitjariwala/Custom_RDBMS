@@ -35,9 +35,7 @@ public class Select {
     }
 
     public static void execute(Map<String, Object> validationTokens) {
-        String databaseName;
-        String tableName;
-        List<String> columnsName;
+        System.out.println(validationTokens);
         Map<String, String> whereConditions = new HashMap<>();
         boolean valid = validationTokens.containsKey("columns")
                 && validationTokens.containsKey("isValid")
@@ -46,11 +44,12 @@ public class Select {
                 && validationTokens.containsKey("databaseName");
         if (!valid) {
             System.out.println("Tokens are invalid");
+            return;
         }
-        databaseName = (String) validationTokens.get("databaseName");
-        tableName = (String) validationTokens.get("tableName");
-        columnsName = (List<String>) validationTokens.get("columns");
-        List<String> whereList = (List<String>) validationTokens.get("where");
+        final String databaseName = (String) validationTokens.get("databaseName");
+        final String tableName = (String) validationTokens.get("tableName");
+        final List<String> columnsName = (List<String>) validationTokens.get("columns");
+        final List<String> whereList = (List<String>) validationTokens.get("where");
         for (String s : whereList) {
             if (s.contains("=")) {
                 String k = s.split("=")[0].trim();
@@ -62,9 +61,9 @@ public class Select {
         System.out.println("SELECT " + columnsName.toString().replace('[', '(').replace(']', ')') + " FROM " + tableName + " WHERE " + whereConditions.toString().replace('{', '(').replace('}', ')').replace(",", " AND"));
         final String filePath = workingDir + "/appdata/database/" + databaseName + "/" + tableName + ".txt";
 
-        String[][] tableMatrix = null;
-        int rowSize = 0;
-        int colSize = 0;
+        String[][] tableMatrix;
+        int rowSize;
+        int colSize;
         tableMatrix = QueryProcessor.loadTableToArray(filePath);
         rowSize = tableMatrix.length;
         colSize = tableMatrix[0].length;

@@ -15,7 +15,7 @@ class SelectTest {
 
     @Test
     void load() throws FileNotFoundException {
-        QueryProcessor.loadTableToArray("appdata/database/database1/user_data1.txt");
+        QueryProcessor.loadTableToArray("appdata/database/database1/user_data.txt");
     }
 
     @Test
