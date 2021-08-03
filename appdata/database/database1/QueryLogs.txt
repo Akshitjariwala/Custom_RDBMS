@@ -126,3 +126,5 @@ select user_id,user_name,user_email from user_data where user_id = 1 and user_na
 select user_id,user_name,user_email from user_data where user_id = 1 and user_name = "Mukesh"	|	03/08/2021 13:45:32
 delete from user_data where user_id=4 and user_name="Azim"	|	03/08/2021 13:47:39
 delete from user_data where user_id=4 and user_name="Azim"	|	03/08/2021 13:49:44
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 13:52:34
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 13:56:17
