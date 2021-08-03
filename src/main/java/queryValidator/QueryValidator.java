@@ -228,6 +228,8 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         queryIsValid = true;
+                                        Drop dp = new Drop();
+                                        dp.dropTable(validationTokens);
                                     }
                                     break;
                     case "CREATE" : validationCreate = new createValidation();

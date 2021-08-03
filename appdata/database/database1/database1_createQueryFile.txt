@@ -28,4 +28,4 @@ table_o	|	create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VA
 table_o	|	create table table_o(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))
 table_p	|	create table table_p(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id))
 table_q	|	create table table_q(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR)
-user_table	|	create table user_table(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))
+student	|	CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))
