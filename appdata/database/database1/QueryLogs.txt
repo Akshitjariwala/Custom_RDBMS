@@ -141,3 +141,4 @@ INSERT INTO table_i (id,Name,Company,code) VALUES ("4","ISRO","MNO","123U")	|	03
 INSERT INTO table_j (id,Name,Company,code) VALUES ("3","Best Buy","MNO","123U")	|	03/08/2021 15:51:14
 INSERT INTO table_j(id,Name,Company,code) VALUES("4","Best Buy","MNO","123U")	|	03/08/2021 15:51:14
 create table user_table(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 15:51:14
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 17:16:09

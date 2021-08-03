@@ -22,7 +22,7 @@ public class TransactionHandler {
             String oldFileName = currentDirectory+"/appdata/database/"+databaseName+"/transactionFiles/"+fileName;
             File file = new File(oldFileName);
             BufferedWriter writer = new BufferedWriter(new FileWriter(oldFileName, true));
-            if(file.exists()){
+            if(!file.createNewFile()){
                 writer.write(tablePath+"\t||\tlocked");
                 writer.write('\n');
                 writer.close();

@@ -37,18 +37,17 @@ public class alterValidation {
                     if(alterQuery.matches(alterPattern)){
                         alterFlag = true;
                     } else {
-                        System.out.println("ERROR: Incorrect SQL syntax. Please enter query again.");
+                        System.out.println("ERROR: Incorrect SQL Syntax. Please Enter Query Again.");
                     }
                 } else {
-                    System.out.println("ERROR: Invalid column name. Please provide proper column name.");
+                    System.out.println("ERROR: Invalid Column Name. Please Provide Proper Column Name.");
                 }
             } else {
-                System.out.println("ERROR: Incorrect syntax in "+alterClause+" clause.");
+                System.out.println("ERROR: Incorrect Syntax In "+alterClause+" Clause.");
             }
         } else {
-            System.out.println("ERROR: Incorrect ALTER syntax. Please enter query again.");
+            System.out.println("ERROR: Incorrect ALTER Syntax. Please Enter Query Again.");
         }
-        
         
         
         if(alterFlag){

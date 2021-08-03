@@ -26,7 +26,8 @@ public class Logger {
         }
     }
 
-    public static void printLog() {
+    public static void printLog(String database) {
+        logPath = System.getProperty("user.dir") + "/appdata/database/" + database + "/log.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(logPath))) {
             String line;
             while ((line = br.readLine()) != null) {
