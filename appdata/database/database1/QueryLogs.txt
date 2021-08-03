@@ -142,3 +142,15 @@ INSERT INTO table_j (id,Name,Company,code) VALUES ("3","Best Buy","MNO","123U")	
 INSERT INTO table_j(id,Name,Company,code) VALUES("4","Best Buy","MNO","123U")	|	03/08/2021 15:51:14
 create table user_table(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VARCHAR NOT_NULL,code VARCHAR,PRIMARY_KEY (id),CONSTRAINT fk_customer FOREIGN_KEY (code) REFERENCES table_n(code))	|	03/08/2021 15:51:14
 update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 17:16:09
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 17:21:11
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 17:24:59
+update table_c set id=7,Name="Updated Boeing",Company="boeing" where id = 2 AND Name="boeing"	|	03/08/2021 17:26:36
+update table_c set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 17:28:59
+update table_c set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 17:30:58
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 17:32:47
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 17:40:57
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:02:46
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:08:42
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:13:13
+update table_a set id=7,Name="Updated laptop",Company="Lenovo" where id = 2 AND Name="laptop"	|	03/08/2021 18:25:40
+select user_id,user_name,user_email from user_data where user_id = 1 and user_name = Mukesh	|	03/08/2021 18:28:51

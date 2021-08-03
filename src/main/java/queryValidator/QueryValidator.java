@@ -4,7 +4,6 @@ import dataDictionary.DataDictionary;
 import erdGenerator.ERDGenerator;
 import queryProcessor.*;
 import sqlDump.SqlDump;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -184,7 +183,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
-                                        Select.setTokens(validationTokens);
+                                        Select.execute(validationTokens);
                                         queryIsValid = true;
                                     }
                                     break;

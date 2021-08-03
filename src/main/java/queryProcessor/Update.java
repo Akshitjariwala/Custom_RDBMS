@@ -164,8 +164,8 @@ public class Update {
                                 if (tableMatrix[0][j].equals(s)) {
                                     indexOfSearchColumns.put(whereTerms.get(s), j);
                                     System.out.println("Search for \"" + whereTerms.get(s) + "\" at index " + j);
-                                    columnList.add(s);
-                                    oldValues.add(whereTerms.get(s));
+                                    //columnList.add(s);
+                                    //oldValues.add(whereTerms.get(s));
                                 }
                             }
                         }
@@ -195,7 +195,9 @@ public class Update {
                                     String item = tableMatrix[i][j];
                                     for (String s : setTerms.keySet()) {
                                         if (columnsIndex.get(s) == j) {
+                                            oldValues.add(item);
                                             System.out.println("Set " + item + " to " + setTerms.get(s) + " at [" + i + "," + j + "]");
+                                            columnList.add(tableMatrix[0][j]);
                                             tableMatrix[i][j] = setTerms.get(s);
                                             newValues.add(setTerms.get(s));
                                         }
@@ -207,8 +209,8 @@ public class Update {
                             System.out.println("No update performed");
                         }
     
-                        // transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
-                        
+                        transactionLog.createTransactionLog(databaseName,tableName,columnList,oldValues,newValues);
+                       
                         //send oldValues , newValues, columns, databaseName, tableName
 
                         // Write to file
@@ -221,7 +223,7 @@ public class Update {
                             for (int i = 0; i < rowSize; i++) {
                                 for (int j = 0; j < colSize; j++) {
                                     String item = tableMatrix[i][j];
-                                    if (j < rowSize - 1) {
+                                    if (j < colSize - 1) {
                                         System.out.print(item + "\t||\t");
                                         if (writeToFile) {
                                             out.print(item + "\t||\t");
@@ -241,7 +243,7 @@ public class Update {
                         }
                         /********Removing Query from queue*******************/
                         transactionQueue.removeFromQueue(queueList.get(q));
-                        Thread.sleep(0);
+                        Thread.sleep(70000);
                     } catch (InterruptedException e) {
                         System.out.println(e);
                     } finally {
