@@ -37,6 +37,7 @@ public class Create {
             if(eachColumn.contains("PRIMARY_KEY")){
                 tablefileWriter.append("\t" + eachColumn.replace("PRIMARY_KEY", "PK").replace(" ", "") + "\t" + "|");
             }
+
             else if (eachColumn.contains("CONSTRAINT")) {
                 String[] splitted = eachColumn.split(" ");
                 String foreignKey = "FK";
@@ -46,6 +47,7 @@ public class Create {
                 String referenceColumn = references[1].replace(")", "");
                 tablefileWriter.append("\t"+ foreignKey + "(" + column1 + "," + referenceColumn+ ","  + referenceTable + ")");
             }
+
             else {
                 tablefileWriter.append("\t" + eachColumn + "\t"+ "|");
             }
@@ -56,7 +58,6 @@ public class Create {
         List<Object> column = new ArrayList<>();
         column = (List<Object>) queryTokens.get("columnArray");
         String tableName = queryTokens.get("tableName").toString();
-        System.out.println(tableName);
         String tableFilePath = "appdata/database/database1/" + tableName + ".txt";
         String ddFilePath = "appdata/database/database1/data_dictionary.txt";
         File tableFile = new File(tableFilePath);

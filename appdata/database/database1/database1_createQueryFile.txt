@@ -31,3 +31,4 @@ table_q	|	create table table_q(id INT NOT_NULL ,Name VARCHAR NOT_NULL,Company VA
 student	|	CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))
 student	|	CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))
 student	|	CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))
+abc	|	create table abc(id int)

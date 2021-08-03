@@ -157,3 +157,4 @@ select user_id,user_name,user_email from user_data where user_id = 1 and user_na
 CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))	|	03/08/2021 19:34:19
 CREATE TABLE student(id int not_null ,name varchar not_null,address varchar not_null, contact int,PRIMARY_KEY (id))	|	03/08/2021 19:36:35
 INSERT INTO student(id,name,address,contact) VALUES(2,Rishita,India,1234)	|	03/08/2021 19:36:35
+create table abc(id int)	|	03/08/2021 19:36:35
