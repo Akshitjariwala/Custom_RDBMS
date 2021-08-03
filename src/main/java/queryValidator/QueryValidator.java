@@ -187,6 +187,7 @@ public class QueryValidator {
                                         generateQueryLog(sqlString);
                                         System.out.println(validationTokens.toString());
                                         Select.setTokens(validationTokens);
+                                        queryIsValid = true;
                                     }
                                     // take validationTokens from here to get tokens.
                                     break;
@@ -198,6 +199,7 @@ public class QueryValidator {
                                         generateQueryLog(sqlString);
                                         Insert insert = new Insert();
                                         insert.insertData(validationTokens);
+                                        queryIsValid = true;
                                     }
                                     break;
                     case "DELETE" : validationDelete = new deleteValidation();
@@ -206,6 +208,7 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Delete.execute(validationTokens);
+                                        queryIsValid = true;
                                     }
                                     break;
                     case "UPDATE" : validationUpdate = new updateValidation();
@@ -215,14 +218,15 @@ public class QueryValidator {
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
                                         Update.execute(validationTokens);
+                                        queryIsValid = true;
                                     }
                                     break;
                     case "ALTER"  : validationAlter = new  alterValidation();
                                     validationTokens = validationAlter.validateAlter(queryTokens,sqlString,databaseName);
                                     validationTokens.put("databaseName",databaseName);
-                                    // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        queryIsValid = true;
                                     }
                                     break;
                     case "DROP"   : validationDrop = new dropValidation();
@@ -231,6 +235,7 @@ public class QueryValidator {
                                     // validationTokens.put("sqlString",sqlString);
                                     if(validationTokens.get("isValid") == (Object)true) {
                                         generateQueryLog(sqlString);
+                                        queryIsValid = true;
                                     }
                                     break;
                     case "CREATE" : validationCreate = new createValidation();
@@ -243,6 +248,7 @@ public class QueryValidator {
                                         Create create = new Create();
                                         create.createDataDictionary(validationTokens);
                                         create.createTable(validationTokens);
+                                        queryIsValid = true;
                                     }
                                     break;
                 }
