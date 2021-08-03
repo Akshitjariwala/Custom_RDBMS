@@ -1,37 +1,38 @@
 package queryProcessor;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class QueryProcessor {
-    public String processQuery(String query) {
-        String queryType = null;
-        boolean queryIsSelect = false;
-        boolean queryIsUpdate = false;
-        boolean queryIsInsert = false;
-        boolean queryIsTableUpdate = false;
-        boolean queryIsDatabaseCreate = false;
-        if (queryIsSelect) {
-            queryType = "SELECT";
+    protected static String[][] loadTableToArray(String path) {
+        List<String> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rows.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Invalid table");
         }
-        if (queryIsUpdate) {
-            queryType = "UPDATE";
+        if (rows.isEmpty()) {
+            System.out.println("Invalid table");
         }
-        if (queryIsInsert) {
-            queryType = "INSERT";
+        // Get number of columns
+        int colSize = rows.get(0).split("\\|\\|").length;
+        int rowSize = rows.size();
+        // insert table into matrix
+        String[][] tableMatrix = new String[rowSize][colSize];
+        for (int row = 0; row < rowSize; row++) {
+            String[] columnValues = rows.get(row).split("\\|\\|");
+            for (int col = 0; col < colSize; col++) {
+                tableMatrix[row][col] = columnValues[col].trim();
+                // System.out.print("[" + tableMatrix[row][col] + "]");
+            }
+            // System.out.println();
         }
-        if (queryIsTableUpdate) {
-            queryType = "TABLE CREATE";
-        }
-        if (queryIsDatabaseCreate) {
-            queryType = "DATABASE CREATE";
-        }
-        return queryType;
-    }
-
-    public void createDatabase() {
-        // Create a new directory in appdata/database/
-        // Create a new file to store db info
-    }
-
-    public void createTable() {
-        // Check that database exists
+        return tableMatrix;
     }
 }
