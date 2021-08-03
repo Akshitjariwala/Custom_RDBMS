@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.util.Map;
 
 public class Drop {
+
+    //drop the table
     public void dropTable(Map<String, Object> validationTokens) throws IOException {
         for (Map.Entry<String, Object> tokens1: validationTokens.entrySet()) {
             System.out.println("keys: "  + tokens1.getKey() + "\n" + "value: " + tokens1.getValue());
@@ -22,14 +24,13 @@ public class Drop {
         if(result)
             System.out.println("table: "+ tableName  +" dropped successfully");
         else
-            System.out.println("could not drop table as it is locked by another process");
+            System.out.println("Cannot drop the table as it is locked by another process");
     }
 
+    //drop the entry from the data dictionary as well
     public void ddTableDrop(String tableName) throws IOException {
         String databasePath = "appdata/database/database1/";
         String ddFile = "data_dictionary.txt";
-        //String tempFile = "temp";
-        //System.out.println("debug3");
         File file  = new File(databasePath + ddFile);
         File temp = new File(file.getAbsolutePath() + ".tmp");
         PrintWriter out = new PrintWriter(new FileWriter(temp));

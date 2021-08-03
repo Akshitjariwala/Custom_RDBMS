@@ -8,37 +8,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class Insert {
+
+    //inserting data into the table
     public void insertData(Map<String, Object> queryTokens) throws IOException {
 
-        List<Object> colNames = new ArrayList<>();
-        colNames = (List<Object>) queryTokens.get("columnNames");
-        List<Object> colValues = new ArrayList<>();
-        colValues = (List<Object>) queryTokens.get("columnValues");
+        List<Object> columnNames = new ArrayList<>();
+        columnNames = (List<Object>) queryTokens.get("columnNames");
+        List<Object> columnValues = new ArrayList<>();
+        columnValues = (List<Object>) queryTokens.get("columnValues");
         String tableName = queryTokens.get("tableName").toString();
         List<String> columnList = getPrimaryColumn(tableName);
-        String pkColtemp = null;
-        String tablepath = "appdata/database/database1/" + tableName + ".txt";
+        String pKTempColumn = null;
+        String tablePath = "appdata/database/database1/" + tableName + ".txt";
         for(int i = 0; i < columnList.size(); i++){
             System.out.println("Column List: " + columnList.get(i));
             if( columnList.get(i).contains("PK")) {
-                pkColtemp = columnList.get(i);
+                pKTempColumn = columnList.get(i);
             }
         }
-        String pkcol = null;
-        pkcol = pkColtemp.split("\\(")[1].replace(")","");
-        System.out.println(pkcol);
+        String primaryKeyColumn = null;
+        primaryKeyColumn = pKTempColumn.split("\\(")[1].replace(")","");
+        System.out.println(primaryKeyColumn);
 
-        int pkPos = 0;
-        for(int i = 0; i < colNames.size(); i++) {
-            if(colNames.get(i).equals(pkcol))
-                pkPos = i;
+        int primaryKeyPosition = 0;
+        for(int i = 0; i < columnNames.size(); i++) {
+            if(columnNames.get(i).equals(primaryKeyColumn))
+                primaryKeyPosition = i;
         }
 
-        String pkVal = (String) colValues.get(pkPos);
+        String primaryKeyValue = (String) columnValues.get(primaryKeyPosition);
 
-        //File tableFile = new File(currentDirectory+"/appdata/database/"+databaseName+"/"+dataDictionary);
         Map<String,List<String>> tableDictionary = new HashMap<>();
-        FileInputStream inputStream = new FileInputStream(tablepath);
+        FileInputStream inputStream = new FileInputStream(tablePath);
         BufferedReader bufferStream = new BufferedReader(new InputStreamReader(inputStream));
         String tableLine;
         int i = 1;
@@ -46,17 +47,17 @@ public class Insert {
         boolean dupStatus = false;
 
         while((tableLine = bufferStream.readLine()) != null) {
-            String[] colsSplit = null;
-            colsSplit = tableLine.split("\\t||\\t");
+            String[] columnsSplit = null;
+            columnsSplit = tableLine.split("\\t||\\t");
             if (i == 1) {
-                for (int j = 0; j < colsSplit.length; j++) {
-                    if (colsSplit[j].contains(pkcol)) {
+                for (int j = 0; j < columnsSplit.length; j++) {
+                    if (columnsSplit[j].contains(primaryKeyColumn)) {
                         pos = j;
                         i++;
                     }
                 }
             }
-            if (colsSplit[pos].equals(pkVal)) {
+            if (columnsSplit[pos].equals(primaryKeyValue)) {
                 System.out.println("Duplicate Error");
                 dupStatus = true;
             }
@@ -64,18 +65,18 @@ public class Insert {
 
         if(dupStatus == false){
 
-            File tablefile = new File(tablepath);
+            File tablefile = new File(tablePath);
             if (tablefile.exists()) {
                 FileWriter tablefileWriter = new FileWriter(tablefile, true);
                 tablefileWriter.append("\n");
 
-                for (int k = 0; k < colValues.size(); k++) {
-                    if (!(k == colValues.size() - 1)) {
-                        tablefileWriter.append(colValues.get(k).toString() + "\t" + "||" + "\t");
-                        System.out.println(colValues.get(k).toString());
+                for (int k = 0; k < columnValues.size(); k++) {
+                    if (!(k == columnValues.size() - 1)) {
+                        tablefileWriter.append(columnValues.get(k).toString() + "\t" + "||" + "\t");
+                        System.out.println(columnValues.get(k).toString());
                     } else {
-                        tablefileWriter.append(colValues.get(k).toString());
-                        System.out.println(colValues.get(k).toString());
+                        tablefileWriter.append(columnValues.get(k).toString());
+                        System.out.println(columnValues.get(k).toString());
                     }
                 }
                 tablefileWriter.flush();
@@ -85,13 +86,11 @@ public class Insert {
             }
         }
     }
-    //System.out.println("debug3");
-
 
 
     public List<String> getPrimaryColumn(String tableName) throws IOException {
-        DataDictionary dd = new DataDictionary();
-        Map<String, List<String>> tableDictionary = dd.getDataDictionary(QueryValidator.databaseName);
+        DataDictionary dataDictionary = new DataDictionary();
+        Map<String, List<String>> tableDictionary = dataDictionary.getDataDictionary(QueryValidator.databaseName);
         List<String> attributeList = new ArrayList<>();
         List<String> columnNameList = new ArrayList<>();
         String subString = "";

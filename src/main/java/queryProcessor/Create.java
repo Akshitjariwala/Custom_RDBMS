@@ -13,16 +13,16 @@ public class Create {
         columns = (List<Object>) queryTokens.get("columnArray");
         String tableName = queryTokens.get("tableName").toString();
         String ddFilePath = currentDirectory+"/appdata/database/database1/data_dictionary.txt";
-        File ddFile = new File(ddFilePath);
-        if (ddFile.exists()) {
-            FileWriter tablefileWriter = new FileWriter(ddFile, true);
+        File dataDictionaryFile = new File(ddFilePath);
+        if (dataDictionaryFile.exists()) {
+            FileWriter tablefileWriter = new FileWriter(dataDictionaryFile, true);
             tablefileWriter.append("\n" + tableName + " ||");
             writeDataDictionary(columns,tablefileWriter);
             tablefileWriter.flush();
             tablefileWriter.close();
         }
         else {
-            FileWriter tablefileWriter = new FileWriter(ddFile);
+            FileWriter tablefileWriter = new FileWriter(dataDictionaryFile);
             tablefileWriter.append("\n" + tableName + " ||");
             tablefileWriter.append("TABLE NAME\t||\tCOLUMNS");
             writeDataDictionary(columns,tablefileWriter);
@@ -33,21 +33,23 @@ public class Create {
 
     public void writeDataDictionary(List<Object> tableColumns, FileWriter tablefileWriter) throws IOException {
         for(int i = 0; i < tableColumns.size(); i++){
-            String eachcol = tableColumns.get(i).toString();
-            if(eachcol.contains("PRIMARY_KEY")){
-                tablefileWriter.append("\t" + eachcol.replace("PRIMARY_KEY", "PK").replace(" ", "") + "\t" + "|");
+            String eachColumn = tableColumns.get(i).toString();
+            if(eachColumn.contains("PRIMARY_KEY")){
+                tablefileWriter.append("\t" + eachColumn.replace("PRIMARY_KEY", "PK").replace(" ", "") + "\t" + "|");
             }
-            else if (eachcol.contains("CONSTRAINT")) {
-                String[] splitted = eachcol.split(" ");
+
+            else if (eachColumn.contains("CONSTRAINT")) {
+                String[] splitted = eachColumn.split(" ");
                 String foreignKey = "FK";
-                String col1 = splitted[3].replace("(","").replace(")","");
+                String column1 = splitted[3].replace("(","").replace(")","");
                 String[] references = splitted[5].split("\\(");
-                String refTable = references[0];
-                String refCol = references[1].replace(")", "");
-                tablefileWriter.append("\t"+ foreignKey + "(" + col1 + "," + refCol+ ","  + refTable + ")");
+                String referenceTable = references[0];
+                String referenceColumn = references[1].replace(")", "");
+                tablefileWriter.append("\t"+ foreignKey + "(" + column1 + "," + referenceColumn+ ","  + referenceTable + ")");
             }
+
             else {
-                tablefileWriter.append("\t" + eachcol + "\t"+ "|");
+                tablefileWriter.append("\t" + eachColumn + "\t"+ "|");
             }
         }
     }
@@ -56,15 +58,14 @@ public class Create {
         List<Object> column = new ArrayList<>();
         column = (List<Object>) queryTokens.get("columnArray");
         String tableName = queryTokens.get("tableName").toString();
-        System.out.println(tableName);
         String tableFilePath = "appdata/database/database1/" + tableName + ".txt";
         String ddFilePath = "appdata/database/database1/data_dictionary.txt";
         File tableFile = new File(tableFilePath);
         if (tableFile.exists()) {
-            System.out.println("Table Already Exists");
+            System.out.println("Table Already Exists In The Database");
         }
         else {
-            FileWriter tablefileWriter = new FileWriter(tableFile);
+            FileWriter tableFileWriter = new FileWriter(tableFile);
             int listSize = 0;
             if( column.get(column.size()-1).toString().contains("PRIMARY_KEY"))
                 listSize = column.size()-1;
@@ -77,12 +78,12 @@ public class Create {
                 String singleCol = column.get(i).toString();
                 String[] splitted = singleCol.split(" ");
                 if(!(i== listSize-1))
-                    tablefileWriter.append(splitted[0] + "\t" + "||" + "\t");
+                    tableFileWriter.append(splitted[0] + "\t" + "||" + "\t");
                 else
-                    tablefileWriter.append(splitted[0]);
+                    tableFileWriter.append(splitted[0]);
             }
-            tablefileWriter.flush();
-            tablefileWriter.close();
+            tableFileWriter.flush();
+            tableFileWriter.close();
         }
     }
 }
