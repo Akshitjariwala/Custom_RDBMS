@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class LoginTest {
 
     @BeforeEach
@@ -32,7 +30,7 @@ class LoginTest {
         String password = "pass";
         String question = "what is the answer?";
         String answer = "answer";
-        Login.createUser(username, password, question, answer);
+        /*Login.createUser(username, password, question, answer);*/
     }
 
     @Test

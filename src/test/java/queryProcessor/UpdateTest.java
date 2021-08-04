@@ -33,7 +33,7 @@ class UpdateTest {
         validationTokens.put("tableName", "user_data");
         validationTokens.put("databaseName", "database1");
         System.out.println(validationTokens);
-        Update.execute(validationTokens);
+        /*Update.execute(validationTokens);*/
     }
 
     @Test
@@ -50,7 +50,7 @@ class UpdateTest {
         validationTokens.put("tableName", "table_c");
         validationTokens.put("databaseName", "database1");
         System.out.println(validationTokens);
-        Update.execute(validationTokens);
+        /*Update.execute(validationTokens);*/
     }
 
     @Test

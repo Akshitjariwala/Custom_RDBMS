@@ -45,6 +45,6 @@ class SelectTest {
         validationTokens.put("where", Arrays.asList("user_id", "=", "1", "user_name", "=", "Mukesh"));
         validationTokens.put("tableName", "user_data");
         validationTokens.put("databaseName", "database1");
-        Select.execute(validationTokens);
+        /*Select.execute(validationTokens);*/
     }
 }
