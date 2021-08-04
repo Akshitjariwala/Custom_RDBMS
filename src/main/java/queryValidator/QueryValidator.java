@@ -33,9 +33,9 @@ public class QueryValidator {
     private static final BufferedReader inputReader = new BufferedReader(
             new InputStreamReader(System.in));
 
-    public static void main(String[] args) throws IOException {
-        //QueryValidator();
-        transaction.startTransaction("database1");
+    public static void main(String[] args) throws IOException, InterruptedException {
+        QueryValidator();
+        //transaction.startTransaction("database1");
     }
 
     public static void QueryValidator() throws IOException, InterruptedException {

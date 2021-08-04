@@ -190,3 +190,9 @@ select user_id,user_name,user_email from user_data where user_id=1 and user_name
 select user_id,user_name,user_email from user_data where user_id=1 and user_name=Mukesh	|	03/08/2021 18:18:58
 UPDATE table_a SET id=7, Name=HondaCity, Company=honda WHERE id=2 AND Name=ferrari	|	03/08/2021 18:21:21
 UPDATE user_data set user_name=UpdatedMukesh,user_contact=Updated5566223311 where user_name=Mukesh AND user_contact=5566223311	|	03/08/2021 18:21:21
+select user_contact, user_name, user_surname from user_data where user_name=Azim	|	04/08/2021 04:42:33
+SELECT user_name, user_contact FROM user_data WHERE user_name=Mukesh	|	04/08/2021 04:42:33
+insert into table_c(id,Name,Company,code) values(8,"Bombardier","BBI","54UB")	|	04/08/2021 06:18:06
+SELECT user_name, user_contact FROM user_data WHERE user_name=Mukesh	|	04/08/2021 06:18:06
+select user_contact, user_name, user_surname from user_data where user_name=Azim	|	04/08/2021 06:18:06
+UPDATE user_data set user_name=UpdatedRatan,user_contact=Updated8844556622 where user_name=Ratan AND user_contact=8844556622	|	04/08/2021 06:18:06

@@ -203,22 +203,6 @@ public class ERDGenerator {
             System.out.println("File Creation Failed.");
             return false;
         }
-    
-        /*
-        SAMPLE GENERATED ERD
-
-        [Person]
-        *name
-        height
-        weight
-        +birth_location_id
-
-        [Location]
-        *id
-        city
-        state
-        country
-         */
     }
     
     public Boolean checkPrimaryKey(List<String> tableDefinition){

@@ -9,6 +9,6 @@ class CreateDBTest {
 
     @Test
     void execute() {
-        CreateDB.execute("CreateDBTest");
+        /*CreateDB.execute("CreateDBTest");*/
     }
 }
