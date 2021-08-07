@@ -62,7 +62,7 @@ public class Update {
             final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
             final String[][] updatedTableMatrix = QueryProcessor.loadTableToArray(filePath);
 
-            final int rowSize = tableMatrix[0].length;
+            final int rowSize = tableMatrix.length;
             final int colSize = tableMatrix[0].length;
 
             // Create a column index
@@ -136,7 +136,11 @@ public class Update {
                  PrintWriter out = new PrintWriter(bw)) {
                 for (int row = 0; row < rowSize; row++) {
                     for (int col = 0; col < colSize; col++) {
-                        out.print(updatedTableMatrix[row][col] + "\t||\t");
+                        if(col == colSize-1) {
+                            out.print(updatedTableMatrix[row][col]);
+                        } else {
+                            out.print(updatedTableMatrix[row][col] + "\t||\t");
+                        }
                     }
                     out.println();
                 }
