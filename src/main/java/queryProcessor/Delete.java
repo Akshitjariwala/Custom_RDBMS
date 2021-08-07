@@ -34,7 +34,7 @@ public class Delete {
 
         final String[][] tableMatrix = QueryProcessor.loadTableToArray(filePath);
 
-        final int rowSize = tableMatrix[0].length;
+        final int rowSize = tableMatrix.length;
         final int colSize = tableMatrix[0].length;
 
         // Create a column index
