@@ -105,7 +105,11 @@ public class Delete {
             for (int row = 0; row < rowSize; row++) {
                 if (!matchedRows.contains(row)) {
                     for (int col = 0; col < colSize; col++) {
-                        out.print(tableMatrix[row][col] + "\t||\t");
+                        if(col == colSize-1) {
+                            out.print(tableMatrix[row][col]);
+                        } else {
+                            out.print(tableMatrix[row][col] + "\t||\t");
+                        }
                     }
                     out.println();
                 }
