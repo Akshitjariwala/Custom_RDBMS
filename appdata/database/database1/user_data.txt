@@ -1,5 +1,5 @@
-user_id	||	user_name	||	user_surname	||	user_email	||	user_contact	||	
-1	||	Mukesh	||	Ambani	||	Mukesh.Ambani@gmail.com	||	5566223311	||	
-2	||	Ratan	||	Tata	||	RatanT@gmail.com	||	8844556622	||
-3	||	Narayan	||	Murthy	||	Narayan.Murthy@gmail.com	||	4455663322	||	
-4	||	Azim	||	Premji	||	Azim.Premji@gmail.com	||	4455663322	||
+user_id	||	user_name	||	user_surname	||	user_email	||	user_contact
+1	||	Mukesh	||	Ambani	||	Mukesh.Ambani@gmail.com	||	5566223311
+2	||	Ratan	||	Tata	||	RatanT@gmail.com	||	8844556622
+3	||	Narayan	||	Murthy	||	Narayan.Murthy@gmail.com	||	4455663322
+4	||	Azim	||	Premji	||	Azim.Premji@gmail.com	||	4455663322
